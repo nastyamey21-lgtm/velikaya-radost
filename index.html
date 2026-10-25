@@ -1,0 +1,779 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>html{color-scheme:light}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style></head><body><title>Великая радость</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oranienbaum&family=Nunito:wght@400;600;700;800;900&display=swap">
+<style>
+/* Layout: иконописная палитра — ультрамарин плаща Архангела, киноварь, золото; верхняя панель-вкладки, ниже одна рабочая сцена на весь экран телевизора */
+:root{
+  --bg:#f2f5fb; --surface:#ffffff; --surface-2:#e7ecf6; --line:#cfd8ea;
+  --fg:#16213d; --muted:#56617d;
+  --blue:#1f3c88; --blue-ink:#ffffff; --gold:#b9852a; --gold-soft:#f3e4c2;
+  --red:#b8352b; --red-soft:#f8dcd8; --green:#2f7d4f; --green-soft:#d6efdf;
+  --t1:#b8352b; --t2:#1f6fb8; --t3:#2f7d4f; --t4:#8a5a12;
+  --display:"Oranienbaum","Times New Roman",Georgia,serif;
+  --body:"Nunito","Segoe UI",system-ui,sans-serif;
+  --r:14px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0b1430; --surface:#121e42; --surface-2:#1a2a57; --line:#2a3d73;
+  --fg:#eef2fb; --muted:#a7b2d0;
+  --blue:#5b84e6; --blue-ink:#0b1430; --gold:#e3b45a; --gold-soft:#3a2f17;
+  --red:#ef7a6e; --red-soft:#43201f; --green:#6cc493; --green-soft:#183a29;
+  --t1:#ef7a6e; --t2:#6aaef0; --t3:#6cc493; --t4:#e3b45a; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0b1430; --surface:#121e42; --surface-2:#1a2a57; --line:#2a3d73;
+  --fg:#eef2fb; --muted:#a7b2d0;
+  --blue:#5b84e6; --blue-ink:#0b1430; --gold:#e3b45a; --gold-soft:#3a2f17;
+  --red:#ef7a6e; --red-soft:#43201f; --green:#6cc493; --green-soft:#183a29;
+  --t1:#ef7a6e; --t2:#6aaef0; --t3:#6cc493; --t4:#e3b45a; color-scheme:dark}
+:root{--sky1:#cfe3fb;--sky2:#f4f8ff;--cloud:#ffffff;--skin:#f6d5b8;--robe:#fbf8ff;--art-op:1}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--sky1:#0a1330;--sky2:#1a2c63;--cloud:#c9d6f2;--art-op:.75}}
+:root[data-theme="dark"]{--sky1:#0a1330;--sky2:#1a2c63;--cloud:#c9d6f2;--art-op:.75}
+html,body{min-height:100%}
+body{background:var(--bg) linear-gradient(180deg,var(--sky1),var(--sky2)) fixed;color:var(--fg);font-family:var(--body);font-size:16px;line-height:1.45}
+header.top,main{position:relative;z-index:1}
+.bg-art{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;opacity:var(--art-op)}
+.bg-art svg{position:absolute;height:auto}
+.a-star{left:3%;top:13%;width:clamp(70px,7vw,120px)}
+.a-angel1{left:6%;top:24%;width:clamp(120px,11vw,210px)}
+.a-michael{left:1%;top:50%;width:clamp(150px,13vw,250px)}
+.a-church{left:4%;bottom:0;width:clamp(150px,13vw,250px)}
+.a-angels{right:3%;top:13%;width:clamp(150px,14vw,260px)}
+.a-mary{right:2%;top:41%;width:clamp(140px,12vw,230px)}
+.a-jesus{right:5%;bottom:0;width:clamp(150px,13vw,250px)}
+.a-dove{left:13%;top:7%;width:clamp(60px,5vw,90px)}
+.a-spark{width:100%;height:100%;inset:0}
+@media (max-width:1400px){.bg-art{opacity:calc(var(--art-op)*.35)}}
+@media (max-width:720px){.a-michael,.a-mary,.a-angel1{display:none}}
+main .wrap>.stack,main .wrap>.stage{max-width:1180px;margin-inline:auto}
+main .stack>div:first-child{text-align:center}
+.lead{margin-inline:auto}
+main .stack>div:first-child .lead{text-align:center}
+main .stack>.row{justify-content:center}
+.count-pick,.rules,.board{margin-inline:auto;width:100%}
+.rules ol{text-align:left}
+*{box-sizing:border-box}
+button,input,textarea,select{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.wrap{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));max-width:1500px;margin:0 auto}
+header.top{border-bottom:1px solid var(--line);background:var(--surface)}
+header.top .wrap{display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding-block:10px}
+.brand{display:flex;align-items:center;gap:12px;margin-right:auto;min-width:0}
+.brand svg{flex:none}
+.brand b{font-family:var(--display);font-size:1.7rem;font-weight:400;line-height:1;color:var(--blue)}
+.brand small{display:block;color:var(--muted);font-size:.8rem;letter-spacing:.02em}
+nav.tabs{display:flex;gap:6px;flex-wrap:wrap}
+nav.tabs button{border:1px solid var(--line);background:transparent;padding:8px 14px;border-radius:999px;font-weight:700}
+nav.tabs button[aria-current="page"]{background:var(--blue);color:var(--blue-ink);border-color:var(--blue)}
+main .wrap{padding-block:24px 48px}
+h1,h2,h3{font-family:var(--display);font-weight:400;text-wrap:balance;margin:0;line-height:1.1}
+h1{font-size:clamp(2rem,4vw,3.2rem);color:var(--blue)}
+h2{font-size:clamp(1.5rem,2.6vw,2.2rem)}
+.lead{color:var(--muted);max-width:62ch;margin:.5rem auto 0;text-align:center}
+.stack{display:flex;flex-direction:column;gap:16px}
+.row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.btn{border:1px solid var(--line);background:var(--surface);padding:10px 18px;border-radius:10px;font-weight:800}
+.btn.primary{background:var(--blue);border-color:var(--blue);color:var(--blue-ink)}
+.btn.gold{background:var(--gold);border-color:var(--gold);color:#1b1407}
+.btn.danger{color:var(--red);border-color:var(--red)}
+.btn.big{font-size:1.2rem;padding:14px 28px}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:20px}
+.label{font-size:.78rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:800}
+input[type=text],input[type=number],textarea{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+textarea{resize:vertical;min-height:70px}
+.note{background:var(--gold-soft);border-radius:10px;padding:12px 14px}
+.hidden-msg{color:var(--muted)}
+
+/* Подготовка */
+.count-pick{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;max-width:560px}
+.count-pick button{border:2px solid var(--line);background:var(--surface);border-radius:var(--r);padding:18px 8px;font-family:var(--display);font-size:2.6rem;line-height:1}
+.count-pick button span{display:block;font-family:var(--body);font-size:.85rem;color:var(--muted);margin-top:6px}
+.count-pick button[aria-pressed="true"]{border-color:var(--blue);background:var(--surface-2);color:var(--blue)}
+.names{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.name-field{display:flex;flex-direction:column;gap:6px;border-left:5px solid var(--c);padding-left:12px}
+.qty{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+.qty label{display:flex;flex-direction:column;gap:6px}
+
+/* Правила */
+.rules{max-width:820px}
+.rules ol{margin:0;padding-left:1.4em;display:flex;flex-direction:column;gap:12px;font-size:1.15rem}
+.pts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:8px 0}
+.pt{border-radius:var(--r);padding:14px;text-align:center;border:1px solid var(--line);background:var(--surface)}
+.pt b{display:block;font-family:var(--display);font-size:2.6rem;font-weight:400;line-height:1}
+.lv-easy{--lv:var(--green)} .lv-medium{--lv:var(--gold)} .lv-hard{--lv:var(--red)}
+.pt b{color:var(--lv)}
+
+/* Игра */
+.stage{display:flex;flex-direction:column;gap:16px}
+.stage-head{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.chip{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:6px 14px;font-weight:800;background:var(--surface-2)}
+.chip.lv{background:var(--lv);color:#fff}
+:root[data-theme="dark"] .chip.lv{color:#0b1430}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .chip.lv{color:#0b1430}}
+.timer{margin-left:auto;display:flex;align-items:center;gap:12px}
+.timer .clock{font-variant-numeric:tabular-nums;font-weight:900;font-size:clamp(2.2rem,5vw,4.2rem);line-height:1;min-width:4ch;text-align:right}
+.timer.low .clock{color:var(--red)}
+.timer.done .clock{color:var(--muted)}
+.bar{height:8px;border-radius:99px;background:var(--surface-2);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--lv);width:100%;transition:width .25s linear}
+.question{font-family:var(--display);font-size:clamp(1.8rem,3.6vw,3.3rem);line-height:1.15;text-wrap:balance;margin:0;background:var(--surface);border:2px solid var(--line);border-left:10px solid var(--lv);border-radius:var(--r);padding:20px 28px;box-shadow:0 6px 24px rgba(20,40,90,.12)}
+.stage-head{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:10px 16px}
+main .stack>div:first-child{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px 32px;width:fit-content;max-width:100%;margin-inline:auto}
+.answers{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.ans{display:flex;gap:12px;align-items:flex-start;background:var(--surface);border:2px solid var(--line);border-radius:var(--r);padding:16px;font-size:clamp(1.05rem,1.8vw,1.6rem);font-weight:700;min-width:0}
+.ans .letter{flex:none;width:2em;height:2em;border-radius:50%;display:grid;place-items:center;background:var(--surface-2);font-weight:900}
+.ans.right{border-color:var(--green);background:var(--green-soft)}
+.ans.right .letter{background:var(--green);color:#fff}
+.teams{display:grid;gap:12px}
+.team{border:2px solid var(--line);border-top:8px solid var(--c);border-radius:var(--r);background:var(--surface);padding:14px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.team-top{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.team-name{font-weight:900;font-size:clamp(1.1rem,1.8vw,1.6rem);overflow-wrap:anywhere;min-width:0}
+.team-score{font-variant-numeric:tabular-nums;font-weight:900;font-size:clamp(1.6rem,3vw,2.6rem);color:var(--c);line-height:1}
+.press{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.press .btn{padding:8px 12px}
+.order{font-weight:900;background:var(--c);color:#fff;border-radius:8px;padding:6px 10px;border:none}
+:root[data-theme="dark"] .order{color:#0b1430}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .order{color:#0b1430}}
+.pick{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.pick button{border:2px solid var(--line);background:var(--bg);border-radius:10px;padding:10px 0;font-weight:900;font-size:1.2rem}
+.pick button[aria-pressed="true"]{border-color:var(--c);background:var(--c);color:#fff}
+.pick button.ok{outline:3px solid var(--green);outline-offset:1px}
+.delta{font-weight:900;font-size:1.1rem;font-variant-numeric:tabular-nums}
+.delta.plus{color:var(--green)} .delta.minus{color:var(--red)} .delta.zero{color:var(--muted)}
+.controls{display:flex;gap:10px;flex-wrap:wrap;align-items:center;border-top:1px solid var(--line);padding-top:16px}
+.controls .spacer{flex:1}
+
+/* Итоги */
+.board{display:flex;flex-direction:column;gap:12px;max-width:820px}
+.place{display:grid;grid-template-columns:auto 1fr auto;gap:16px;align-items:center;background:var(--surface);border:1px solid var(--line);border-left:8px solid var(--c);border-radius:var(--r);padding:16px 20px}
+.place .num{font-family:var(--display);font-size:3rem;line-height:1;width:1.4em;text-align:center}
+.place.p1{background:var(--gold-soft);border-color:var(--gold)}
+.place.p1 .num{color:var(--gold)}
+.place .nm{font-weight:900;font-size:1.5rem;overflow-wrap:anywhere;min-width:0}
+.place .sub{color:var(--muted);font-size:.95rem}
+.place .sc{font-weight:900;font-size:2.4rem;font-variant-numeric:tabular-nums;color:var(--c)}
+
+/* Банк */
+.lvtabs{display:flex;gap:8px;flex-wrap:wrap}
+.lvtabs button{border:2px solid var(--line);background:var(--surface);border-radius:999px;padding:8px 16px;font-weight:800}
+.lvtabs button[aria-pressed="true"]{border-color:var(--lv);background:var(--lv);color:#fff}
+.qlist{display:flex;flex-direction:column;gap:10px}
+.qcard{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;display:flex;flex-direction:column;gap:10px}
+.qhead{display:flex;gap:12px;align-items:flex-start}
+.qhead .n{color:var(--muted);font-weight:800;font-variant-numeric:tabular-nums;min-width:2.2em}
+.qhead .t{font-weight:800;flex:1;min-width:0}
+.qopts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;padding-left:3.2em}
+.qopts span{background:var(--bg);border-radius:8px;padding:6px 10px;min-width:0;overflow-wrap:anywhere}
+.qopts span.ok{background:var(--green-soft);font-weight:800}
+.qopts span.ok::before{content:"✓ ";color:var(--green)}
+.edit-grid{display:grid;gap:10px}
+.opt-row{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:center}
+.opt-row label{display:flex;gap:6px;align-items:center;font-weight:800;white-space:nowrap}
+.confirm{display:flex;gap:8px;align-items:center;flex-wrap:wrap;background:var(--red-soft);border-radius:10px;padding:10px 12px}
+
+/* Настройки */
+.set-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+.switch{display:flex;gap:12px;align-items:flex-start}
+.switch input{width:22px;height:22px;margin-top:2px;accent-color:var(--blue);flex:none}
+.trip{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.trip label{display:flex;flex-direction:column;gap:4px;font-size:.9rem;color:var(--muted);font-weight:700}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--fg);color:var(--bg);padding:10px 18px;border-radius:999px;font-weight:800;z-index:20}
+
+@media (max-width:720px){
+  .answers,.qopts{grid-template-columns:1fr}
+  .qopts{padding-left:0}
+  .teams{grid-template-columns:1fr!important}
+  .timer{margin-left:0}
+  .pts{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<div class="bg-art" aria-hidden="true">
+  <svg class="a-spark" preserveAspectRatio="none" viewBox="0 0 100 100"><g fill="#e3b45a">
+    <circle cx="18" cy="9" r=".35"/><circle cx="27" cy="18" r=".25"/><circle cx="82" cy="8" r=".35"/><circle cx="91" cy="30" r=".25"/><circle cx="9" cy="42" r=".3"/><circle cx="23" cy="63" r=".25"/><circle cx="78" cy="58" r=".3"/><circle cx="95" cy="70" r=".25"/><circle cx="14" cy="80" r=".3"/><circle cx="86" cy="88" r=".25"/></g></svg>
+  <svg class="a-star" viewBox="0 0 100 100"><g fill="#e8b84e"><path d="M50 0 L57 43 L100 50 L57 57 L50 100 L43 57 L0 50 L43 43Z"/><path d="M50 22 L54 46 L78 50 L54 54 L50 78 L46 54 L22 50 L46 46Z" fill="#fff4cf"/></g></svg>
+  <svg class="a-dove" viewBox="0 0 100 70"><path d="M20 40 C30 20 55 18 65 30 C72 20 85 18 95 22 C85 26 78 34 74 42 C70 56 50 64 30 58 L8 64 L20 52Z" fill="#fff" stroke="#c5d3ec" stroke-width="2"/><path d="M48 34 C40 10 60 4 70 6 C64 14 60 26 56 36Z" fill="#f1f5ff" stroke="#c5d3ec" stroke-width="2"/><circle cx="80" cy="27" r="2" fill="#2b3a5c"/><path d="M95 24 L100 26 L95 28Z" fill="#e0a43a"/><path d="M96 27 C100 34 98 40 92 44" stroke="#6a9a4a" stroke-width="2" fill="none"/><ellipse cx="95" cy="37" rx="3" ry="1.6" fill="#7fae55"/></svg>
+
+  <svg class="a-angel1" viewBox="0 0 160 170">
+    <g fill="var(--cloud)"><ellipse cx="80" cy="150" rx="70" ry="16"/><circle cx="45" cy="140" r="18"/><circle cx="80" cy="134" r="24"/><circle cx="115" cy="141" r="17"/></g>
+    <path d="M78 82 C45 48 12 70 20 112 C40 108 58 98 78 96Z" fill="#fff" stroke="#bcd0f0" stroke-width="2"/>
+    <path d="M82 82 C115 48 148 70 140 112 C120 108 102 98 82 96Z" fill="#fff" stroke="#bcd0f0" stroke-width="2"/>
+    <path d="M80 72 L54 136 Q80 146 106 136Z" fill="#fdf2c7" stroke="#e3c677" stroke-width="2"/>
+    <circle cx="80" cy="56" r="25" fill="#f0c95e" opacity=".55"/>
+    <circle cx="80" cy="58" r="15" fill="var(--skin)"/>
+    <path d="M65 56 C66 40 94 40 95 56 C90 48 72 48 65 56Z" fill="#e2b04f"/>
+    <path d="M73 60 q3 3 6 0 M82 60 q3 3 6 0" stroke="#5b3b2a" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+    <circle cx="71" cy="65" r="2.4" fill="#f2a3a3"/><circle cx="89" cy="65" r="2.4" fill="#f2a3a3"/>
+    <path d="M76 69 q4 3 8 0" stroke="#b85c5c" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+    <path d="M86 92 L118 78 L120 86 L88 98Z" fill="#e8b84e"/><path d="M118 74 L132 70 L134 92 L120 88Z" fill="#e8b84e"/>
+    <circle cx="86" cy="95" r="4" fill="var(--skin)"/>
+  </svg>
+
+  <svg class="a-michael" viewBox="0 0 180 230">
+    <g fill="var(--cloud)"><ellipse cx="90" cy="210" rx="82" ry="17"/><circle cx="50" cy="198" r="20"/><circle cx="92" cy="190" r="26"/><circle cx="132" cy="199" r="19"/></g>
+    <path d="M86 92 C40 40 4 72 14 132 C40 124 62 112 86 108Z" fill="#fff" stroke="#bcd0f0" stroke-width="2"/>
+    <path d="M94 92 C140 40 176 72 166 132 C140 124 118 112 94 108Z" fill="#fff" stroke="#bcd0f0" stroke-width="2"/>
+    <path d="M90 84 L58 190 Q90 202 122 190Z" fill="#c8463a"/>
+    <path d="M90 84 L72 150 Q90 158 108 150Z" fill="#2f5bb5"/>
+    <path d="M78 104 H102" stroke="#e8b84e" stroke-width="4"/>
+    <circle cx="90" cy="64" r="28" fill="#f0c95e" opacity=".7"/>
+    <circle cx="90" cy="66" r="17" fill="var(--skin)"/>
+    <path d="M73 64 C74 44 106 44 107 64 C100 54 80 54 73 64Z" fill="#a7652b"/>
+    <path d="M82 68 q3 3 6 0 M93 68 q3 3 6 0" stroke="#5b3b2a" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+    <path d="M86 77 q4 3 8 0" stroke="#b85c5c" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+    <path d="M128 18 L134 18 L134 110 L128 110Z" fill="#dfe6f2" stroke="#9aa9c4" stroke-width="1.5"/>
+    <path d="M118 108 H144" stroke="#e8b84e" stroke-width="6" stroke-linecap="round"/>
+    <path d="M131 6 L136 18 H126Z" fill="#dfe6f2"/>
+    <circle cx="131" cy="114" r="5" fill="var(--skin)"/>
+    <circle cx="58" cy="138" r="22" fill="#2f5bb5" stroke="#e8b84e" stroke-width="4"/>
+    <path d="M58 124 V152 M46 136 H70" stroke="#e8b84e" stroke-width="4"/>
+  </svg>
+
+  <svg class="a-church" viewBox="0 0 200 190">
+    <g fill="var(--cloud)" opacity=".8"><ellipse cx="100" cy="186" rx="100" ry="12"/></g>
+    <rect x="40" y="96" width="120" height="90" fill="#fdfbf6" stroke="#c9c2b0" stroke-width="2"/>
+    <rect x="80" y="60" width="40" height="40" fill="#fdfbf6" stroke="#c9c2b0" stroke-width="2"/>
+    <path d="M80 62 C80 34 100 28 100 20 C100 28 120 34 120 62Z" fill="#e3b04a" stroke="#b9852a" stroke-width="2"/>
+    <path d="M100 2 V22 M93 8 H107 M95 16 L105 13" stroke="#b9852a" stroke-width="2.5"/>
+    <path d="M44 98 C44 78 58 74 58 66 C58 74 72 78 72 98Z" fill="#2f5bb5"/><path d="M58 52 V66 M53 57 H63" stroke="#b9852a" stroke-width="2"/>
+    <path d="M128 98 C128 78 142 74 142 66 C142 74 156 78 156 98Z" fill="#2f5bb5"/><path d="M142 52 V66 M137 57 H147" stroke="#b9852a" stroke-width="2"/>
+    <path d="M88 186 V150 C88 136 112 136 112 150 V186Z" fill="#a7652b"/>
+    <path d="M54 130 C54 120 66 120 66 130 V146 H54Z M134 130 C134 120 146 120 146 130 V146 H134Z M94 78 C94 72 106 72 106 78 V90 H94Z" fill="#9cc0ee"/>
+  </svg>
+
+  <svg class="a-angels" viewBox="0 0 240 170">
+    <g fill="var(--cloud)"><ellipse cx="120" cy="150" rx="112" ry="16"/><circle cx="60" cy="140" r="20"/><circle cx="118" cy="132" r="26"/><circle cx="178" cy="140" r="21"/></g>
+    <g id="cherub">
+      <path d="M70 80 C44 54 18 72 24 104 C40 100 54 92 70 90Z" fill="#fff" stroke="#bcd0f0" stroke-width="2"/>
+      <path d="M74 80 C100 54 126 72 120 104 C104 100 90 92 74 90Z" fill="#fff" stroke="#bcd0f0" stroke-width="2"/>
+      <path d="M72 70 L50 130 Q72 140 94 130Z" fill="#dbe8ff" stroke="#9fbbe8" stroke-width="2"/>
+      <circle cx="72" cy="54" r="22" fill="#f0c95e" opacity=".55"/>
+      <circle cx="72" cy="56" r="14" fill="var(--skin)"/>
+      <path d="M58 54 C59 40 85 40 86 54 C81 47 64 47 58 54Z" fill="#e2b04f"/>
+      <path d="M65 58 q3 3 6 0 M74 58 q3 3 6 0" stroke="#5b3b2a" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+      <circle cx="64" cy="63" r="2.2" fill="#f2a3a3"/><circle cx="81" cy="63" r="2.2" fill="#f2a3a3"/>
+      <path d="M68 66 q4 3 8 0" stroke="#b85c5c" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+    </g>
+    <use href="#cherub" transform="translate(96 4)"/>
+    <path d="M110 84 L118 70 L126 84 L118 98Z" fill="#e8b84e"/>
+  </svg>
+
+  <svg class="a-mary" viewBox="0 0 180 220">
+    <g fill="var(--cloud)"><ellipse cx="90" cy="206" rx="80" ry="14"/></g>
+    <circle cx="90" cy="58" r="40" fill="#f0c95e" opacity=".8"/>
+    <path d="M90 26 C54 26 46 70 44 110 L30 204 H150 L136 110 C134 70 126 26 90 26Z" fill="#8f2f45"/>
+    <path d="M70 92 L62 204 H118 L110 92Z" fill="#2f5bb5"/>
+    <path d="M90 34 C70 34 62 54 64 70 C70 90 110 90 116 70 C118 54 110 34 90 34Z" fill="#8f2f45"/>
+    <circle cx="90" cy="62" r="17" fill="var(--skin)"/>
+    <g fill="#e8b84e"><circle cx="66" cy="40" r="2.6"/><circle cx="114" cy="40" r="2.6"/><circle cx="90" cy="30" r="2.6"/></g>
+    <path d="M81 63 q3 3 6 0 M93 63 q3 3 6 0" stroke="#5b3b2a" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+    <path d="M86 72 q4 3 8 0" stroke="#b85c5c" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+    <circle cx="110" cy="112" r="20" fill="#f0c95e" opacity=".85"/>
+    <path d="M110 94 V130 M92 112 H128" stroke="#fff4cf" stroke-width="2"/>
+    <path d="M100 122 C96 150 124 152 122 122Z" fill="#e8b84e"/>
+    <circle cx="110" cy="113" r="11" fill="var(--skin)"/>
+    <path d="M106 114 q2 2 4 0 M112 114 q2 2 4 0" stroke="#5b3b2a" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+    <path d="M70 128 C84 146 112 148 126 132" stroke="var(--skin)" stroke-width="9" fill="none" stroke-linecap="round"/>
+  </svg>
+
+  <svg class="a-jesus" viewBox="0 0 200 230">
+    <g fill="var(--cloud)"><ellipse cx="100" cy="214" rx="92" ry="15"/><circle cx="56" cy="204" r="18"/><circle cx="146" cy="204" r="18"/></g>
+    <circle cx="96" cy="54" r="34" fill="#f0c95e" opacity=".85"/>
+    <path d="M96 20 V40 M62 54 H76 M116 54 H130" stroke="#fff4cf" stroke-width="5"/>
+    <path d="M96 76 L58 206 H134 Z" fill="#fbf8ff" stroke="#d3d8e6" stroke-width="2"/>
+    <path d="M78 82 C64 120 66 170 76 206 H112 C96 160 104 110 116 82Z" fill="#2f5bb5"/>
+    <path d="M90 78 L88 206" stroke="#c8463a" stroke-width="6"/>
+    <path d="M80 58 C78 82 86 92 96 92 C106 92 114 82 112 58 C114 34 78 34 80 58Z" fill="#7a4a24"/>
+    <circle cx="96" cy="56" r="15" fill="var(--skin)"/>
+    <path d="M84 52 C88 40 104 40 108 52 C102 46 90 46 84 52Z" fill="#7a4a24"/>
+    <path d="M88 57 q3 3 6 0 M98 57 q3 3 6 0" stroke="#5b3b2a" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+    <path d="M91 66 q5 3 10 0" stroke="#b85c5c" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+    <path d="M78 98 L48 120 M114 98 L142 122" stroke="#fbf8ff" stroke-width="12" stroke-linecap="round"/>
+    <circle cx="46" cy="122" r="6" fill="var(--skin)"/>
+    <g transform="translate(132 150)"><g fill="#fff" stroke="#d6d9e2" stroke-width="1.5"><circle cx="10" cy="20" r="11"/><circle cx="24" cy="14" r="12"/><circle cx="38" cy="20" r="11"/><circle cx="24" cy="26" r="11"/></g>
+      <ellipse cx="48" cy="14" rx="8" ry="7" fill="#f3e9df"/><circle cx="50" cy="12" r="1.4" fill="#2b3a5c"/>
+      <path d="M14 30 V42 M34 30 V42" stroke="#8b7c6a" stroke-width="3"/></g>
+    <circle cx="144" cy="124" r="6" fill="var(--skin)"/>
+  </svg>
+</div>
+<header class="top">
+  <div class="wrap">
+    <div class="brand">
+      <svg width="40" height="40" viewBox="0 0 40 40" aria-hidden="true"><g fill="none" stroke="var(--gold)" stroke-width="2.4" stroke-linecap="round"><path d="M20 4v32"/><path d="M12 11h16"/><path d="M8 19h24"/><path d="M14 31l12-5"/></g></svg>
+      <div><b>Великая радость</b><small>Воскресная школа храма Архангела Михаила · Вятские Поляны</small></div>
+    </div>
+    <nav class="tabs" aria-label="Разделы">
+      <button id="tab-game" data-view="game">Игра</button>
+      <button id="tab-bank" data-view="bank">Банк вопросов</button>
+      <button id="tab-settings" data-view="settings">Настройки</button>
+      <button id="tab-logout" hidden>Выйти</button>
+      <button id="tab-full" class="full" title="Во весь экран">⛶</button>
+    </nav>
+  </div>
+</header>
+<main><div class="wrap" id="app"><p class="hidden-msg">Загружаю игру…</p></div></main>
+<div class="toast" id="toast" hidden></div>
+
+<script>
+(function(){
+const LEVELS=[["easy","Лёгкие","лёгкий"],["medium","Средние","средний"],["hard","Сложные","сложный"]];
+const LVNAME={easy:"лёгкий",medium:"средний",hard:"сложный"};
+const LETTERS=["А","Б","В"];
+const TCOLORS=["var(--t1)","var(--t2)","var(--t3)","var(--t4)"];
+const DEFAULTS={points:{easy:1,medium:3,hard:5},time:{easy:60,medium:120,hard:180},count:{easy:5,medium:5,hard:5},
+  timerOn:true,orderOn:true,bonusOn:true,bonus:0.5,extra:""};
+
+let db=null, canWrite=true, dbState="loading";
+let questions=[]; // {id,level,question,answers,correct,order}
+let settings=JSON.parse(JSON.stringify(DEFAULTS));
+let settingsVersionLoaded=false;
+let view="game";
+let bankLevel="easy", editing=null, confirmDel=null, adding=false, confirmReset=false;
+const DEFAULT_Q=[{"id": "q001", "level": "easy", "question": "Кто родился в Вифлееме в ночь Рождества?", "answers": ["Ной", "Моисей", "Иисус Христос"], "correct": 2, "order": 1}, {"id": "q002", "level": "easy", "question": "Как зовут Матерь Иисуса Христа?", "answers": ["Марфа", "Дева Мария", "Елисавета"], "correct": 1, "order": 2}, {"id": "q003", "level": "easy", "question": "Какой праздник называют «праздником праздников»?", "answers": ["Крещение", "Рождество", "Пасха"], "correct": 2, "order": 3}, {"id": "q004", "level": "easy", "question": "Как православные приветствуют друг друга на Пасху?", "answers": ["«Христос воскресе!»", "«С добрым утром!»", "«Счастливого пути!»"], "correct": 0, "order": 4}, {"id": "q005", "level": "easy", "question": "Что отвечают на слова «Христос воскресе!»?", "answers": ["«Воистину воскресе!»", "«И тебя также!»", "«Большое спасибо!»"], "correct": 0, "order": 5}, {"id": "q006", "level": "easy", "question": "Кто первым возвестил пастухам о рождении Христа?", "answers": ["Царь", "Рыбаки", "Ангел"], "correct": 2, "order": 6}, {"id": "q007", "level": "easy", "question": "Что ангел сказал пастухам в Рождественскую ночь?", "answers": ["«Идите скорее домой»", "«Возвещаю вам великую радость»", "«Пасите стадо внимательнее»"], "correct": 1, "order": 7}, {"id": "q008", "level": "easy", "question": "Куда положили Младенца Иисуса после рождения?", "answers": ["В лодку", "В золотую колыбель во дворце", "В ясли"], "correct": 2, "order": 8}, {"id": "q009", "level": "easy", "question": "Какая звезда указала волхвам путь к Младенцу?", "answers": ["Северная", "Полярная", "Вифлеемская"], "correct": 2, "order": 9}, {"id": "q010", "level": "easy", "question": "Что принято красить на Пасху?", "answers": ["Яблоки", "Огурцы", "Яйца"], "correct": 2, "order": 10}, {"id": "q011", "level": "easy", "question": "За сколько дней Бог сотворил мир?", "answers": ["За шесть дней", "За три дня", "За десять дней"], "correct": 0, "order": 11}, {"id": "q012", "level": "easy", "question": "Кто по велению Бога построил ковчег?", "answers": ["Пётр", "Давид", "Ной"], "correct": 2, "order": 12}, {"id": "q013", "level": "easy", "question": "Какая птица принесла Ною масличную ветвь?", "answers": ["Голубь", "Орёл", "Воробей"], "correct": 0, "order": 13}, {"id": "q014", "level": "easy", "question": "Какой молитве научил учеников Сам Иисус Христос?", "answers": ["«Отче наш»", "«Достойно есть»", "«Царю Небесный»"], "correct": 0, "order": 14}, {"id": "q015", "level": "easy", "question": "Сколько апостолов избрал Иисус Христос?", "answers": ["7", "12", "40"], "correct": 1, "order": 15}, {"id": "q016", "level": "easy", "question": "Как называется дом Божий, куда люди приходят молиться?", "answers": ["Храм", "Школа", "Библиотека"], "correct": 0, "order": 16}, {"id": "q017", "level": "easy", "question": "В честь кого освящён храм в Вятских Полянах, при котором наша воскресная школа?", "answers": ["Сергия Радонежского", "Николая Чудотворца", "Архангела Михаила"], "correct": 2, "order": 17}, {"id": "q018", "level": "easy", "question": "Кто такой Архангел Михаил?", "answers": ["Предводитель небесного воинства ангелов", "Царь Израиля", "Один из двенадцати апостолов"], "correct": 0, "order": 18}, {"id": "q019", "level": "easy", "question": "Как называется священная книга христиан?", "answers": ["Летопись", "Азбука", "Библия"], "correct": 2, "order": 19}, {"id": "q020", "level": "easy", "question": "Что зажигают перед иконами в храме?", "answers": ["Костры", "Фонарики", "Свечи и лампады"], "correct": 2, "order": 20}, {"id": "q021", "level": "easy", "question": "Как называется священное изображение Христа, Богородицы или святых?", "answers": ["Икона", "Фотография", "Пейзаж"], "correct": 0, "order": 21}, {"id": "q022", "level": "easy", "question": "Кто крестил Иисуса Христа в реке Иордан?", "answers": ["Пророк Илия", "Иоанн Креститель", "Апостол Павел"], "correct": 1, "order": 22}, {"id": "q023", "level": "easy", "question": "Как называется пасхальный праздничный хлеб?", "answers": ["Кулич", "Пирог с капустой", "Блин"], "correct": 0, "order": 23}, {"id": "q024", "level": "easy", "question": "Какой праздник мы празднуем 7 января?", "answers": ["Троицу", "Пасху", "Рождество Христово"], "correct": 2, "order": 24}, {"id": "q025", "level": "easy", "question": "Какой праздник мы празднуем 19 января?", "answers": ["Крещение Господне", "Благовещение", "Покров"], "correct": 0, "order": 25}, {"id": "q026", "level": "easy", "question": "Как звали первого человека, сотворённого Богом?", "answers": ["Адам", "Ной", "Авель"], "correct": 0, "order": 26}, {"id": "q027", "level": "easy", "question": "Как звали первую женщину?", "answers": ["Ева", "Мария", "Сарра"], "correct": 0, "order": 27}, {"id": "q028", "level": "easy", "question": "Что сделали Адам и Ева, нарушив заповедь Бога?", "answers": ["Ушли из сада гулять", "Съели плод с запретного дерева", "Поссорились с ангелами"], "correct": 1, "order": 28}, {"id": "q029", "level": "easy", "question": "Кто победил великана Голиафа?", "answers": ["Самсон", "Юноша Давид", "Царь Соломон"], "correct": 1, "order": 29}, {"id": "q030", "level": "easy", "question": "Какого пророка проглотила большая рыба (кит)?", "answers": ["Илию", "Даниила", "Иону"], "correct": 2, "order": 30}, {"id": "q031", "level": "easy", "question": "Как православные осеняют себя перед молитвой?", "answers": ["Рукопожатием", "Крестным знамением", "Хлопком в ладоши"], "correct": 1, "order": 31}, {"id": "q032", "level": "easy", "question": "На каком животном Христос въехал в Иерусалим?", "answers": ["На ослике", "На коне", "На верблюде"], "correct": 0, "order": 32}, {"id": "q033", "level": "easy", "question": "Что приносят в храм в Вербное воскресенье?", "answers": ["Ромашки", "Веточки вербы", "Ёлочки"], "correct": 1, "order": 33}, {"id": "q034", "level": "easy", "question": "Кто, по вере Церкви, невидимо охраняет каждого христианина?", "answers": ["Сторож", "Ангел-хранитель", "Звездочёт"], "correct": 1, "order": 34}, {"id": "q035", "level": "easy", "question": "Сколько заповедей Бог дал на каменных скрижалях?", "answers": ["100", "5", "10"], "correct": 2, "order": 35}, {"id": "q036", "level": "easy", "question": "Кому Бог дал десять заповедей?", "answers": ["Моисею", "Ною", "Давиду"], "correct": 0, "order": 36}, {"id": "q037", "level": "easy", "question": "Что означает слово «Евангелие»?", "answers": ["Благая (радостная) весть", "Старая книга", "Церковная песня"], "correct": 0, "order": 37}, {"id": "q038", "level": "easy", "question": "Кто такие волхвы?", "answers": ["Мудрецы с Востока, пришедшие поклониться Младенцу", "Пастухи из Вифлеема", "Римские воины"], "correct": 0, "order": 38}, {"id": "q039", "level": "easy", "question": "На какой день после смерти на кресте Христос воскрес?", "answers": ["На третий день", "На седьмой день", "На сороковой день"], "correct": 0, "order": 39}, {"id": "q040", "level": "easy", "question": "Что Христос заповедал делать по отношению к ближним?", "answers": ["Любить их, как самого себя", "Не замечать их", "Спорить с ними"], "correct": 0, "order": 40}, {"id": "q041", "level": "easy", "question": "Какое главное чувство дарит людям праздник Рождества и Пасхи?", "answers": ["Великую радость о Спасителе", "Скуку", "Страх"], "correct": 0, "order": 41}, {"id": "q042", "level": "medium", "question": "Какие дары принесли волхвы Младенцу Христу?", "answers": ["Серебро, жемчуг и шёлк", "Хлеб, вино и масло", "Золото, ладан и смирну"], "correct": 2, "order": 42}, {"id": "q043", "level": "medium", "question": "Сколько примерно недель длится Великий пост вместе со Страстной седмицей?", "answers": ["Двенадцать", "Семь", "Две"], "correct": 1, "order": 43}, {"id": "q044", "level": "medium", "question": "Как называется пост перед Рождеством Христовым?", "answers": ["Петров", "Успенский", "Рождественский (Филиппов)"], "correct": 2, "order": 44}, {"id": "q045", "level": "medium", "question": "Когда начинается Рождественский пост?", "answers": ["28 ноября", "1 января", "1 сентября"], "correct": 0, "order": 45}, {"id": "q046", "level": "medium", "question": "Какой Архангел принёс Деве Марии весть о рождении Спасителя?", "answers": ["Архангел Гавриил", "Архангел Михаил", "Архангел Рафаил"], "correct": 0, "order": 46}, {"id": "q047", "level": "medium", "question": "Как называется праздник, когда Деве Марии было возвещено, что Она станет Матерью Спасителя?", "answers": ["Преображение", "Благовещение", "Сретение"], "correct": 1, "order": 47}, {"id": "q048", "level": "medium", "question": "Когда празднуется Собор Архистратига Михаила — престольный праздник нашего храма?", "answers": ["21 ноября", "14 октября", "7 января"], "correct": 0, "order": 48}, {"id": "q049", "level": "medium", "question": "Что означает имя Михаил?", "answers": ["«Кто как Бог»", "«Бог помог»", "«Крепость Божия»"], "correct": 0, "order": 49}, {"id": "q050", "level": "medium", "question": "Что чаще всего держит Архангел Михаил на иконах?", "answers": ["Книгу и перо", "Меч или копьё", "Ключи"], "correct": 1, "order": 50}, {"id": "q051", "level": "medium", "question": "Кого низверг с неба Архангел Михаил со своим воинством?", "answers": ["Диавола и падших ангелов", "Великана Голиафа", "Римское войско"], "correct": 0, "order": 51}, {"id": "q052", "level": "medium", "question": "Кто из апостолов трижды отрёкся от Христа, а потом горько плакал?", "answers": ["Андрей", "Пётр", "Иоанн"], "correct": 1, "order": 52}, {"id": "q053", "level": "medium", "question": "Кто из учеников предал Христа?", "answers": ["Иуда Искариот", "Матфей", "Фома"], "correct": 0, "order": 53}, {"id": "q054", "level": "medium", "question": "За сколько сребреников Иуда предал Христа?", "answers": ["За 100", "За 30", "За 10"], "correct": 1, "order": 54}, {"id": "q055", "level": "medium", "question": "Какой апостол не верил в Воскресение, пока не увидел раны Христа?", "answers": ["Фома", "Варфоломей", "Филипп"], "correct": 0, "order": 55}, {"id": "q056", "level": "medium", "question": "Кто первыми узнали о Воскресении Христа?", "answers": ["Книжники и фарисеи", "Цари и князья", "Жёны-мироносицы"], "correct": 2, "order": 56}, {"id": "q057", "level": "medium", "question": "На какой праздник Святой Дух сошёл на апостолов?", "answers": ["Пятидесятница (Троица)", "Вознесение", "Пасха"], "correct": 0, "order": 57}, {"id": "q058", "level": "medium", "question": "На какой день после Пасхи празднуется Троица?", "answers": ["На сороковой", "На седьмой", "На пятидесятый"], "correct": 2, "order": 58}, {"id": "q059", "level": "medium", "question": "На какой день после Пасхи празднуется Вознесение Господне?", "answers": ["На сороковой", "На пятидесятый", "На двенадцатый"], "correct": 0, "order": 59}, {"id": "q060", "level": "medium", "question": "В каком городе родился Иисус Христос?", "answers": ["В Риме", "В Назарете", "В Вифлееме"], "correct": 2, "order": 60}, {"id": "q061", "level": "medium", "question": "В каком городе вырос Иисус?", "answers": ["В Вифлееме", "В Риме", "В Назарете"], "correct": 2, "order": 61}, {"id": "q062", "level": "medium", "question": "Как звали праведного обручника Девы Марии?", "answers": ["Иоаким", "Захария", "Иосиф"], "correct": 2, "order": 62}, {"id": "q063", "level": "medium", "question": "Как звали родителей Пресвятой Богородицы?", "answers": ["Захария и Елисавета", "Иоаким и Анна", "Авраам и Сарра"], "correct": 1, "order": 63}, {"id": "q064", "level": "medium", "question": "Какой царь приказал убить младенцев в Вифлееме?", "answers": ["Давид", "Ирод", "Соломон"], "correct": 1, "order": 64}, {"id": "q065", "level": "medium", "question": "Куда Святое семейство бежало от царя Ирода?", "answers": ["В Рим", "В Грецию", "В Египет"], "correct": 2, "order": 65}, {"id": "q066", "level": "medium", "question": "Как звали праведного старца, принявшего Младенца Иисуса на руки в храме?", "answers": ["Елеазар", "Симеон", "Лазарь"], "correct": 1, "order": 66}, {"id": "q067", "level": "medium", "question": "Кого Христос воскресил на четвёртый день после смерти?", "answers": ["Лазаря", "Закхея", "Варфоломея"], "correct": 0, "order": 67}, {"id": "q068", "level": "medium", "question": "Сколькими хлебами и рыбами Христос накормил пять тысяч человек?", "answers": ["Пятью хлебами и двумя рыбами", "Двумя хлебами и пятью рыбами", "Десятью хлебами и десятью рыбами"], "correct": 0, "order": 68}, {"id": "q069", "level": "medium", "question": "Где Христос совершил первое чудо — превратил воду в вино?", "answers": ["В Иерусалиме", "В Вифлееме", "В Кане Галилейской"], "correct": 2, "order": 69}, {"id": "q070", "level": "medium", "question": "Кто в притче Христа помог избитому разбойниками человеку?", "answers": ["Самарянин", "Левит", "Священник"], "correct": 0, "order": 70}, {"id": "q071", "level": "medium", "question": "Что сделал отец из притчи, когда блудный сын вернулся домой?", "answers": ["Прогнал его", "Обнял его и устроил праздник", "Не захотел с ним говорить"], "correct": 1, "order": 71}, {"id": "q072", "level": "medium", "question": "Что такое Причастие?", "answers": ["Праздничный обед после службы", "Таинство, в котором верующие принимают Тело и Кровь Христовы", "Чтение Евангелия дома"], "correct": 1, "order": 72}, {"id": "q073", "level": "medium", "question": "Сколько Таинств в Православной Церкви?", "answers": ["Двенадцать", "Семь", "Три"], "correct": 1, "order": 73}, {"id": "q074", "level": "medium", "question": "Кто первым произнёс слова «Радуйся, Благодатная, Господь с Тобою»?", "answers": ["Архангел Гавриил", "Апостол Пётр", "Вифлеемские пастухи"], "correct": 0, "order": 74}, {"id": "q075", "level": "medium", "question": "Какой праздник Пресвятой Богородицы празднуется 14 октября?", "answers": ["Рождество Богородицы", "Успение", "Покров"], "correct": 2, "order": 75}, {"id": "q076", "level": "medium", "question": "Кто написал большую часть псалмов?", "answers": ["Царь Соломон", "Царь Давид", "Пророк Моисей"], "correct": 1, "order": 76}, {"id": "q077", "level": "medium", "question": "Сколько Евангелий в Новом Завете?", "answers": ["Двенадцать", "Два", "Четыре"], "correct": 2, "order": 77}, {"id": "q078", "level": "medium", "question": "Как зовут четырёх евангелистов?", "answers": ["Матфей, Марк, Лука, Иоанн", "Пётр, Павел, Иаков, Иуда", "Андрей, Фома, Филипп, Симон"], "correct": 0, "order": 78}, {"id": "q079", "level": "medium", "question": "Какого святого особо вспоминают 19 декабря, и он считается покровителем путешествующих?", "answers": ["Сергия Радонежского", "Николая Чудотворца", "Серафима Саровского"], "correct": 1, "order": 79}, {"id": "q080", "level": "medium", "question": "Кто благословил князя Дмитрия Донского на Куликовскую битву?", "answers": ["Преподобный Серафим Саровский", "Преподобный Сергий Радонежский", "Праведный Иоанн Кронштадтский"], "correct": 1, "order": 80}, {"id": "q081", "level": "medium", "question": "Какой святой встречал каждого словами «Радость моя, Христос воскресе!»?", "answers": ["Благоверный князь Александр Невский", "Преподобный Серафим Саровский", "Святитель Николай Чудотворец"], "correct": 1, "order": 81}, {"id": "q082", "level": "medium", "question": "Какой князь крестил Русь?", "answers": ["Иван Грозный", "Ярослав Мудрый", "Князь Владимир"], "correct": 2, "order": 82}, {"id": "q083", "level": "medium", "question": "В каком году произошло Крещение Руси?", "answers": ["В 1147 году", "В 1612 году", "В 988 году"], "correct": 2, "order": 83}, {"id": "q084", "level": "medium", "question": "Какая княгиня, бабушка князя Владимира, первой из правителей Руси приняла крещение?", "answers": ["Княгиня Ольга", "Княгиня Евдокия", "Княгиня Анна"], "correct": 0, "order": 84}, {"id": "q085", "level": "medium", "question": "Что означает слово «Аминь»?", "answers": ["«Здравствуй»", "«До свидания»", "«Истинно, да будет так»"], "correct": 2, "order": 85}, {"id": "q086", "level": "hard", "question": "В каком Евангелии записаны слова ангела «Благовествую вам радость великую»?", "answers": ["От Луки", "От Марка", "От Иоанна"], "correct": 0, "order": 86}, {"id": "q087", "level": "hard", "question": "Какую песнь воспели ангелы в ночь Рождества?", "answers": ["«Слава в вышних Богу, и на земли мир, в человецех благоволение»", "«Христос воскресе из мертвых»", "«Свят, Свят, Свят Господь Саваоф»"], "correct": 0, "order": 87}, {"id": "q088", "level": "hard", "question": "Сколько дней (до Вознесения) христиане приветствуют друг друга словами «Христос воскресе!»?", "answers": ["Сорок", "Сто", "Семь"], "correct": 0, "order": 88}, {"id": "q089", "level": "hard", "question": "Сколько членов (частей) в Символе веры?", "answers": ["Десять", "Семь", "Двенадцать"], "correct": 2, "order": 89}, {"id": "q090", "level": "hard", "question": "На каких Вселенских Соборах был составлен Символ веры?", "answers": ["На Четвёртом", "На Первом и Втором", "На Седьмом"], "correct": 1, "order": 90}, {"id": "q091", "level": "hard", "question": "Сколько Вселенских Соборов признаёт Православная Церковь?", "answers": ["Три", "Двенадцать", "Семь"], "correct": 2, "order": 91}, {"id": "q092", "level": "hard", "question": "Кто стал первым христианским мучеником (первомучеником)?", "answers": ["Архидиакон Стефан", "Великомученик Пантелеимон", "Великомученик Георгий"], "correct": 0, "order": 92}, {"id": "q093", "level": "hard", "question": "Какой апостол до обращения был гонителем христиан по имени Савл?", "answers": ["Матфей", "Павел", "Пётр"], "correct": 1, "order": 93}, {"id": "q094", "level": "hard", "question": "Где Савлу явился Господь и он обратился ко Христу?", "answers": ["В Иерусалимском храме", "По дороге в Дамаск", "На корабле в море"], "correct": 1, "order": 94}, {"id": "q095", "level": "hard", "question": "Кто из апостолов до призвания был мытарем (сборщиком податей)?", "answers": ["Матфей", "Лука", "Иоанн"], "correct": 0, "order": 95}, {"id": "q096", "level": "hard", "question": "Какой евангелист был врачом и, по преданию, написал первую икону Богородицы?", "answers": ["Марк", "Матфей", "Лука"], "correct": 2, "order": 96}, {"id": "q097", "level": "hard", "question": "Какой апостол написал книгу Откровение (Апокалипсис)?", "answers": ["Иаков", "Иоанн Богослов", "Пётр"], "correct": 1, "order": 97}, {"id": "q098", "level": "hard", "question": "Какой апостол, по преданию, поставил крест на Киевских горах и предсказал там великий город?", "answers": ["Пётр", "Варфоломей", "Андрей Первозванный"], "correct": 2, "order": 98}, {"id": "q099", "level": "hard", "question": "Сколько двунадесятых праздников в Православной Церкви?", "answers": ["Десять", "Двенадцать", "Семь"], "correct": 1, "order": 99}, {"id": "q100", "level": "hard", "question": "Какой из этих праздников НЕ входит в число двунадесятых?", "answers": ["Преображение Господне", "Покров Пресвятой Богородицы", "Сретение Господне"], "correct": 1, "order": 100}, {"id": "q101", "level": "hard", "question": "Какой праздник отмечается 19 августа?", "answers": ["Успение Богородицы", "Рождество Богородицы", "Преображение Господне"], "correct": 2, "order": 101}, {"id": "q102", "level": "hard", "question": "На какой горе Христос преобразился перед учениками?", "answers": ["На Синае", "На Фаворе", "На Голгофе"], "correct": 1, "order": 102}, {"id": "q103", "level": "hard", "question": "Какие апостолы были с Христом на горе Преображения?", "answers": ["Андрей, Фома и Филипп", "Матфей, Марк и Лука", "Пётр, Иаков и Иоанн"], "correct": 2, "order": 103}, {"id": "q104", "level": "hard", "question": "Какие пророки явились Христу на горе Преображения?", "answers": ["Моисей и Илия", "Давид и Соломон", "Исаия и Иеремия"], "correct": 0, "order": 104}, {"id": "q105", "level": "hard", "question": "Как называется первое воскресенье после Пасхи?", "answers": ["Антипасха (Фомина неделя)", "Неделя о блудном сыне", "Неделя о мытаре и фарисее"], "correct": 0, "order": 105}, {"id": "q106", "level": "hard", "question": "Как называется пасхальный хлеб, который освящают на Пасху и раздают верующим в Светлую субботу?", "answers": ["Антидор", "Кулич", "Артос"], "correct": 2, "order": 106}, {"id": "q107", "level": "hard", "question": "Где в Великую субботу сходит Благодатный огонь?", "answers": ["На Святой горе Афон", "В храме Гроба Господня в Иерусалиме", "В Вифлееме"], "correct": 1, "order": 107}, {"id": "q108", "level": "hard", "question": "Что означает слово «Пасха»?", "answers": ["Весна", "Переход, избавление", "Радость"], "correct": 1, "order": 108}, {"id": "q109", "level": "hard", "question": "Чья Литургия совершается в Церкви в большинство дней года?", "answers": ["Иоанна Златоуста", "Преждеосвященных Даров", "Василия Великого"], "correct": 0, "order": 109}, {"id": "q110", "level": "hard", "question": "Сколько раз в году совершается Литургия Василия Великого?", "answers": ["Десять", "Пятьдесят два", "Один"], "correct": 0, "order": 110}, {"id": "q111", "level": "hard", "question": "Сколько ангельских чинов называет церковное учение?", "answers": ["Девять", "Семь", "Три"], "correct": 0, "order": 111}, {"id": "q112", "level": "hard", "question": "Какой ангельский чин считается самым близким к Богу?", "answers": ["Ангелы", "Архангелы", "Серафимы"], "correct": 2, "order": 112}, {"id": "q113", "level": "hard", "question": "Что означает слово «Архистратиг»?", "answers": ["Верховный военачальник", "Главный певчий", "Старший учитель"], "correct": 0, "order": 113}, {"id": "q114", "level": "hard", "question": "Какое чудо Архангела Михаила вспоминает Церковь 19 сентября?", "answers": ["Исцеление слепого Товита", "Чудо в Хонех — спасение храма от затопления", "Победу над Голиафом"], "correct": 1, "order": 114}, {"id": "q115", "level": "hard", "question": "Какой Архангел сопровождал юношу Товию в путешествии?", "answers": ["Рафаил", "Михаил", "Уриил"], "correct": 0, "order": 115}, {"id": "q116", "level": "hard", "question": "Какой пророк предсказал, что Мессия родится в Вифлееме?", "answers": ["Иона", "Даниил", "Михей"], "correct": 2, "order": 116}, {"id": "q117", "level": "hard", "question": "Какой пророк предсказал: «Се, Дева во чреве приимет и родит Сына»?", "answers": ["Иеремия", "Иезекииль", "Исаия"], "correct": 2, "order": 117}, {"id": "q118", "level": "hard", "question": "Что означает имя «Еммануил»?", "answers": ["«Царь мира»", "«Сын Давидов»", "«С нами Бог»"], "correct": 2, "order": 118}, {"id": "q119", "level": "hard", "question": "Что означает слово «Христос»?", "answers": ["Помазанник", "Учитель", "Пастырь"], "correct": 0, "order": 119}, {"id": "q120", "level": "hard", "question": "Что означает имя «Иисус»?", "answers": ["«Святой»", "«Бог спасает» (Спаситель)", "«Помазанник»"], "correct": 1, "order": 120}, {"id": "q121", "level": "hard", "question": "Как называется первая книга Библии?", "answers": ["Псалтирь", "Исход", "Бытие"], "correct": 2, "order": 121}, {"id": "q122", "level": "hard", "question": "Какой книгой заканчивается Новый Завет?", "answers": ["Послание к Римлянам", "Деяния апостолов", "Откровение (Апокалипсис)"], "correct": 2, "order": 122}, {"id": "q123", "level": "hard", "question": "Сколько книг в Новом Завете?", "answers": ["39", "27", "12"], "correct": 1, "order": 123}, {"id": "q124", "level": "hard", "question": "Кто написал книгу «Деяния святых апостолов»?", "answers": ["Апостол Пётр", "Апостол Павел", "Евангелист Лука"], "correct": 2, "order": 124}, {"id": "q125", "level": "hard", "question": "Кто создал славянскую азбуку?", "answers": ["Святые Борис и Глеб", "Святые Кирилл и Мефодий", "Святые Пётр и Феврония"], "correct": 1, "order": 125}, {"id": "q126", "level": "hard", "question": "Какой святой основал Троице-Сергиеву лавру?", "answers": ["Преподобный Сергий Радонежский", "Преподобный Серафим Саровский", "Святитель Николай Чудотворец"], "correct": 0, "order": 126}, {"id": "q127", "level": "hard", "question": "С какой святыней совершается Великорецкий крестный ход на Вятской земле?", "answers": ["С иконой Николая Чудотворца", "С Казанской иконой Богородицы", "С иконой Святой Троицы"], "correct": 0, "order": 127}, {"id": "q128", "level": "hard", "question": "Что означает возглас «Осанна!», которым встречали Христа в Иерусалиме?", "answers": ["«Прощай!»", "«Спаси же!»", "«Аминь!»"], "correct": 1, "order": 128}, {"id": "q129", "level": "hard", "question": "Что означает слово «Аллилуия»?", "answers": ["«Радуйся»", "«Господи, помилуй»", "«Хвалите Бога»"], "correct": 2, "order": 129}];
+let game={phase:"setup",teamCount:2,names:["","","",""],teams:[],list:[],idx:0,results:[],count:null};
+let timer={end:0,left:0,total:0,running:false,done:false,paused:false};
+let tick=null;
+
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const fmt=n=>{const r=Math.round(n*100)/100;return String(r).replace(".",",")};
+const fmtSigned=n=>(n>0?"+":n<0?"−":"")+fmt(Math.abs(n));
+const mmss=s=>{s=Math.max(0,Math.ceil(s));return Math.floor(s/60)+":"+String(s%60).padStart(2,"0")};
+function toast(t){const el=$("#toast");el.textContent=t;el.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(()=>el.hidden=true,2200)}
+function merge(base,o){const r=JSON.parse(JSON.stringify(base));if(!o)return r;for(const k in o){if(o[k]&&typeof o[k]==="object"&&!Array.isArray(o[k]))r[k]=Object.assign({},r[k],o[k]);else r[k]=o[k]}return r}
+function byLevel(l){return questions.filter(q=>q.level===l).sort((a,b)=>(a.order??0)-(b.order??0))}
+
+/* ---------- данные: хранятся в браузере этого компьютера ---------- */
+const KEY_Q="velikaya-radost-questions-v1", KEY_S="velikaya-radost-settings-v1";
+let storageOk=true;
+function loadLocal(k){try{const v=localStorage.getItem(k);return v?JSON.parse(v):null}catch(e){storageOk=false;return null}}
+function saveLocal(k,v){try{localStorage.setItem(k,JSON.stringify(v));return true}catch(e){storageOk=false;return false}}
+function defaultBank(){return DEFAULT_Q.map(q=>Object.assign({},q,{answers:q.answers.slice()}))}
+function initDb(){
+  const q=loadLocal(KEY_Q);
+  questions=Array.isArray(q)&&q.length?q:defaultBank();
+  const s=loadLocal(KEY_S); if(s) settings=merge(DEFAULTS,s);
+  dbState="ready"; render();
+}
+function persistBank(){ if(!saveLocal(KEY_Q,questions)) toast("Изменения действуют до закрытия страницы") }
+let settingsDirty=false;
+async function saveQuestion(id,data){
+  const i=questions.findIndex(q=>q.id===id);
+  const rec=Object.assign({id},data);
+  if(i>=0) questions[i]=rec; else questions.push(rec);
+  persistBank(); return true;
+}
+async function deleteQuestion(id){
+  questions=questions.filter(q=>q.id!==id); persistBank(); toast("Вопрос удалён"); render();
+}
+function exportBank(){
+  const blob=new Blob([JSON.stringify(questions,null,2)],{type:"application/json"});
+  const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="velikaya-radost-voprosy.json";
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(a.href),4000);
+}
+function importBank(file){
+  const rd=new FileReader();
+  rd.onload=()=>{try{
+    const arr=JSON.parse(rd.result);
+    const ok=Array.isArray(arr)?arr.filter(q=>q&&["easy","medium","hard"].includes(q.level)&&q.question&&Array.isArray(q.answers)&&q.answers.length===3&&[0,1,2].includes(q.correct)):[];
+    if(!ok.length){toast("В файле нет подходящих вопросов");return}
+    questions=ok.map((q,i)=>({id:q.id||("q"+i),level:q.level,question:String(q.question),answers:q.answers.map(String),correct:q.correct,order:q.order??i+1}));
+    persistBank(); toast("Загружено вопросов: "+questions.length); render();
+  }catch(e){toast("Не удалось прочитать файл")}};
+  rd.readAsText(file);
+}
+
+/* ---------- навигация ---------- */
+function setView(v){view=v;editing=null;confirmDel=null;adding=false;render();window.scrollTo(0,0)}
+document.querySelectorAll("nav.tabs button[data-view]").forEach(b=>b.addEventListener("click",()=>setView(b.dataset.view)));
+$("#tab-logout").addEventListener("click",()=>{authed=false;try{sessionStorage.removeItem(KEY_SESSION)}catch(e){}if(view!=="game")setView("game");else render();toast("Вы вышли")});
+$("#tab-full").addEventListener("click",()=>{
+  try{ if(document.fullscreenElement) document.exitFullscreen(); else document.documentElement.requestFullscreen().catch(()=>toast("Полноэкранный режим недоступен")) }catch(e){toast("Полноэкранный режим недоступен")}
+});
+
+function render(){
+  document.querySelectorAll("nav.tabs button[data-view]").forEach(b=>b.setAttribute("aria-current",b.dataset.view===view?"page":"false"));
+  const app=$("#app");
+  const lo=$("#tab-logout"); if(lo) lo.hidden=!authed;
+  if((view==="bank"||view==="settings")&&!authed) app.innerHTML=renderLogin();
+  else if(view==="bank") app.innerHTML=renderBank();
+  else if(view==="settings") app.innerHTML=renderSettings();
+  else app.innerHTML=renderGame();
+  bind();
+}
+
+/* ---------- вход ведущего ---------- */
+const KEY_A="velikaya-radost-auth-v1", KEY_SESSION="velikaya-radost-session";
+function creds(){const c=loadLocal(KEY_A);return c&&c.login&&c.password?c:{login:"admin",password:"admin"}}
+let authed=false; try{authed=sessionStorage.getItem(KEY_SESSION)==="1"}catch(e){}
+let loginError="";
+function renderLogin(){
+  return `<div class="stack" style="max-width:440px">
+    <div><h1>Вход для ведущего</h1><p class="lead">Изменять вопросы и настройки может только ведущий. Для игры вход не нужен.</p></div>
+    <form class="panel stack" id="loginForm">
+      <label class="stack" style="gap:6px"><span class="label">Логин</span><input type="text" id="lg-login" name="login" autocomplete="username" required></label>
+      <label class="stack" style="gap:6px"><span class="label">Пароль</span><input type="password" id="lg-pass" name="password" autocomplete="current-password" required style="width:100%;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px 12px"></label>
+      ${loginError?`<div class="confirm">${esc(loginError)}</div>`:""}
+      <div class="row"><button type="submit" class="btn primary">Войти</button></div>
+    </form></div>`;
+}
+
+/* ---------- баннер состояния ---------- */
+function stateBanner(){
+  if(dbState==="loading") return `<p class="hidden-msg">Загружаю вопросы…</p>`;
+  if(!storageOk) return `<div class="note">Этот браузер не даёт сохранять данные: изменения в вопросах и настройках действуют только до закрытия страницы.</div>`;
+  return "";
+}
+
+/* ---------- ИГРА ---------- */
+function renderGame(){
+  if(game.phase==="rules") return renderRules();
+  if(game.phase==="play") return renderPlay();
+  if(game.phase==="end") return renderEnd();
+  if(game.phase==="round") return renderRound();
+  return renderSetup();
+}
+function counts(){const c={};LEVELS.forEach(([l])=>c[l]=byLevel(l).length);return c}
+function renderSetup(){
+  const c=counts(); const n=game.teamCount;
+  const qty=game.count||settings.count;
+  return `<div class="stack">
+  <div><h1>Новая игра</h1><p class="lead">Выберите, сколько команд будет играть, и впишите их названия.</p></div>
+  ${stateBanner()}
+  <section class="panel stack">
+    <div class="label">Количество команд</div>
+    <div class="count-pick">${[1,2,3,4].map(k=>`<button id="tc${k}" data-tc="${k}" aria-pressed="${k===n}">${k}<span>${k===1?"команда":"команды"}</span></button>`).join("")}</div>
+    <div class="label">Названия команд</div>
+    <div class="names">${Array.from({length:n},(_,i)=>`<label class="name-field" style="--c:${TCOLORS[i]}"><span class="label">Команда ${i+1}</span><input type="text" id="tn${i}" data-tn="${i}" maxlength="40" placeholder="Например: «Ангелы»" value="${esc(game.names[i])}"></label>`).join("")}</div>
+    <div class="label">Сколько вопросов каждого уровня</div>
+    <div class="qty">${LEVELS.map(([l,t])=>`<label class="lv-${l}"><span class="label">${t} (в банке ${c[l]})</span><input type="number" id="qc-${l}" data-qc="${l}" min="0" max="${c[l]}" value="${Math.min(qty[l],c[l])}"></label>`).join("")}</div>
+    <p class="hidden-msg" style="margin:0">Вопросы идут от лёгких к сложным и выбираются из банка случайно.</p>
+    <div class="row"><button class="btn primary big" id="toRules" ${dbState!=="ready"?"disabled":""}>Далее: правила</button></div>
+  </section></div>`;
+}
+function rulesList(){
+  const s=settings, p=s.points, t=s.time, items=[];
+  items.push("Каждая команда выбирает <b>одного отвечающего</b>. Только он называет ответ команды.");
+  if(s.orderOn) items.push(`Когда команда готова ответить, отвечающий нажимает кнопку на столе и ждёт${s.timerOn?" окончания времени по таймеру":", пока ведущий не попросит ответить"}.`);
+  else items.push(s.timerOn?"Команда совещается, пока идёт таймер, и выбирает один из трёх ответов.":"Команда совещается и выбирает один из трёх ответов.");
+  if(s.orderOn) items.push(`${s.timerOn?"Когда таймер закончит отсчёт, ":"Затем "}команды по очереди — в том порядке, в каком нажали кнопку, — называют свой ответ.`);
+  else items.push(`${s.timerOn?"Когда время выйдет, ":"Затем "}отвечающие называют ответы своих команд, ведущий их отмечает.`);
+  items.push("За правильный ответ команда получает баллы:");
+  if(s.orderOn&&s.bonusOn) items.push(`Команда, которая нажала кнопку <b>первой</b>: ответила верно — ещё <b>+${fmt(s.bonus)}</b> балла, ответила неверно — <b>−${fmt(s.bonus)}</b> балла.`);
+  if(s.timerOn) items.push(`Время на вопрос: лёгкий — ${mmss(t.easy)}, средний — ${mmss(t.medium)}, сложный — ${mmss(t.hard)}.`);
+  items.push("Во время вопросов баллы не показываются. Их объявляют после каждого раунда (лёгкие, средние и сложные вопросы), а в конце игры турнирная таблица покажет места команд.");
+  if(s.extra&&s.extra.trim()) s.extra.trim().split(/\n+/).forEach(x=>items.push(esc(x)));
+  return {items,p};
+}
+function renderRules(){
+  const {items,p}=rulesList();
+  const lis=items.map(x=>{
+    if(x.startsWith("За правильный")) return `<li>${x}<div class="pts">${LEVELS.map(([l,,n])=>`<div class="pt lv-${l}"><b>${fmt(p[l])}</b>${n} вопрос</div>`).join("")}</div></li>`;
+    return `<li>${x}</li>`}).join("");
+  return `<div class="stack rules">
+    <div><h1>Правила игры</h1><p class="lead">Играют: ${game.teams.map(t=>`<b>${esc(t.name)}</b>`).join(", ")}. Всего вопросов: ${game.list.length}.</p></div>
+    <section class="panel"><ol>${lis}</ol></section>
+    <div class="row"><button class="btn" id="backSetup">Назад</button><button class="btn gold big" id="startGame">Начать игру</button></div>
+  </div>`;
+}
+function curQ(){return game.list[game.idx]}
+function curR(){return game.results[game.idx]}
+function teamDelta(q,r,i){
+  if(!r.revealed) return 0;
+  const a=r.ans[i]; let d=0;
+  if(a!==null&&a===q.correct) d+=settings.points[q.level]||0;
+  if(settings.orderOn&&settings.bonusOn&&r.order[i]===1&&a!==null) d+= a===q.correct?settings.bonus:-settings.bonus;
+  return d;
+}
+function totals(){
+  return game.teams.map((_,i)=>game.results.reduce((s,r,k)=>s+teamDelta(game.list[k],r,i),0));
+}
+function renderPlay(){
+  const q=curQ(), r=curR(), tot=totals(), n=game.teams.length;
+  const timeEnded=!settings.timerOn||timer.done;
+  const cols=Math.min(n,4);
+  const pct=timer.total?Math.max(0,timer.left/timer.total*100):0;
+  const teams=game.teams.map((t,i)=>{
+    const d=teamDelta(q,r,i);
+    return `<div class="team" style="--c:${t.color}">
+      <div class="team-top"><span class="team-name">${esc(t.name)}</span></div>
+      ${settings.orderOn?`<div class="press">${r.order[i]?`<button class="order" id="ord${i}" data-unorder="${i}" title="Снять отметку">${r.order[i]}-я нажала ✕</button>`:`<button class="btn" id="ord${i}" data-press="${i}">Нажали кнопку</button>`}</div>`:""}
+      <div class="pick" role="group" aria-label="Ответ команды ${esc(t.name)}">${LETTERS.map((L,k)=>`<button id="p${i}-${k}" data-team="${i}" data-ans="${k}" aria-pressed="${r.ans[i]===k}" class="${r.revealed&&k===q.correct?"ok":""}">${L}</button>`).join("")}</div>
+    </div>`}).join("");
+  return `<div class="stage lv-${q.level}">
+    <div class="stage-head">
+      <span class="chip">Вопрос ${game.idx+1} из ${game.list.length}</span>
+      <span class="chip lv">${LVNAME[q.level]} · ${fmt(settings.points[q.level])} ${plural(settings.points[q.level])}</span>
+      ${settings.timerOn?`<div class="timer ${timer.done?"done":timer.left<=10?"low":""}" id="timerBox"><span class="clock" id="clock">${timer.done?"0:00":mmss(timer.left)}</span>
+        ${timer.done?"":`<button class="btn" id="pauseT">${timer.paused?"Продолжить":"Пауза"}</button><button class="btn danger" id="stopT">Остановить таймер</button>`}</div>`:""}
+    </div>
+    ${settings.timerOn?`<div class="bar"><i id="barI" style="width:${timer.done?0:pct}%"></i></div>`:""}
+    <p class="question">${esc(q.question)}</p>
+    <div class="answers">${q.answers.map((a,k)=>`<div class="ans ${r.revealed&&k===q.correct?"right":""}"><span class="letter">${LETTERS[k]}</span><span>${esc(a)}</span></div>`).join("")}</div>
+    <div class="teams" style="grid-template-columns:repeat(${cols},minmax(0,1fr))">${teams}</div>
+    <div class="controls">
+      ${settings.orderOn?`<button class="btn" id="resetOrder">Сбросить очерёдность</button>`:""}
+      <span class="spacer"></span>
+      <button class="btn danger" id="finishEarly">Завершить игру</button>
+      ${r.revealed?"":`<button class="btn gold" id="reveal">${timeEnded?"Показать верный ответ":"Остановить и показать ответ"}</button>`}
+      <button class="btn primary big" id="nextQ">${game.idx+1<game.list.length?"Следующий вопрос →":"Подвести итоги →"}</button>
+    </div>
+    ${finishConfirm?`<div class="confirm"><span>Завершить игру сейчас и показать итоги?</span><button class="btn danger" id="finishYes">Да, завершить</button><button class="btn" id="finishNo">Продолжить игру</button></div>`:""}
+  </div>`;
+}
+function plural(n){if(n%1!==0)return "балла";const a=n%10,b=n%100;if(a===1&&b!==11)return "балл";if(a>=2&&a<=4&&(b<10||b>=20))return "балла";return "баллов"}
+let finishConfirm=false;
+const ROUNDNAME={easy:"Лёгкие вопросы",medium:"Средние вопросы",hard:"Сложные вопросы"};
+function renderRound(){
+  const L=game.roundLevel, tot=totals();
+  const rows=game.teams.map((t,i)=>({t,i,
+    rs:game.results.reduce((s,r,k)=>s+(game.list[k].level===L?teamDelta(game.list[k],r,i):0),0),
+    right:game.results.filter((r,k)=>game.list[k].level===L&&r.revealed&&r.ans[i]===game.list[k].correct).length,
+    s:tot[i]})).sort((a,b)=>b.rs-a.rs);
+  const n=game.list.filter(q=>q.level===L).length;
+  const last=game.idx+1>=game.list.length;
+  return `<div class="stack">
+    <div><h1>Итоги раунда</h1><p class="lead">${ROUNDNAME[L]} · вопросов в раунде: ${n}</p></div>
+    <div class="board">${rows.map(x=>`<div class="place" style="--c:${x.t.color}">
+      <span class="num" style="font-size:2rem">${fmtSigned(x.rs)||"0"}</span>
+      <div style="min-width:0"><div class="nm">${esc(x.t.name)}</div><div class="sub">за раунд · верных ответов: ${x.right} из ${n}</div></div>
+      <div style="text-align:right"><div class="sub">всего</div><span class="sc">${fmt(x.s)}</span></div></div>`).join("")}</div>
+    <div class="row"><button class="btn primary big" id="afterRound">${last?"Итоговая таблица →":"Следующий раунд →"}</button></div>
+  </div>`;
+}
+function renderEnd(){
+  const tot=totals();
+  const rows=game.teams.map((t,i)=>({t,i,s:tot[i],right:game.results.filter((r,k)=>r.revealed&&r.ans[i]===game.list[k].correct).length}))
+    .sort((a,b)=>b.s-a.s);
+  let place=0,prev=null;
+  rows.forEach((x,k)=>{if(prev===null||x.s!==prev){place=k+1;prev=x.s}x.place=place});
+  const played=game.results.filter(r=>r.revealed).length;
+  return `<div class="stack">
+    <div><h1>Турнирная таблица</h1><p class="lead">Сыграно вопросов: ${played}. Слава Богу за всё!</p></div>
+    <div class="board">${rows.map(x=>`<div class="place ${x.place===1?"p1":""}" style="--c:${x.t.color}">
+      <span class="num">${x.place}</span>
+      <div style="min-width:0"><div class="nm">${esc(x.t.name)}</div><div class="sub">${x.place}-е место · верных ответов: ${x.right}</div></div>
+      <span class="sc">${fmt(x.s)}</span></div>`).join("")}</div>
+    <div class="row"><button class="btn primary big" id="newGame">Новая игра</button></div>
+  </div>`;
+}
+
+/* таймер */
+function startTimer(){
+  clearInterval(tick);
+  if(!settings.timerOn){timer={end:0,left:0,total:0,running:false,done:true,paused:false};return}
+  const sec=Math.max(5,Number(settings.time[curQ().level])||60);
+  timer={total:sec,left:sec,end:Date.now()+sec*1000,running:true,done:false,paused:false};
+  tick=setInterval(step,200);
+}
+function step(){
+  if(!timer.running||timer.paused)return;
+  timer.left=(timer.end-Date.now())/1000;
+  if(timer.left<=0){finishTimer();return}
+  const c=$("#clock"),b=$("#barI"),box=$("#timerBox");
+  if(c)c.textContent=mmss(timer.left);
+  if(b)b.style.width=(timer.left/timer.total*100)+"%";
+  if(box)box.classList.toggle("low",timer.left<=10);
+}
+function stopSilently(){if(timer.running&&!timer.done){clearInterval(tick);timer.running=false;timer.done=true;timer.left=0}}
+function finishTimer(){clearInterval(tick);timer.running=false;timer.done=true;timer.left=0;beep();if(view==="game"&&game.phase==="play")render()}
+let actx=null;
+function beep(){try{actx=actx||new (window.AudioContext||window.webkitAudioContext)();const o=actx.createOscillator(),g=actx.createGain();o.type="sine";o.frequency.value=660;g.gain.setValueAtTime(.0001,actx.currentTime);g.gain.exponentialRampToValueAtTime(.3,actx.currentTime+.03);g.gain.exponentialRampToValueAtTime(.0001,actx.currentTime+1.1);o.connect(g).connect(actx.destination);o.start();o.stop(actx.currentTime+1.2)}catch(e){}}
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+
+/* ---------- БАНК ---------- */
+function renderBank(){
+  const c=counts(); const list=byLevel(bankLevel);
+  const ro=!canWrite;
+  const card=(q,i)=>{
+    if(editing===q.id) return editForm(q);
+    return `<div class="qcard">
+      <div class="qhead"><span class="n">${i+1}.</span><span class="t">${esc(q.question)}</span>
+      ${ro?"":`<div class="row"><button class="btn" id="ed-${q.id}" data-edit="${q.id}">Изменить</button><button class="btn danger" id="dl-${q.id}" data-del="${q.id}">Удалить</button></div>`}</div>
+      <div class="qopts">${q.answers.map((a,k)=>`<span class="${k===q.correct?"ok":""}">${LETTERS[k]}) ${esc(a)}</span>`).join("")}</div>
+      ${confirmDel===q.id?`<div class="confirm"><span>Удалить этот вопрос из банка?</span><button class="btn danger" id="dly-${q.id}" data-delyes="${q.id}">Да, удалить</button><button class="btn" id="dln-${q.id}" data-delno="1">Отмена</button></div>`:""}
+    </div>`};
+  return `<div class="stack">
+    <div><h1>Банк вопросов</h1><p class="lead">Все вопросы игры по уровням. Можно добавить новый вопрос, изменить текст вопроса и ответов или выбрать другой верный ответ.</p></div>
+    ${stateBanner()}
+    ${ro&&dbState==="ready"?`<div class="note">У вас доступ только для просмотра — изменять вопросы может владелец страницы.</div>`:""}
+    <div class="row" style="justify-content:space-between">
+      <div class="lvtabs">${LEVELS.map(([l,t])=>`<button id="bl-${l}" class="lv-${l}" data-bl="${l}" aria-pressed="${l===bankLevel}">${t} · ${c[l]}</button>`).join("")}</div>
+      ${ro||dbState!=="ready"?"":`<button class="btn primary" id="addQ">+ Добавить вопрос</button>`}
+    </div>
+    ${adding?editForm(null):""}
+    <details class="panel" ${confirmReset?"open":""}><summary style="cursor:pointer;font-weight:800">Перенос вопросов на другой компьютер</summary>
+      <div class="stack" style="margin-top:12px">
+        <p class="hidden-msg" style="margin:0">Вопросы и правки хранятся в браузере этого компьютера. Чтобы перенести их, сохраните файл с вопросами и загрузите его на другом компьютере.</p>
+        <div class="row">
+          <button class="btn" id="exportQ">Сохранить файл с вопросами</button>
+          <label class="btn" for="importQ" style="display:inline-block">Загрузить файл с вопросами</label>
+          <input type="file" id="importQ" accept=".json,application/json" hidden>
+          <button class="btn danger" id="resetQ">Вернуть исходные 129 вопросов</button>
+        </div>
+        ${confirmReset?`<div class="confirm"><span>Все ваши правки в банке будут удалены. Продолжить?</span><button class="btn danger" id="resetYes">Да, вернуть исходные</button><button class="btn" id="resetNo">Отмена</button></div>`:""}
+      </div></details>
+    <div class="qlist">${list.length?list.map(card).join(""):`<div class="panel hidden-msg">В этом разделе пока нет вопросов. Нажмите «Добавить вопрос», чтобы создать первый.</div>`}</div>
+  </div>`;
+}
+function editForm(q){
+  const id=q?q.id:"new";
+  const d=q||{question:"",answers:["","",""],correct:0,level:bankLevel};
+  return `<form class="qcard edit-grid" id="form-${id}" data-form="${id}">
+    <div class="label">${q?"Изменение вопроса":"Новый вопрос"}</div>
+    <label class="stack" style="gap:6px"><span class="label">Текст вопроса</span><textarea id="fq-${id}" name="q" required>${esc(d.question)}</textarea></label>
+    <span class="label">Варианты ответа — отметьте верный</span>
+    ${[0,1,2].map(k=>`<div class="opt-row"><label><input type="radio" name="correct" value="${k}" id="fc-${id}-${k}" ${d.correct===k?"checked":""}> ${LETTERS[k]} верный</label><input type="text" id="fa-${id}-${k}" name="a${k}" required value="${esc(d.answers[k])}" placeholder="Ответ ${LETTERS[k]}"></div>`).join("")}
+    <label class="row"><span class="label">Уровень</span>
+      <select id="fl-${id}" name="level" style="padding:8px;border-radius:8px;border:1px solid var(--line);background:var(--bg)">${LEVELS.map(([l,,n])=>`<option value="${l}" ${d.level===l?"selected":""}>${n}</option>`).join("")}</select></label>
+    <div class="row"><button type="submit" class="btn primary">Сохранить</button><button type="button" class="btn" data-cancel="1">Отмена</button></div>
+  </form>`;
+}
+
+/* ---------- НАСТРОЙКИ ---------- */
+function renderSettings(){
+  const s=settings; const ro=!canWrite;
+  const trip=(key,unit)=>`<div class="trip">${LEVELS.map(([l,,n])=>`<label>${n}<input type="number" id="s-${key}-${l}" data-s="${key}.${l}" min="0" step="${key==="points"?"0.5":"1"}" value="${s[key][l]}"></label>`).join("")}</div>`;
+  return `<div class="stack">
+    <div><h1>Настройки ведущего</h1><p class="lead">Эти настройки меняют правила и ход игры. Правила для игроков составляются по ним автоматически.</p></div>
+    ${stateBanner()}
+    <div class="set-grid">
+      <section class="panel stack"><h2>Баллы за вопрос</h2>${trip("points")}</section>
+      <section class="panel stack"><h2>Время на вопрос, секунды</h2>${trip("time")}
+        <label class="switch"><input type="checkbox" id="s-timerOn" data-sw="timerOn" ${s.timerOn?"checked":""}><span><b>Таймер включён</b><br><span class="hidden-msg">Если выключить, ведущий сам решает, когда показать ответ.</span></span></label></section>
+      <section class="panel stack"><h2>Очерёдность и бонус</h2>
+        <label class="switch"><input type="checkbox" id="s-orderOn" data-sw="orderOn" ${s.orderOn?"checked":""}><span><b>Учитывать, какая команда нажала кнопку первой</b><br><span class="hidden-msg">Ведущий отмечает порядок нажатия, команды отвечают по очереди.</span></span></label>
+        <label class="switch"><input type="checkbox" id="s-bonusOn" data-sw="bonusOn" ${s.bonusOn?"checked":""} ${s.orderOn?"":"disabled"}><span><b>Бонус и штраф первой команде</b><br><span class="hidden-msg">Верно — плюс, неверно — минус. Работает, только если учитывается очерёдность.</span></span></label>
+        <label class="trip" style="grid-template-columns:1fr"><span>Размер бонуса и штрафа, баллы</span><input type="number" id="s-bonus" data-s="bonus" min="0" step="0.5" value="${s.bonus}"></label>
+      </section>
+      <section class="panel stack"><h2>Вопросов в игре по умолчанию</h2>${trip("count")}</section>
+      <section class="panel stack" style="grid-column:1/-1"><h2>Дополнительные правила</h2>
+        <p class="hidden-msg" style="margin:0">Каждая строка станет отдельным пунктом в правилах для игроков.</p>
+        <textarea id="s-extra" data-s="extra" rows="4" placeholder="Например: подсказывать другим командам нельзя.">${esc(s.extra)}</textarea></section>
+      <section class="panel stack"><h2>Вход для ведущего</h2>
+        <p class="hidden-msg" style="margin:0">Новые логин и пароль действуют на этом компьютере.</p>
+        <label class="stack" style="gap:6px"><span class="label">Новый логин</span><input type="text" id="s-login" value="${esc(creds().login)}" autocomplete="off"></label>
+        <label class="stack" style="gap:6px"><span class="label">Новый пароль</span><input type="text" id="s-pass" placeholder="Введите новый пароль" autocomplete="off"></label>
+        <div class="row"><button class="btn" id="saveCreds">Сменить логин и пароль</button></div></section>
+    </div>
+    <div class="row">${ro?`<span class="note">Изменять настройки может владелец страницы.</span>`:`<button class="btn primary big" id="saveSettings" ${dbState==="ready"||dbState==="off"?"":"disabled"}>Сохранить настройки</button><button class="btn" id="resetSettings">Вернуть стандартные</button>`}</div>
+  </div>`;
+}
+function readSettingsForm(){
+  const s=JSON.parse(JSON.stringify(settings));
+  document.querySelectorAll("[data-s]").forEach(el=>{
+    const path=el.dataset.s.split("."); let v=el.type==="number"?Math.max(0,Number(el.value)||0):el.value;
+    if(path.length===2)s[path[0]][path[1]]=v; else s[path[0]]=v;
+  });
+  document.querySelectorAll("[data-sw]").forEach(el=>s[el.dataset.sw]=el.checked);
+  if(!s.orderOn)s.bonusOn=false;
+  LEVELS.forEach(([l])=>{s.count[l]=Math.round(s.count[l]);if(s.time[l]<5)s.time[l]=5});
+  return s;
+}
+
+/* ---------- обработчики ---------- */
+function bind(){
+  const on=(sel,ev,fn)=>document.querySelectorAll(sel).forEach(el=>el.addEventListener(ev,fn));
+  on("#loginForm","submit",e=>{
+    e.preventDefault(); const f=e.currentTarget, c=creds();
+    if(f.login.value.trim()===c.login&&f.password.value===c.password){
+      authed=true;loginError="";try{sessionStorage.setItem(KEY_SESSION,"1")}catch(err){}render();toast("Вы вошли как ведущий");
+    } else {loginError="Неверный логин или пароль. Проверьте раскладку клавиатуры и попробуйте ещё раз.";render();const p=$("#lg-pass");p&&p.focus()}
+  });
+  on("#saveCreds","click",()=>{
+    const l=($("#s-login")||{}).value?.trim(), p=($("#s-pass")||{}).value||"";
+    if(!l||!p){toast("Введите новый логин и пароль");return}
+    toast(saveLocal(KEY_A,{login:l,password:p})?"Логин и пароль изменены":"Не удалось сохранить на этом компьютере");
+    render();
+  });
+  if(view==="game"){
+    if(game.phase==="setup"){
+      on("[data-tc]","click",e=>{readNames();game.teamCount=Number(e.currentTarget.dataset.tc);render()});
+      on("[data-tn]","input",e=>game.names[e.target.dataset.tn]=e.target.value);
+      on("[data-qc]","input",e=>{game.count=game.count||Object.assign({},settings.count);game.count[e.target.dataset.qc]=Math.max(0,Number(e.target.value)||0)});
+      on("#toRules","click",()=>{
+        readNames();
+        const qty=game.count||settings.count; let list=[];
+        LEVELS.forEach(([l])=>{list=list.concat(shuffle(byLevel(l)).slice(0,Math.min(qty[l]||0,byLevel(l).length)))});
+        if(!list.length){toast("Выберите хотя бы один вопрос");return}
+        game.teams=Array.from({length:game.teamCount},(_,i)=>({name:(game.names[i]||"").trim()||`Команда ${i+1}`,color:TCOLORS[i]}));
+        game.list=list.map(q=>({level:q.level,question:q.question,answers:q.answers.slice(),correct:q.correct}));
+        game.results=list.map(()=>({ans:Array(game.teamCount).fill(null),order:Array(game.teamCount).fill(0),revealed:false}));
+        game.idx=0;game.phase="rules";render();window.scrollTo(0,0);
+      });
+    } else if(game.phase==="rules"){
+      on("#backSetup","click",()=>{game.phase="setup";render()});
+      on("#startGame","click",()=>{game.phase="play";finishConfirm=false;startTimer();render();window.scrollTo(0,0);try{navigator.wakeLock&&navigator.wakeLock.request("screen").catch(()=>{})}catch(e){}});
+    } else if(game.phase==="play"){
+      const r=curR();
+      on("[data-ans]","click",e=>{const i=+e.currentTarget.dataset.team,k=+e.currentTarget.dataset.ans;r.ans[i]=r.ans[i]===k?null:k;render()});
+      on("[data-press]","click",e=>{const i=+e.currentTarget.dataset.press;r.order[i]=Math.max(0,...r.order)+1;render()});
+      on("[data-unorder]","click",e=>{const i=+e.currentTarget.dataset.unorder,v=r.order[i];r.order=r.order.map(x=>x>v?x-1:(x===v?0:x));render()});
+      on("#resetOrder","click",()=>{r.order=r.order.map(()=>0);render()});
+      on("#pauseT","click",()=>{if(timer.paused){timer.end=Date.now()+timer.left*1000;timer.paused=false}else{timer.paused=true}render()});
+      on("#stopT","click",()=>{finishTimer()});
+      on("#reveal","click",()=>{stopSilently();r.revealed=true;render()});
+      on("#nextQ","click",()=>{stopSilently();r.revealed=true;finishConfirm=false;
+        const cur=curQ().level, nxt=game.list[game.idx+1];
+        if(!nxt||nxt.level!==cur){clearInterval(tick);game.phase="round";game.roundLevel=cur;render();window.scrollTo(0,0);return}
+        game.idx++;startTimer();render();window.scrollTo(0,0)});
+      on("#finishEarly","click",()=>{finishConfirm=true;render()});
+      on("#finishNo","click",()=>{finishConfirm=false;render()});
+      on("#finishYes","click",()=>{clearInterval(tick);finishConfirm=false;game.phase="end";render()});
+    } else if(game.phase==="round"){
+      on("#afterRound","click",()=>{if(game.idx+1<game.list.length){game.idx++;game.phase="play";startTimer()}else game.phase="end";render();window.scrollTo(0,0)});
+    } else if(game.phase==="end"){
+      on("#newGame","click",()=>{game.phase="setup";game.count=null;render()});
+    }
+  }
+  if(view==="bank"){
+    on("[data-bl]","click",e=>{bankLevel=e.currentTarget.dataset.bl;editing=null;adding=false;confirmDel=null;render()});
+    on("#addQ","click",()=>{adding=true;editing=null;render();const t=$("#fq-new");t&&t.focus()});
+    on("[data-edit]","click",e=>{editing=e.currentTarget.dataset.edit;adding=false;confirmDel=null;render()});
+    on("[data-del]","click",e=>{confirmDel=e.currentTarget.dataset.del;render()});
+    on("[data-delno]","click",()=>{confirmDel=null;render()});
+    on("[data-delyes]","click",async e=>{const id=e.currentTarget.dataset.delyes;confirmDel=null;await deleteQuestion(id)});
+    on("[data-cancel]","click",()=>{editing=null;adding=false;render()});
+    on("#exportQ","click",exportBank);
+    on("#importQ","change",e=>{const f=e.target.files&&e.target.files[0];if(f)importBank(f)});
+    on("#resetQ","click",()=>{confirmReset=true;render()});
+    on("#resetNo","click",()=>{confirmReset=false;render()});
+    on("#resetYes","click",()=>{confirmReset=false;questions=defaultBank();persistBank();toast("Исходные вопросы возвращены");render()});
+    on("[data-form]","submit",async e=>{
+      e.preventDefault(); const f=e.currentTarget, id=f.dataset.form;
+      const data={question:f.q.value.trim(),answers:[f.a0.value.trim(),f.a1.value.trim(),f.a2.value.trim()],correct:Number((f.querySelector("input[name=correct]:checked")||{}).value||0),level:f.level.value};
+      if(!data.question||data.answers.some(a=>!a)){toast("Заполните вопрос и все три ответа");return}
+      const old=questions.find(q=>q.id===id);
+      data.order= old&&old.level===data.level ? old.order : Math.max(0,...questions.map(q=>q.order||0))+1;
+      const docId=id==="new"?("q"+Date.now().toString(36)+Math.random().toString(36).slice(2,6)):id;
+      if(await saveQuestion(docId,data)){editing=null;adding=false;bankLevel=data.level;toast(id==="new"?"Вопрос добавлен":"Изменения сохранены");render()}
+    });
+  }
+  if(view==="settings"){
+    on("[data-s],[data-sw]","input",()=>{settingsDirty=true});
+    on("[data-sw=orderOn]","change",e=>{const b=$("#s-bonusOn");if(b){b.disabled=!e.target.checked;if(!e.target.checked)b.checked=false}});
+    on("#saveSettings","click",async()=>{
+      const s=readSettingsForm(); settings=s; settingsDirty=false;
+      toast(saveLocal(KEY_S,s)?"Настройки сохранены":"Настройки действуют до закрытия страницы");
+      render();
+    });
+    on("#resetSettings","click",()=>{settings=JSON.parse(JSON.stringify(DEFAULTS));settingsDirty=true;render();toast("Стандартные значения — нажмите «Сохранить»")});
+  }
+}
+function readNames(){document.querySelectorAll("[data-tn]").forEach(el=>game.names[el.dataset.tn]=el.value)}
+
+/* сохранение состояния игры при обновлении страницы */
+function boot(data){
+  if(data&&data.game){game=data.game;view=data.view||"game";
+    if(game.phase==="play"&&data.timer){timer=data.timer;if(timer.running&&!timer.done){timer.end=Date.now()+timer.left*1000;tick=setInterval(step,200)}}}
+  render(); initDb();
+}
+try{window.claude?.hot?.snapshot?.(()=>({game,view,timer}))}catch(e){}
+window.claude?.hot?.ready ? window.claude.hot.ready(boot) : boot(window.claude?.hot?.data ?? {});
+})();
+</script>
+</body></html>

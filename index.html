@@ -566,8 +566,9 @@ function renderPlay(){
       ${settings.orderOn?`<button class="btn" id="resetOrder">Сбросить очерёдность</button>`:""}
       <span class="spacer"></span>
       <button class="btn danger" id="finishEarly">Завершить игру</button>
-      ${r.revealed?"":`<button class="btn gold" id="reveal">${timeEnded?"Показать верный ответ":"Остановить и показать ответ"}</button>`}
-      <button class="btn primary big" id="nextQ">${game.idx+1<game.list.length?"Следующий вопрос →":"Подвести итоги →"}</button>
+      ${r.revealed
+        ? `<button class="btn primary big" id="nextQ">${(game.list[game.idx+1]&&game.list[game.idx+1].level===q.level)?"Следующий вопрос →":"Итоги раунда →"}</button>`
+        : `<button class="btn gold big" id="reveal">${timeEnded?"Показать ответы команд ✓":"Остановить и показать ответы ✓"}</button>`}
     </div>
     ${finishConfirm?`<div class="confirm"><span>Завершить игру сейчас и показать итоги?</span><button class="btn danger" id="finishYes">Да, завершить</button><button class="btn" id="finishNo">Продолжить игру</button></div>`:""}
   </div>`;
@@ -810,7 +811,7 @@ function bind(){
       on("#pauseT","click",()=>{if(timer.paused){timer.end=Date.now()+timer.left*1000;timer.paused=false}else{timer.paused=true}render()});
       on("#stopT","click",()=>{finishTimer()});
       on("#reveal","click",()=>{stopSilently();r.revealed=true;render()});
-      on("#nextQ","click",()=>{stopSilently();r.revealed=true;finishConfirm=false;
+      on("#nextQ","click",()=>{if(!r.revealed){stopSilently();r.revealed=true;render();return}finishConfirm=false;
         const cur=curQ().level, nxt=game.list[game.idx+1];
         if(!nxt||nxt.level!==cur){clearInterval(tick);game.phase="round";game.roundLevel=cur;render();window.scrollTo(0,0);return}
         game.idx++;startTimer();render();window.scrollTo(0,0)});

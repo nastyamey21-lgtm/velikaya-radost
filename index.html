@@ -633,30 +633,32 @@ function endPlaces(){
     .sort((a,b)=>b.s-a.s);
   // плотная нумерация мест: одинаковые баллы — одно место, места идут подряд
   let place=0,prev=null;
-  rows.forEach(x=>{if(prev===null||x.s!==prev){place++;prev=x.s}x.place=Math.min(place,4)});
-  const byPlace={1:[],2:[],3:[],4:[]};
+  const N=game.teams.length;
+  rows.forEach(x=>{if(prev===null||x.s!==prev){place++;prev=x.s}x.place=Math.min(place,N)});
+  const byPlace={}; for(let p=1;p<=N;p++) byPlace[p]=[];
   rows.forEach(x=>byPlace[x.place].push(x));
-  const filled=[4,3,2,1].filter(p=>byPlace[p].length); // порядок открытия: снизу вверх
-  return {byPlace,filled};
+  // ступеней столько, сколько команд; открываем все места снизу вверх, даже пустые
+  const filled=[]; for(let p=N;p>=1;p--) filled.push(p);
+  return {byPlace,filled,N};
 }
 function renderEnd(){
   const played=game.results.filter(r=>r.revealed).length;
-  const {byPlace,filled}=endPlaces();
+  const {byPlace,filled,N}=endPlaces();
   if(game.reveal==null) game.reveal=0;
   const shown=p=>filled.indexOf(p)>-1&&filled.indexOf(p)<game.reveal;
   const justP=filled[game.reveal-1];
   const H={1:270,2:215,3:175,4:145};
-  const order=[4,2,1,3];
+  const order={1:[1],2:[2,1],3:[2,1,3],4:[4,2,1,3]}[N]||[1];
   const card=p=>{
     const list=byPlace[p];
-    if(!list.length) return `<div class="empty-step">—</div>`;
     if(!shown(p)) return `<div class="mystery" aria-label="Пока скрыто">?</div>`;
+    if(!list.length) return `<div class="empty-step">—</div><div class="sub">здесь никого</div>`;
     const sc=list[0].s;
     return `${p===1?`<div class="pstar" aria-hidden="true">★</div>`:""}${medal(p)}
       <div class="sc">${fmt(sc)}</div><div class="sub">${plural(sc)}</div>
       <div class="pteams">${list.map(x=>`<div class="pteam" style="--c:${x.t.color}"><b>${esc(x.t.name)}</b><span>верных: ${x.right}</span></div>`).join("")}</div>`;
   };
-  const podium=order.map(p=>`<div class="pcol p${p} ${shown(p)?"shown":""} ${p===justP?"just":""} ${byPlace[p].length?"":"is-empty"}">
+  const podium=order.map(p=>`<div class="pcol p${p} ${shown(p)?"shown":""} ${p===justP?"just":""} ${byPlace[p].length||!shown(p)?"":"is-empty"}">
       <div class="pcard">${card(p)}</div>
       <div class="block" style="height:${H[p]}px"><span>${p}</span><small>место</small></div></div>`).join("");
   const done=game.reveal>=filled.length;

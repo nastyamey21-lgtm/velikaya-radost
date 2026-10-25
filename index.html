@@ -178,17 +178,26 @@ main .stack>div:first-child{background:var(--surface);border:1px solid var(--lin
 
 /* Пьедестал */
 .podium{display:flex;align-items:flex-end;justify-content:center;gap:clamp(6px,2vw,24px);padding-top:8px}
-.pcol{display:flex;flex-direction:column;align-items:center;gap:10px;width:clamp(96px,22vw,270px);min-width:0}
+.pcol{display:flex;flex-direction:column;align-items:center;gap:10px;width:clamp(76px,19vw,250px);min-width:0}
 .pcard{position:relative;background:var(--surface);border:2px dashed var(--line);border-radius:var(--r);padding:16px 12px;text-align:center;width:100%;min-height:160px;display:flex;flex-direction:column;justify-content:center;gap:4px;box-shadow:0 8px 24px rgba(20,40,90,.12)}
 .pcol.shown .pcard{border:3px solid var(--c)}
 .pcol.p1.shown .pcard{background:var(--gold-soft);border-color:var(--gold)}
 .pcard .nm{font-weight:900;font-size:clamp(1rem,2vw,1.7rem);overflow-wrap:anywhere;line-height:1.15}
-.pcard .sc{font-weight:900;font-size:clamp(2rem,4.4vw,3.8rem);color:var(--c);line-height:1;font-variant-numeric:tabular-nums}
+.pcard .sc{font-weight:900;font-size:clamp(1.8rem,4vw,3.4rem);color:var(--blue);line-height:1;font-variant-numeric:tabular-nums}
 .pcard .sub{color:var(--muted);font-size:.85rem}
 .pstar{position:absolute;top:-30px;left:50%;transform:translateX(-50%);font-size:2.6rem;color:var(--gold);text-shadow:0 2px 0 rgba(0,0,0,.15);animation:twinkle 1.6s ease-in-out infinite}
 .mystery{font-family:var(--display);font-size:4.5rem;color:var(--muted);line-height:1;animation:wobble 2.4s ease-in-out infinite}
-.block{width:100%;border-radius:14px 14px 0 0;display:flex;flex-direction:column;align-items:center;padding-top:10px;color:#fff;font-family:var(--display);font-size:clamp(2.6rem,6vw,5.2rem);line-height:1;box-shadow:inset 0 -12px 0 rgba(0,0,0,.14);text-shadow:0 2px 0 rgba(0,0,0,.2)}
+.block{position:relative;width:100%;border-radius:14px 14px 0 0;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:6px;padding:14px 4px 22px;color:#fff;font-family:var(--display);font-size:clamp(2.4rem,5vw,4.6rem);line-height:.9;box-shadow:inset 0 -12px 0 rgba(0,0,0,.14),0 10px 24px rgba(20,40,90,.18);text-shadow:0 2px 0 rgba(0,0,0,.2);overflow:hidden}
+.block::after{content:"";position:absolute;inset:0 auto 0 12%;width:18%;background:linear-gradient(180deg,rgba(255,255,255,.35),rgba(255,255,255,0));transform:skewX(-12deg)}
 .block small{font-family:var(--body);font-size:.85rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;opacity:.9}
+.pteams{display:flex;flex-direction:column;gap:6px;margin-top:6px}
+.pteam{display:flex;flex-direction:column;border-left:6px solid var(--c);background:var(--bg);border-radius:8px;padding:6px 8px;text-align:left}
+.pteam b{font-weight:900;font-size:clamp(.8rem,1.6vw,1.35rem);overflow-wrap:break-word;hyphens:auto;line-height:1.15}
+.pteam span{color:var(--muted);font-size:.8rem}
+.empty-step{font-family:var(--display);font-size:3rem;color:var(--line);line-height:1}
+.pcol.is-empty .pcard{border-style:dotted;box-shadow:none;background:transparent}
+.p4 .block{background:linear-gradient(180deg,#bccbe8,#6f86b3)}
+.pcol.shown .pcard{border:3px solid var(--blue)}
 .p1 .block{background:linear-gradient(180deg,#f0c95e,#b9852a)}
 .p2 .block{background:linear-gradient(180deg,#d3dbea,#8794ad)}
 .p3 .block{background:linear-gradient(180deg,#e4a774,#9a5a2a)}
@@ -198,6 +207,23 @@ main .stack>div:first-child{background:var(--surface);border:1px solid var(--lin
 @keyframes pop{0%{transform:scale(.3) translateY(40px);opacity:0}100%{transform:none;opacity:1}}
 @keyframes wobble{0%,100%{transform:rotate(-6deg)}50%{transform:rotate(6deg)}}
 @keyframes twinkle{0%,100%{transform:translateX(-50%) scale(1)}50%{transform:translateX(-50%) scale(1.18)}}
+
+.finale{position:relative;padding:40px 0 0;isolation:isolate}
+.rays-wrap{position:absolute;left:0;right:0;top:-160px;bottom:0;overflow:hidden;z-index:-1;pointer-events:none}
+.rays,.bunting,.trumpeter,.podium-clouds,.medal{pointer-events:none}
+.rays{position:absolute;left:50%;top:52%;width:min(1200px,100%);aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;
+  background:repeating-conic-gradient(from 0deg,rgba(240,190,70,.30) 0deg 7deg,transparent 7deg 18deg);
+  -webkit-mask:radial-gradient(circle,#000 18%,transparent 62%);mask:radial-gradient(circle,#000 18%,transparent 62%);animation:spin 60s linear infinite}
+.bunting{position:absolute;left:0;right:0;top:0;width:100%;height:64px;z-index:-1}
+.trumpeter{position:absolute;top:-170px;width:clamp(110px,11vw,170px);z-index:2}
+.trumpeter.left{left:9%}.trumpeter.right{right:9%}
+.podium-clouds{display:block;width:100%;height:70px;margin-top:-34px;position:relative;z-index:1}
+.podium{position:relative;z-index:1}
+.medal{position:absolute;top:-22px;left:-14px;width:44px;height:58px;filter:drop-shadow(0 3px 3px rgba(0,0,0,.2))}
+.pcol.p1 .pcard{padding-top:22px}
+@keyframes spin{to{transform:translate(-50%,-50%) rotate(360deg)}}
+@media (max-width:900px){.trumpeter{display:none}}
+@media (max-width:560px){.pcard{padding:14px 6px}.pteam{padding:4px 5px;border-left-width:4px}.medal{left:-8px;width:34px;height:46px}}
 .confetti{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:40}
 
 /* Банк */
@@ -601,39 +627,79 @@ function renderRound(){
     <div class="row"><button class="btn primary big" id="afterRound">${last?"Итоговая таблица →":"Следующий раунд →"}</button></div>
   </div>`;
 }
-function renderEnd(){
+function endPlaces(){
   const tot=totals();
   const rows=game.teams.map((t,i)=>({t,i,s:tot[i],right:game.results.filter((r,k)=>r.revealed&&r.ans[i]===game.list[k].correct).length}))
     .sort((a,b)=>b.s-a.s);
+  // плотная нумерация мест: одинаковые баллы — одно место, места идут подряд
   let place=0,prev=null;
-  rows.forEach((x,k)=>{if(prev===null||x.s!==prev){place=k+1;prev=x.s}x.place=place});
+  rows.forEach(x=>{if(prev===null||x.s!==prev){place++;prev=x.s}x.place=Math.min(place,4)});
+  const byPlace={1:[],2:[],3:[],4:[]};
+  rows.forEach(x=>byPlace[x.place].push(x));
+  const filled=[4,3,2,1].filter(p=>byPlace[p].length); // порядок открытия: снизу вверх
+  return {byPlace,filled};
+}
+function renderEnd(){
   const played=game.results.filter(r=>r.revealed).length;
-  const n=rows.length; if(game.reveal==null) game.reveal=0;
-  const shown=k=>k>=n-game.reveal, justK=n-game.reveal;
-  const H=[250,185,135];
-  const order=[1,0,2].filter(k=>k<n);
-  const card=(x,k)=>shown(k)?`
-      ${x.place===1?`<div class="pstar" aria-hidden="true">★</div>`:""}
-      <div class="nm">${esc(x.t.name)}</div>
-      <div class="sc">${fmt(x.s)}</div>
-      <div class="sub">${plural(x.s)} · верных ответов: ${x.right}</div>`:`<div class="mystery" aria-label="Пока скрыто">?</div>`;
-  const podium=order.map(k=>{const x=rows[k];return `<div class="pcol p${k+1} ${shown(k)?"shown":""} ${k===justK?"just":""}" style="--c:${x.t.color}">
-      <div class="pcard">${card(x,k)}</div>
-      <div class="block" style="height:${H[k]}px"><span>${x.place}</span><small>место</small></div></div>`}).join("");
-  const fourth=n>3?`<div class="place fourth ${shown(3)?"":"hide4"} ${justK===3?"just":""}" style="--c:${rows[3].t.color}">
-      <span class="num">${rows[3].place}</span>
-      <div style="min-width:0">${shown(3)?`<div class="nm">${esc(rows[3].t.name)}</div><div class="sub">верных ответов: ${rows[3].right}</div>`:`<div class="nm">?</div>`}</div>
-      <span class="sc">${shown(3)?fmt(rows[3].s):""}</span></div>`:"";
-  const next=n-1-game.reveal;
-  const done=game.reveal>=n;
+  const {byPlace,filled}=endPlaces();
+  if(game.reveal==null) game.reveal=0;
+  const shown=p=>filled.indexOf(p)>-1&&filled.indexOf(p)<game.reveal;
+  const justP=filled[game.reveal-1];
+  const H={1:270,2:215,3:175,4:145};
+  const order=[4,2,1,3];
+  const card=p=>{
+    const list=byPlace[p];
+    if(!list.length) return `<div class="empty-step">—</div>`;
+    if(!shown(p)) return `<div class="mystery" aria-label="Пока скрыто">?</div>`;
+    const sc=list[0].s;
+    return `${p===1?`<div class="pstar" aria-hidden="true">★</div>`:""}${medal(p)}
+      <div class="sc">${fmt(sc)}</div><div class="sub">${plural(sc)}</div>
+      <div class="pteams">${list.map(x=>`<div class="pteam" style="--c:${x.t.color}"><b>${esc(x.t.name)}</b><span>верных: ${x.right}</span></div>`).join("")}</div>`;
+  };
+  const podium=order.map(p=>`<div class="pcol p${p} ${shown(p)?"shown":""} ${p===justP?"just":""} ${byPlace[p].length?"":"is-empty"}">
+      <div class="pcard">${card(p)}</div>
+      <div class="block" style="height:${H[p]}px"><span>${p}</span><small>место</small></div></div>`).join("");
+  const done=game.reveal>=filled.length;
+  const next=filled[game.reveal];
   return `<div class="stack">
-    <div><h1>Турнирная таблица</h1><p class="lead">${done?`Сыграно вопросов: ${played}. Слава Богу за всё!`:"Открываем места по очереди — с последнего до первого."}</p></div>
-    <div class="podium">${podium}</div>
-    ${fourth}
+    <div><h1>Турнирная таблица</h1><p class="lead">${done?`Сыграно вопросов: ${played}. Слава Богу за всё!`:"Открываем места по очереди — снизу вверх."}</p></div>
+    <div class="finale">
+      <div class="rays-wrap" aria-hidden="true"><div class="rays"></div></div>
+      ${BUNTING}
+      ${angelTrumpet("left")}${angelTrumpet("right")}
+      <div class="podium">${podium}</div>
+      ${CLOUDS}
+    </div>
     <div class="row">${done?`<button class="btn gold big" id="cheer">Ещё салют!</button><button class="btn primary big" id="newGame">Новая игра</button>`
-      :`<button class="btn gold big" id="revealNext">Открыть ${rows[next].place}-е место</button><button class="btn" id="revealAll">Показать всех сразу</button>`}</div>
+      :`<button class="btn gold big" id="revealNext">Открыть ${next}-е место</button><button class="btn" id="revealAll">Показать всех сразу</button>`}</div>
   </div>`;
 }
+
+function medal(p){
+  const c={1:["#f6d36b","#b9852a"],2:["#e4e9f2","#8794ad"],3:["#efb886","#9a5a2a"],4:["#c8d5ee","#6f86b3"]}[p];
+  return `<svg class="medal" viewBox="0 0 60 80" aria-hidden="true"><path d="M14 0h14l6 30H20Z" fill="#c8463a"/><path d="M46 0H32l-6 30h14Z" fill="#2f5bb5"/><circle cx="30" cy="52" r="24" fill="${c[1]}"/><circle cx="30" cy="52" r="19" fill="${c[0]}"/><text x="30" y="61" text-anchor="middle" font-family="Oranienbaum,Georgia,serif" font-size="26" fill="${c[1]}">${p}</text></svg>`;
+}
+function angelTrumpet(side){
+  return `<svg class="trumpeter ${side}" viewBox="0 0 170 170" aria-hidden="true"><g ${side==="right"?'transform="translate(170 0) scale(-1 1)"':""}>
+    <g fill="var(--cloud)"><ellipse cx="80" cy="152" rx="72" ry="15"/><circle cx="46" cy="142" r="17"/><circle cx="82" cy="136" r="23"/><circle cx="116" cy="143" r="16"/></g>
+    <path d="M78 82 C45 48 12 70 20 112 C40 108 58 98 78 96Z" fill="#fff" stroke="#bcd0f0" stroke-width="2"><animateTransform attributeName="transform" type="rotate" values="0 78 90;-8 78 90;0 78 90" dur="1.6s" repeatCount="indefinite"/></path>
+    <path d="M82 82 C115 48 148 70 140 112 C120 108 102 98 82 96Z" fill="#fff" stroke="#bcd0f0" stroke-width="2"><animateTransform attributeName="transform" type="rotate" values="0 82 90;8 82 90;0 82 90" dur="1.6s" repeatCount="indefinite"/></path>
+    <path d="M80 72 L54 136 Q80 146 106 136Z" fill="#fdf2c7" stroke="#e3c677" stroke-width="2"/>
+    <circle cx="80" cy="56" r="25" fill="#f0c95e" opacity=".6"/>
+    <circle cx="80" cy="58" r="15" fill="var(--skin)"/>
+    <path d="M65 56 C66 40 94 40 95 56 C90 48 72 48 65 56Z" fill="#e2b04f"/>
+    <path d="M73 60 q3 3 6 0 M82 60 q3 3 6 0" stroke="#5b3b2a" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+    <circle cx="71" cy="65" r="2.4" fill="#f2a3a3"/><circle cx="89" cy="65" r="2.4" fill="#f2a3a3"/>
+    <circle cx="80" cy="70" r="2.6" fill="#b85c5c"/>
+    <path d="M82 70 L130 52 L132 60 L84 76Z" fill="#e8b84e"/><path d="M128 44 L150 36 L154 72 L132 64Z" fill="#e8b84e" stroke="#b9852a" stroke-width="1.5"/>
+    <circle cx="96" cy="70" r="4" fill="var(--skin)"/>
+    <g fill="#e8b84e"><path d="M160 30 l3 7 7 3 -7 3 -3 7 -3 -7 -7 -3 7 -3Z"><animate attributeName="opacity" values="1;.2;1" dur="1.2s" repeatCount="indefinite"/></path>
+    <path d="M150 84 l2 5 5 2 -5 2 -2 5 -2 -5 -5 -2 5 -2Z"><animate attributeName="opacity" values=".2;1;.2" dur="1.2s" repeatCount="indefinite"/></path></g>
+  </g></svg>`;
+}
+const BUNTING=(()=>{const cols=["#b8352b","#e3b45a","#1f6fb8","#2f7d4f","#8f2f45","#f0c95e"];let f="";for(let i=0;i<16;i++){const x=i*62+20;f+=`<path d="M${x} ${16+Math.sin(i/15*Math.PI)*22} l26 0 l-13 34Z" fill="${cols[i%cols.length]}"/>`}
+  return `<svg class="bunting" viewBox="0 0 1000 80" preserveAspectRatio="none" aria-hidden="true"><path d="M0 14 Q500 70 1000 14" stroke="#b9852a" stroke-width="2.5" fill="none"/>${f}</svg>`})();
+const CLOUDS=`<svg class="podium-clouds" viewBox="0 0 1000 90" preserveAspectRatio="none" aria-hidden="true"><g fill="var(--cloud)"><ellipse cx="500" cy="70" rx="520" ry="34"/><circle cx="90" cy="48" r="40"/><circle cx="210" cy="40" r="48"/><circle cx="360" cy="50" r="40"/><circle cx="640" cy="50" r="42"/><circle cx="790" cy="40" r="48"/><circle cx="910" cy="50" r="40"/></g></svg>`;
 /* салют и звуки на финале */
 function confetti(amount){
   try{ if(window.matchMedia("(prefers-reduced-motion: reduce)").matches) return }catch(e){}
@@ -822,7 +888,7 @@ function bind(){
       on("#afterRound","click",()=>{if(game.idx+1<game.list.length){game.idx++;game.phase="play";startTimer()}else game.phase="end";render();window.scrollTo(0,0)});
     } else if(game.phase==="end"){
       on("#newGame","click",()=>{game.phase="setup";game.count=null;game.reveal=null;render()});
-      const n=game.teams.length;
+      const n=endPlaces().filled.length;
       const after=()=>{if(game.reveal>=n){confetti(260);chime([523,659,784,1047])}else{confetti(60);chime([523,659])}};
       on("#revealNext","click",()=>{game.reveal=Math.min(n,game.reveal+1);render();after()});
       on("#revealAll","click",()=>{game.reveal=n;render();after()});

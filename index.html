@@ -155,6 +155,51 @@ main .stack>div:first-child{background:var(--surface);border:1px solid var(--lin
 .place .sub{color:var(--muted);font-size:.95rem}
 .place .sc{font-weight:900;font-size:2.4rem;font-variant-numeric:tabular-nums;color:var(--c)}
 
+/* Результат команды после вопроса */
+.verdict{font-weight:900;font-size:clamp(1.1rem,1.6vw,1.4rem);border-radius:10px;padding:8px 12px;text-align:center}
+.verdict.ok{background:var(--green-soft);color:var(--green)}
+.verdict.bad{background:var(--red-soft);color:var(--red)}
+.verdict.none{background:var(--surface-2);color:var(--muted)}
+.res-list{display:flex;flex-direction:column;gap:6px}
+.res{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:center;text-align:left;border:2px solid var(--line);background:var(--bg);border-radius:10px;padding:8px 10px;font-weight:700;opacity:.55;min-width:0}
+.res .letter{width:1.8em;height:1.8em;border-radius:50%;display:grid;place-items:center;background:var(--surface-2);font-weight:900}
+.res .txt{min-width:0;overflow-wrap:break-word;hyphens:auto}
+.res .mark{display:block;font-size:.72rem;font-weight:900;text-transform:uppercase;letter-spacing:.05em}
+.res.is-right{opacity:1;border-color:var(--green);background:var(--green-soft)}
+.res.is-right .letter{background:var(--green);color:#fff}
+.res.is-right .mark{color:var(--green)}
+.res.is-pick{opacity:1;box-shadow:0 0 0 3px var(--c)}
+.res.is-pick:not(.is-right){border-color:var(--red);background:var(--red-soft)}
+.res.is-pick:not(.is-right) .letter{background:var(--red);color:#fff}
+.res.is-pick:not(.is-right) .mark{color:var(--red)}
+.right-tag{display:block;font-size:.8em;color:var(--green);font-weight:900;margin-top:4px}
+.who{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.who span{background:var(--c);color:#fff;border-radius:999px;padding:2px 10px;font-size:.75em;font-weight:800}
+
+/* Пьедестал */
+.podium{display:flex;align-items:flex-end;justify-content:center;gap:clamp(6px,2vw,24px);padding-top:8px}
+.pcol{display:flex;flex-direction:column;align-items:center;gap:10px;width:clamp(96px,22vw,270px);min-width:0}
+.pcard{position:relative;background:var(--surface);border:2px dashed var(--line);border-radius:var(--r);padding:16px 12px;text-align:center;width:100%;min-height:160px;display:flex;flex-direction:column;justify-content:center;gap:4px;box-shadow:0 8px 24px rgba(20,40,90,.12)}
+.pcol.shown .pcard{border:3px solid var(--c)}
+.pcol.p1.shown .pcard{background:var(--gold-soft);border-color:var(--gold)}
+.pcard .nm{font-weight:900;font-size:clamp(1rem,2vw,1.7rem);overflow-wrap:anywhere;line-height:1.15}
+.pcard .sc{font-weight:900;font-size:clamp(2rem,4.4vw,3.8rem);color:var(--c);line-height:1;font-variant-numeric:tabular-nums}
+.pcard .sub{color:var(--muted);font-size:.85rem}
+.pstar{position:absolute;top:-30px;left:50%;transform:translateX(-50%);font-size:2.6rem;color:var(--gold);text-shadow:0 2px 0 rgba(0,0,0,.15);animation:twinkle 1.6s ease-in-out infinite}
+.mystery{font-family:var(--display);font-size:4.5rem;color:var(--muted);line-height:1;animation:wobble 2.4s ease-in-out infinite}
+.block{width:100%;border-radius:14px 14px 0 0;display:flex;flex-direction:column;align-items:center;padding-top:10px;color:#fff;font-family:var(--display);font-size:clamp(2.6rem,6vw,5.2rem);line-height:1;box-shadow:inset 0 -12px 0 rgba(0,0,0,.14);text-shadow:0 2px 0 rgba(0,0,0,.2)}
+.block small{font-family:var(--body);font-size:.85rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;opacity:.9}
+.p1 .block{background:linear-gradient(180deg,#f0c95e,#b9852a)}
+.p2 .block{background:linear-gradient(180deg,#d3dbea,#8794ad)}
+.p3 .block{background:linear-gradient(180deg,#e4a774,#9a5a2a)}
+.just .pcard,.place.just{animation:pop .8s cubic-bezier(.2,1.5,.4,1)}
+.fourth{max-width:560px;margin-inline:auto;width:100%}
+.fourth.hide4 .sc{color:var(--muted)}
+@keyframes pop{0%{transform:scale(.3) translateY(40px);opacity:0}100%{transform:none;opacity:1}}
+@keyframes wobble{0%,100%{transform:rotate(-6deg)}50%{transform:rotate(6deg)}}
+@keyframes twinkle{0%,100%{transform:translateX(-50%) scale(1)}50%{transform:translateX(-50%) scale(1.18)}}
+.confetti{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:40}
+
 /* Банк */
 .lvtabs{display:flex;gap:8px;flex-wrap:wrap}
 .lvtabs button{border:2px solid var(--line);background:var(--surface);border-radius:999px;padding:8px 16px;font-weight:800}
@@ -502,7 +547,7 @@ function renderPlay(){
     return `<div class="team" style="--c:${t.color}">
       <div class="team-top"><span class="team-name">${esc(t.name)}</span></div>
       ${settings.orderOn?`<div class="press">${r.order[i]?`<button class="order" id="ord${i}" data-unorder="${i}" title="Снять отметку">${r.order[i]}-я нажала ✕</button>`:`<button class="btn" id="ord${i}" data-press="${i}">Нажали кнопку</button>`}</div>`:""}
-      <div class="pick" role="group" aria-label="Ответ команды ${esc(t.name)}">${LETTERS.map((L,k)=>`<button id="p${i}-${k}" data-team="${i}" data-ans="${k}" aria-pressed="${r.ans[i]===k}" class="${r.revealed&&k===q.correct?"ok":""}">${L}</button>`).join("")}</div>
+      ${r.revealed?teamResult(q,r,i):`<div class="pick" role="group" aria-label="Ответ команды ${esc(t.name)}">${LETTERS.map((L,k)=>`<button id="p${i}-${k}" data-team="${i}" data-ans="${k}" aria-pressed="${r.ans[i]===k}">${L}</button>`).join("")}</div>`}
     </div>`}).join("");
   return `<div class="stage lv-${q.level}">
     <div class="stage-head">
@@ -513,7 +558,9 @@ function renderPlay(){
     </div>
     ${settings.timerOn?`<div class="bar"><i id="barI" style="width:${timer.done?0:pct}%"></i></div>`:""}
     <p class="question">${esc(q.question)}</p>
-    <div class="answers">${q.answers.map((a,k)=>`<div class="ans ${r.revealed&&k===q.correct?"right":""}"><span class="letter">${LETTERS[k]}</span><span>${esc(a)}</span></div>`).join("")}</div>
+    <div class="answers">${q.answers.map((a,k)=>{
+      const who=r.revealed?game.teams.map((t,i)=>r.ans[i]===k?`<span style="--c:${t.color}">${esc(t.name)}</span>`:"").join(""):"";
+      return `<div class="ans ${r.revealed&&k===q.correct?"right":""}"><span class="letter">${LETTERS[k]}</span><span style="min-width:0">${esc(a)}${r.revealed&&k===q.correct?`<span class="right-tag">✓ Верный ответ</span>`:""}${who?`<span class="who">${who}</span>`:""}</span></div>`}).join("")}</div>
     <div class="teams" style="grid-template-columns:repeat(${cols},minmax(0,1fr))">${teams}</div>
     <div class="controls">
       ${settings.orderOn?`<button class="btn" id="resetOrder">Сбросить очерёдность</button>`:""}
@@ -524,6 +571,14 @@ function renderPlay(){
     </div>
     ${finishConfirm?`<div class="confirm"><span>Завершить игру сейчас и показать итоги?</span><button class="btn danger" id="finishYes">Да, завершить</button><button class="btn" id="finishNo">Продолжить игру</button></div>`:""}
   </div>`;
+}
+function teamResult(q,r,i){
+  const a=r.ans[i], ok=a!==null&&a===q.correct;
+  const verdict=a===null?`<div class="verdict none">Ответ не отмечен</div>`:ok?`<div class="verdict ok">✓ Верно!</div>`:`<div class="verdict bad">✗ Неверно</div>`;
+  return verdict+`<div class="res-list" role="group" aria-label="Ответ команды">${q.answers.map((txt,k)=>{
+    const pick=a===k, right=k===q.correct;
+    const mark=pick&&right?"ответ команды":pick?"ответ команды":right?"верный":"";
+    return `<button id="p${i}-${k}" data-team="${i}" data-ans="${k}" title="Исправить ответ команды" class="res ${right?"is-right":""} ${pick?"is-pick":""}"><span class="letter">${LETTERS[k]}</span><span class="txt">${esc(txt)}${mark?`<span class="mark">${mark}</span>`:""}</span></button>`}).join("")}</div>`;
 }
 function plural(n){if(n%1!==0)return "балла";const a=n%10,b=n%100;if(a===1&&b!==11)return "балл";if(a>=2&&a<=4&&(b<10||b>=20))return "балла";return "баллов"}
 let finishConfirm=false;
@@ -552,15 +607,53 @@ function renderEnd(){
   let place=0,prev=null;
   rows.forEach((x,k)=>{if(prev===null||x.s!==prev){place=k+1;prev=x.s}x.place=place});
   const played=game.results.filter(r=>r.revealed).length;
+  const n=rows.length; if(game.reveal==null) game.reveal=0;
+  const shown=k=>k>=n-game.reveal, justK=n-game.reveal;
+  const H=[250,185,135];
+  const order=[1,0,2].filter(k=>k<n);
+  const card=(x,k)=>shown(k)?`
+      ${x.place===1?`<div class="pstar" aria-hidden="true">★</div>`:""}
+      <div class="nm">${esc(x.t.name)}</div>
+      <div class="sc">${fmt(x.s)}</div>
+      <div class="sub">${plural(x.s)} · верных ответов: ${x.right}</div>`:`<div class="mystery" aria-label="Пока скрыто">?</div>`;
+  const podium=order.map(k=>{const x=rows[k];return `<div class="pcol p${k+1} ${shown(k)?"shown":""} ${k===justK?"just":""}" style="--c:${x.t.color}">
+      <div class="pcard">${card(x,k)}</div>
+      <div class="block" style="height:${H[k]}px"><span>${x.place}</span><small>место</small></div></div>`}).join("");
+  const fourth=n>3?`<div class="place fourth ${shown(3)?"":"hide4"} ${justK===3?"just":""}" style="--c:${rows[3].t.color}">
+      <span class="num">${rows[3].place}</span>
+      <div style="min-width:0">${shown(3)?`<div class="nm">${esc(rows[3].t.name)}</div><div class="sub">верных ответов: ${rows[3].right}</div>`:`<div class="nm">?</div>`}</div>
+      <span class="sc">${shown(3)?fmt(rows[3].s):""}</span></div>`:"";
+  const next=n-1-game.reveal;
+  const done=game.reveal>=n;
   return `<div class="stack">
-    <div><h1>Турнирная таблица</h1><p class="lead">Сыграно вопросов: ${played}. Слава Богу за всё!</p></div>
-    <div class="board">${rows.map(x=>`<div class="place ${x.place===1?"p1":""}" style="--c:${x.t.color}">
-      <span class="num">${x.place}</span>
-      <div style="min-width:0"><div class="nm">${esc(x.t.name)}</div><div class="sub">${x.place}-е место · верных ответов: ${x.right}</div></div>
-      <span class="sc">${fmt(x.s)}</span></div>`).join("")}</div>
-    <div class="row"><button class="btn primary big" id="newGame">Новая игра</button></div>
+    <div><h1>Турнирная таблица</h1><p class="lead">${done?`Сыграно вопросов: ${played}. Слава Богу за всё!`:"Открываем места по очереди — с последнего до первого."}</p></div>
+    <div class="podium">${podium}</div>
+    ${fourth}
+    <div class="row">${done?`<button class="btn gold big" id="cheer">Ещё салют!</button><button class="btn primary big" id="newGame">Новая игра</button>`
+      :`<button class="btn gold big" id="revealNext">Открыть ${rows[next].place}-е место</button><button class="btn" id="revealAll">Показать всех сразу</button>`}</div>
   </div>`;
 }
+/* салют и звуки на финале */
+function confetti(amount){
+  try{ if(window.matchMedia("(prefers-reduced-motion: reduce)").matches) return }catch(e){}
+  const cv=document.createElement("canvas"); cv.className="confetti"; document.body.appendChild(cv);
+  const ctx=cv.getContext("2d"); const dpr=window.devicePixelRatio||1;
+  const W=cv.width=innerWidth*dpr, H=cv.height=innerHeight*dpr;
+  const cols=["#e3b45a","#b8352b","#1f6fb8","#2f7d4f","#ffffff","#f0c95e","#8f2f45"];
+  const ps=Array.from({length:amount},()=>({x:W*(.2+Math.random()*.6),y:H*.55,vx:(Math.random()-.5)*16*dpr,vy:-(8+Math.random()*14)*dpr,
+    s:(5+Math.random()*7)*dpr,r:Math.random()*6,vr:(Math.random()-.5)*.3,c:cols[Math.random()*cols.length|0],star:Math.random()<.3}));
+  const t0=performance.now();
+  (function frame(t){
+    ctx.clearRect(0,0,W,H);
+    ps.forEach(p=>{p.vy+=.35*dpr;p.vx*=.99;p.x+=p.vx;p.y+=p.vy;p.r+=p.vr;
+      ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.r);ctx.fillStyle=p.c;
+      if(p.star){ctx.beginPath();for(let i=0;i<8;i++){const rad=i%2?p.s*.45:p.s;const a=i*Math.PI/4;ctx.lineTo(Math.cos(a)*rad,Math.sin(a)*rad)}ctx.fill()}
+      else ctx.fillRect(-p.s/2,-p.s/4,p.s,p.s/2);
+      ctx.restore()});
+    if(t-t0<4200) requestAnimationFrame(frame); else cv.remove();
+  })(t0);
+}
+function chime(notes){try{actx=actx||new (window.AudioContext||window.webkitAudioContext)();notes.forEach((f,i)=>{const o=actx.createOscillator(),g=actx.createGain(),st=actx.currentTime+i*.16;o.type="triangle";o.frequency.value=f;g.gain.setValueAtTime(.0001,st);g.gain.exponentialRampToValueAtTime(.25,st+.03);g.gain.exponentialRampToValueAtTime(.0001,st+.6);o.connect(g).connect(actx.destination);o.start(st);o.stop(st+.65)})}catch(e){}}
 
 /* таймер */
 function startTimer(){
@@ -703,7 +796,7 @@ function bind(){
         game.teams=Array.from({length:game.teamCount},(_,i)=>({name:(game.names[i]||"").trim()||`Команда ${i+1}`,color:TCOLORS[i]}));
         game.list=list.map(q=>({level:q.level,question:q.question,answers:q.answers.slice(),correct:q.correct}));
         game.results=list.map(()=>({ans:Array(game.teamCount).fill(null),order:Array(game.teamCount).fill(0),revealed:false}));
-        game.idx=0;game.phase="rules";render();window.scrollTo(0,0);
+        game.idx=0;game.reveal=null;game.phase="rules";render();window.scrollTo(0,0);
       });
     } else if(game.phase==="rules"){
       on("#backSetup","click",()=>{game.phase="setup";render()});
@@ -727,7 +820,12 @@ function bind(){
     } else if(game.phase==="round"){
       on("#afterRound","click",()=>{if(game.idx+1<game.list.length){game.idx++;game.phase="play";startTimer()}else game.phase="end";render();window.scrollTo(0,0)});
     } else if(game.phase==="end"){
-      on("#newGame","click",()=>{game.phase="setup";game.count=null;render()});
+      on("#newGame","click",()=>{game.phase="setup";game.count=null;game.reveal=null;render()});
+      const n=game.teams.length;
+      const after=()=>{if(game.reveal>=n){confetti(260);chime([523,659,784,1047])}else{confetti(60);chime([523,659])}};
+      on("#revealNext","click",()=>{game.reveal=Math.min(n,game.reveal+1);render();after()});
+      on("#revealAll","click",()=>{game.reveal=n;render();after()});
+      on("#cheer","click",()=>{confetti(260);chime([523,659,784,1047])});
     }
   }
   if(view==="bank"){

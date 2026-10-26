@@ -1376,23 +1376,27 @@ let chgk={phase:"mode",mode:"classic",teamName:"",teamCount:2,names:["","","",""
   sectors:[],angle:0,cur:-1,stage:"spin",q:null,blitz:[],bi:0,score:{team:0,tv:0},pts:[],marks:[],played:0,reveal:null,note:""};
 
 function cqPool(kind){return cq.filter(x=>x.kind===kind&&(chgk.topic==="all"||x.topic===chgk.topic))}
+const BOXES=2, BLITZES=2;
 function chgkSetup(){
   const pick=(arr,n)=>shuffle(arr).slice(0,n);
-  let normals=pick(cqPool("normal"),SECTORS-2), box=pick(cqPool("box"),1)[0], blitz=pick(cqPool("blitz"),3);
-  if(normals.length<SECTORS-2) normals=normals.concat(pick(cq.filter(x=>x.kind==="normal"&&!normals.includes(x)),SECTORS-2-normals.length));
-  if(!box) box=pick(cq.filter(x=>x.kind==="box"),1)[0];
-  if(blitz.length<3) blitz=blitz.concat(pick(cq.filter(x=>x.kind==="blitz"&&!blitz.includes(x)),3-blitz.length));
-  const kinds=Array(SECTORS).fill("normal");const order=shuffle([...Array(SECTORS).keys()]);kinds[order[0]]="box";kinds[order[1]]="blitz";
-  let ni=0;
-  chgk.sectors=kinds.map((k,i)=>({kind:k,played:false,q:k==="box"?box:k==="blitz"?null:normals[ni++]||null,blitz:k==="blitz"?blitz:null}))
-    .map(s=>s.kind==="normal"&&!s.q?Object.assign(s,{played:true}):s);
+  const fill=(kind,n)=>{let got=pick(cqPool(kind),n);if(got.length<n)got=got.concat(pick(cq.filter(x=>x.kind===kind&&!got.includes(x)),n-got.length));return got};
+  const nNorm=SECTORS-BOXES-BLITZES;
+  const normals=fill("normal",nNorm), boxes=fill("box",BOXES), blitzQ=fill("blitz",BLITZES*3);
+  const kinds=Array(SECTORS).fill("normal");const order=shuffle([...Array(SECTORS).keys()]);
+  for(let i=0;i<BOXES;i++)kinds[order[i]]="box";
+  for(let i=0;i<BLITZES;i++)kinds[order[BOXES+i]]="blitz";
+  let ni=0,bi=0,zi=0;
+  chgk.sectors=kinds.map(k=>{
+    if(k==="box"){const q=boxes[bi++];return {kind:k,played:!q,q:q||null,blitz:null}}
+    if(k==="blitz"){const set=blitzQ.slice(zi*3,zi*3+3);zi++;return {kind:k,played:set.length<3,q:null,blitz:set.length===3?set:null}}
+    const q=normals[ni++];return {kind:k,played:!q,q:q||null,blitz:null}});
 }
 function tableSVG(){
   const step=360/SECTORS, R=300, C=350;
   const secs=chgk.sectors.map((s,i)=>{const a=(i*step-90)*Math.PI/180, a1=((i-.5)*step-90)*Math.PI/180, a2=((i+.5)*step-90)*Math.PI/180;
     const x=C+Math.cos(a)*235, y=C+Math.sin(a)*235;
     const path=`M${C+Math.cos(a1)*170} ${C+Math.sin(a1)*170} L${C+Math.cos(a1)*R} ${C+Math.sin(a1)*R} A${R} ${R} 0 0 1 ${C+Math.cos(a2)*R} ${C+Math.sin(a2)*R} L${C+Math.cos(a2)*170} ${C+Math.sin(a2)*170} A170 170 0 0 0 ${C+Math.cos(a1)*170} ${C+Math.sin(a1)*170}Z`;
-    const env=s.played?"":s.kind==="box"?`<rect x="-24" y="-20" width="48" height="40" rx="4" fill="#1b1b1b" stroke="#f0c95e" stroke-width="2"/><text y="7" class="tsec-q" fill="#f0c95e">?</text>`
+    const env=s.played?"":s.kind==="box"?`<rect x="-24" y="-20" width="48" height="40" rx="4" fill="#1b1b1b" stroke="#f0c95e" stroke-width="2"/><text y="7" class="tsec-q" fill="#f0c95e" transform="rotate(${-i*360/SECTORS})">?</text>`
       :`<rect x="-26" y="-17" width="52" height="34" rx="3" fill="${s.kind==="blitz"?"#fde9a8":"#fff"}" stroke="#c9b07e" stroke-width="2"/><path d="M-26 -17 L0 4 L26 -17" fill="none" stroke="#c9b07e" stroke-width="2"/>${s.kind==="blitz"?`<path d="M3 -12 L-6 3 H0 L-3 14 L7 -2 H1Z" fill="#c8463a"/>`:""}`;
     return `<g class="tsec ${s.played?"played":""} ${i===chgk.cur?"cur":""}"><path d="${path}" class="tsec-bg ${i%2?"odd":""}"/>
       <g transform="translate(${x} ${y}) rotate(${i*step})">${env}</g>
@@ -1447,7 +1451,7 @@ function renderChgk(){
     <section class="panel stack rules"><div class="label">Правила</div><ol>
       <li>Ведущий крутит волчок. Стрелка выбирает конверт с вопросом. Если конверт уже сыгран, берётся следующий по часовой стрелке.</li>
       <li>После вопроса — <b>${chgk.time} секунд</b> на обсуждение. Отвечает капитан или тот, кого он назначит.</li>
-      <li><b>Чёрный ящик</b> — нужно угадать, что в нём лежит. <b>Блиц</b> — три коротких вопроса по ${chgk.btime} секунд${cl?"; очко знатокам, только если верны все три ответа":", за каждый верный ответ — очко"}.</li>
+      <li><b>Чёрный ящик</b> (их на столе два) — нужно угадать, что в нём лежит. <b>Блиц</b> (два конверта) — три коротких вопроса по ${chgk.btime} секунд${cl?"; очко знатокам, только если верны все три ответа":", за каждый верный ответ — очко"}.</li>
       ${cl?`<li>Верный ответ — очко знатокам, неверный — телезрителям. Игра идёт до ${chgk.target} очков.</li>`:`<li>Команды записывают ответ на листочке и сдают ведущему до конца минуты. Ведущий отмечает, кто ответил верно.</li>`}
     </ol></section>
     <div class="row"><button class="btn" id="cback">Назад</button><button class="btn gold big" id="cstart">Начать игру</button></div></div>`}

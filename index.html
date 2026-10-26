@@ -297,6 +297,27 @@ main .wrap>.stack>div:first-child{background:var(--surface);border:1px solid var
 .wturn b{display:block;font-size:1.6rem;color:var(--c);font-weight:900;overflow-wrap:anywhere}
 .wdie{display:flex;justify-content:center}
 .die{width:110px;height:110px;filter:drop-shadow(0 6px 10px rgba(0,0,0,.2))}
+.die3d-wrap{position:relative;width:96px;height:150px;perspective:600px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:22px}
+.die3d{position:relative;width:86px;height:86px;transform-style:preserve-3d;transition:none;z-index:1}
+.dface{position:absolute;inset:0;background:linear-gradient(145deg,#ffffff,#eef1f8);border:2px solid #d9c7a0;border-radius:16px;box-shadow:inset 0 0 14px rgba(31,60,136,.12)}
+.dface i{position:absolute;width:17px;height:17px;margin:-8.5px 0 0 -8.5px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#4a6fd0,#1f3c88)}
+.dface.f1 i{background:radial-gradient(circle at 35% 35%,#e55a4e,#b8352b);width:22px;height:22px;margin:-11px 0 0 -11px}
+.dface.f1{transform:translateZ(43px)}
+.dface.f6{transform:rotateY(180deg) translateZ(43px)}
+.dface.f2{transform:rotateY(90deg) translateZ(43px)}
+.dface.f5{transform:rotateY(-90deg) translateZ(43px)}
+.dface.f3{transform:rotateX(90deg) translateZ(43px)}
+.dface.f4{transform:rotateX(-90deg) translateZ(43px)}
+.die-res{text-align:center;font-weight:800;color:var(--muted);font-size:1.1rem;min-height:2.4rem}
+.die-res b{font-size:2.2rem;color:var(--blue);vertical-align:-4px;margin-left:4px}
+.die-res.pop b{display:inline-block;animation:resPop .5s cubic-bezier(.2,1.6,.4,1)}
+@keyframes resPop{0%{transform:scale(.2)}100%{transform:scale(1)}}
+.die-shadow{position:absolute;bottom:10px;left:50%;width:80px;height:14px;margin-left:-40px;border-radius:50%;background:rgba(20,30,60,.28);filter:blur(3px)}
+.die3d-wrap.bounce .die3d{animation:dieHop 1.25s cubic-bezier(.3,0,.3,1)}
+.die3d-wrap.bounce .die-shadow{animation:dieShadow 1.25s cubic-bezier(.3,0,.3,1)}
+@keyframes dieHop{0%{translate:0 0}18%{translate:0 -58px}34%{translate:0 0}50%{translate:0 -30px}64%{translate:0 0}76%{translate:0 -12px}86%{translate:0 0}93%{translate:0 -4px}100%{translate:0 0}}
+@keyframes dieShadow{0%{transform:scale(1);opacity:1}18%{transform:scale(.55);opacity:.5}34%{transform:scale(1);opacity:1}50%{transform:scale(.75);opacity:.7}64%,100%{transform:scale(1);opacity:1}}
+@media (prefers-reduced-motion:reduce){.die3d-wrap.bounce .die3d,.die3d-wrap.bounce .die-shadow{animation:none}}
 .wcard{border-radius:var(--r);padding:14px;border:2px solid var(--line);background:var(--bg);text-align:center}
 .wcard p{margin:.4rem 0 0;font-size:1.05rem}
 .wcard-t{font-family:var(--display);font-size:1.8rem;line-height:1.1}
@@ -319,6 +340,63 @@ main .wrap>.stack>div:first-child{background:var(--surface);border:1px solid var
 .wclock{font-weight:900;font-size:1.6rem;font-variant-numeric:tabular-nums}
 .wclock.low{color:var(--red)}
 .chip[style*="--c"]{background:var(--c);color:#fff}
+
+/* Знатоки */
+.bmode{display:flex;gap:6px;justify-content:center;flex-wrap:wrap}
+.bmode button{border:2px solid var(--line);background:var(--surface);border-radius:999px;padding:8px 18px;font-weight:900}
+.bmode button[aria-pressed="true"]{background:var(--blue);border-color:var(--blue);color:var(--blue-ink)}
+.cmodes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+@media (max-width:720px){.cmodes{grid-template-columns:1fr}}
+.cmode{display:flex;flex-direction:column;gap:8px;text-align:left;border:3px solid var(--line);background:var(--bg);border-radius:var(--r);padding:22px}
+.cmode b{font-family:var(--display);font-weight:400;font-size:2rem;color:var(--blue);line-height:1}
+.cmode span{color:var(--fg);font-size:1.02rem}
+.cmode:hover{border-color:var(--gold)}
+.ctable-wrap{display:flex;justify-content:center}
+.ctable{width:min(100%,calc(100vh - 140px));height:auto;filter:drop-shadow(0 12px 24px rgba(20,40,90,.3))}
+.tsec-bg{fill:#1f3c88;stroke:#f0c95e;stroke-width:2}
+.tsec-bg.odd{fill:#2b4b9b}
+.tsec.played .tsec-bg{fill:#14204a}
+.tsec.cur .tsec-bg{fill:#b9852a}
+.tsec-n{text-anchor:middle;font-family:var(--body);font-weight:900;font-size:15px;fill:#f0c95e}
+.tsec-q{text-anchor:middle;font-family:var(--display);font-size:24px}
+.cscore{display:flex;align-items:center;justify-content:center;gap:10px}
+.cs-side{display:flex;flex-direction:column;align-items:center;gap:2px;min-width:0;flex:1}
+.cs-side span{font-weight:800;color:var(--muted);text-align:center;overflow-wrap:anywhere;font-size:.9rem}
+.cs-side b{font-size:3rem;line-height:1;color:var(--blue);font-variant-numeric:tabular-nums}
+.cs-sep{font-size:2.4rem;font-weight:900;color:var(--muted);align-self:flex-end;line-height:1.3}
+.cteams{display:flex;flex-direction:column;gap:6px}
+.ctimer{margin-left:auto;font-weight:900;font-size:clamp(2rem,4vw,3.4rem);font-variant-numeric:tabular-nums;color:var(--blue)}
+.ctimer.low{color:var(--red)}
+.cq .question{font-size:clamp(1.4rem,2.6vw,2.4rem)}
+.canswer{background:var(--green-soft);border:2px solid var(--green);border-radius:var(--r);padding:16px 20px;display:flex;flex-direction:column;gap:6px}
+.canswer b{font-size:clamp(1.4rem,2.6vw,2.2rem);color:var(--green)}
+.canswer p{margin:0}
+.cmarks{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+.cmark{border:3px solid var(--c);background:var(--surface);color:var(--fg);border-radius:12px;padding:10px 18px;font-weight:900;font-size:1.1rem}
+.cmark[aria-pressed="true"]{background:var(--c);color:#fff}
+.blackbox{width:160px;height:120px;margin:0 auto;position:relative}
+.bb-body{position:absolute;inset:26px 0 0;background:linear-gradient(160deg,#2b2b2b,#0d0d0d);border:3px solid #f0c95e;border-radius:10px;color:#f0c95e;font-family:var(--display);font-size:3rem;display:grid;place-items:center}
+.bb-lid{position:absolute;left:-8px;right:-8px;top:8px;height:24px;background:#1b1b1b;border:3px solid #f0c95e;border-radius:8px;transform-origin:left bottom;animation:lid 2.4s ease-in-out infinite}
+@keyframes lid{0%,60%,100%{transform:rotate(0)}75%{transform:rotate(-14deg)}}
+
+/* Своя игра */
+.svwrap{max-width:1300px;margin-inline:auto;width:100%}
+.svboard{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;background:#14204a;padding:10px;border-radius:var(--r);box-shadow:0 12px 30px rgba(20,40,90,.3)}
+.svhead{background:#1f3c88;color:#fff;border-radius:10px;padding:12px 8px;text-align:center;font-weight:900;font-size:clamp(.85rem,1.4vw,1.15rem);display:grid;place-items:center;min-height:70px;overflow-wrap:break-word;hyphens:auto}
+.svcell{background:linear-gradient(180deg,#2b4b9b,#1f3c88);border:2px solid #3a5fb8;border-radius:10px;color:#f0c95e;font-family:var(--display);font-size:clamp(1.8rem,3.4vw,3rem);min-height:clamp(64px,10vh,96px);text-shadow:0 2px 0 rgba(0,0,0,.35);transition:transform .15s}
+.svcell:hover{transform:scale(1.04);border-color:#f0c95e}
+.svcell.played{background:#182856;border-color:#182856}
+.svscores{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.svteam{display:flex;flex-direction:column;align-items:center;gap:2px;min-width:140px;padding:10px 16px;border-radius:12px;background:var(--surface);border:2px solid var(--line);border-top:6px solid var(--c)}
+.svteam b{overflow-wrap:anywhere;text-align:center}
+.svteam span{font-size:2rem;font-weight:900;color:var(--c);font-variant-numeric:tabular-nums;line-height:1}
+.svteam span.neg{color:var(--red)}
+.svteam.choose{box-shadow:0 0 0 4px var(--c)}
+.svcat-wrap{width:220px;animation:catHop 1.2s ease-in-out infinite}
+.svcat{width:100%;height:auto}
+@keyframes catHop{0%,100%{transform:translateY(0) rotate(0)}30%{transform:translateY(-14px) rotate(-4deg)}60%{transform:translateY(0) rotate(3deg)}}
+.svstakes{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+@media (max-width:720px){.svboard{gap:4px;padding:6px}.svhead{min-height:56px;font-size:.7rem;padding:6px 2px}}
 /* Банк */
 .lvtabs{display:flex;gap:8px;flex-wrap:wrap}
 .lvtabs button{border:2px solid var(--line);background:var(--surface);border-radius:999px;padding:8px 16px;font-weight:800}
@@ -470,8 +548,10 @@ main .wrap>.stack>div:first-child{background:var(--surface);border:1px solid var
       <div><b>Великая радость</b><small>Воскресная школа храма Архангела Михаила · Вятские Поляны</small></div>
     </div>
     <nav class="tabs" aria-label="Разделы">
-      <button id="tab-game" data-view="game">Игра</button>
+      <button id="tab-game" data-view="game">Викторина</button>
       <button id="tab-walk" data-view="walk">Бродилка</button>
+      <button id="tab-chgk" data-view="chgk">Что? Где? Когда?</button>
+      <button id="tab-svoy" data-view="svoy">Своя игра</button>
       <button id="tab-bank" data-view="bank">Банк вопросов</button>
       <button id="tab-settings" data-view="settings">Настройки</button>
       <button id="tab-logout" hidden>Выйти</button>
@@ -541,6 +621,7 @@ function initDb(){
     if(added) setTimeout(()=>toast("В банк добавлены новые вопросы: "+added),600);
   } else { questions=defaultBank(); saveLocal(KEY_META,{seen:allIds,topicsVer:2}); }
   const s=loadLocal(KEY_S); if(s){ if(s.topicsVer!==2){delete s.topics; s.topicsVer=2; saveLocal(KEY_S,s)} settings=merge(DEFAULTS,s); }
+  cqLoad();
   dbState="ready"; render();
 }
 function persistBank(){ if(!saveLocal(KEY_Q,questions)) toast("Изменения действуют до закрытия страницы") }
@@ -555,7 +636,7 @@ async function deleteQuestion(id){
   questions=questions.filter(q=>q.id!==id); persistBank(); toast("Вопрос удалён"); render();
 }
 function exportBank(){
-  const blob=new Blob([JSON.stringify(questions,null,2)],{type:"application/json"});
+  const blob=new Blob([JSON.stringify({questions,znatoki:cq},null,2)],{type:"application/json"});
   const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="velikaya-radost-voprosy.json";
   document.body.appendChild(a); a.click(); a.remove();
   setTimeout(()=>URL.revokeObjectURL(a.href),4000);
@@ -563,7 +644,8 @@ function exportBank(){
 function importBank(file){
   const rd=new FileReader();
   rd.onload=()=>{try{
-    const arr=JSON.parse(rd.result);
+    const raw=JSON.parse(rd.result);const arr=Array.isArray(raw)?raw:(raw&&raw.questions)||[];
+    if(raw&&Array.isArray(raw.znatoki)&&raw.znatoki.length){cq=raw.znatoki.filter(x=>x&&x.question&&x.answer).map(x=>Object.assign({kind:"normal",topic:"church",accept:"",comment:""},x));cqSave()}
     const ok=Array.isArray(arr)?arr.filter(q=>q&&["easy","medium","hard"].includes(q.level)&&q.question&&Array.isArray(q.answers)&&q.answers.length===3&&[0,1,2].includes(q.correct)):[];
     if(!ok.length){toast("В файле нет подходящих вопросов");return}
     const defs=new Map(DEFAULT_Q.map(d=>[d.id,d]));
@@ -592,6 +674,8 @@ function render(){
   else if(view==="bank") app.innerHTML=renderBank();
   else if(view==="settings") app.innerHTML=renderSettings();
   else if(view==="walk") app.innerHTML=renderWalk();
+  else if(view==="chgk") app.innerHTML=renderChgk();
+  else if(view==="svoy") app.innerHTML=renderSvoya();
   else app.innerHTML=renderGame();
   bind();
 }
@@ -781,9 +865,9 @@ function endPlaces(){
   return {byPlace,filled,N};
 }
 function renderEnd(){
-  const W=view==="walk", st=W?walk:game;
-  const played=W?walk.moves:game.results.filter(r=>r.revealed).length;
-  const {byPlace,filled,N}=W?walkEndPlaces():endPlaces();
+  const W=view==="walk", K=view==="chgk", S=view==="svoy", st=W?walk:K?chgk:S?sv:game;
+  const played=W?walk.moves:K?chgk.played:S?sv.used.length:game.results.filter(r=>r.revealed).length;
+  const {byPlace,filled,N}=W?walkEndPlaces():K?chgkEndPlaces():S?svEndPlaces():endPlaces();
   if(st.reveal==null) st.reveal=0;
   const shown=p=>filled.indexOf(p)>-1&&filled.indexOf(p)<st.reveal;
   const justP=filled[st.reveal-1];
@@ -797,7 +881,7 @@ function renderEnd(){
     return `${p===1?`<div class="pstar" aria-hidden="true">★</div>`:""}${medal(p)}
       ${W?(list[0].finOrder>=0?`<div class="sc" style="font-size:clamp(1.3rem,2.6vw,2.2rem)">Вифлеем</div><div class="sub">пришли к Младенцу</div>`:`<div class="sc">${list[0].cell}</div><div class="sub">клетка пути</div>`)
         :`<div class="sc">${fmt(sc)}</div><div class="sub">${plural(sc)}</div>`}
-      <div class="pteams">${list.map(x=>`<div class="pteam" style="--c:${x.t.color}"><b>${esc(x.t.name)}</b><span>верных: ${x.right}</span></div>`).join("")}</div>`;
+      <div class="pteams">${list.map(x=>`<div class="pteam" style="--c:${x.t.color}"><b>${esc(x.t.name)}</b>${K||S?"":`<span>верных: ${x.right}</span>`}</div>`).join("")}</div>`;
   };
   const podium=order.map(p=>`<div class="pcol p${p} ${shown(p)?"shown":""} ${p===justP?"just":""} ${byPlace[p].length||!shown(p)?"":"is-empty"}">
       <div class="pcard">${card(p)}</div>
@@ -805,7 +889,7 @@ function renderEnd(){
   const done=st.reveal>=filled.length;
   const next=filled[st.reveal];
   return `<div class="stack">
-    <div><h1>${W?"Итоги пути":"Турнирная таблица"}</h1><p class="lead">${done?(W?`Сделано ходов: ${played}. Слава Богу за всё!`:`Сыграно вопросов: ${played}. Слава Богу за всё!`):"Открываем места по очереди — снизу вверх."}</p></div>
+    <div><h1>${W?"Итоги пути":K?"Итоги игры «Что? Где? Когда?»":S?"Итоги «Своей игры»":"Турнирная таблица"}</h1><p class="lead">${done?(W?`Сделано ходов: ${played}. Слава Богу за всё!`:`Сыграно вопросов: ${played}. Слава Богу за всё!`):"Открываем места по очереди — снизу вверх."}</p></div>
     <div class="finale">
       <div class="rays-wrap" aria-hidden="true"><div class="rays"></div></div>
       ${BUNTING}
@@ -889,7 +973,15 @@ function beep(){try{actx=actx||new (window.AudioContext||window.webkitAudioConte
 function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
 
 /* ---------- БАНК ---------- */
+let bankMode="quiz";
 function renderBank(){
+  const sw=`<div class="bmode" role="tablist">${[["quiz","Викторина и бродилка"],["chgk","Что? Где? Когда?"]].map(([k,t])=>`<button id="bm-${k}" data-bm="${k}" aria-pressed="${bankMode===k}">${t}</button>`).join("")}</div>`;
+  if(bankMode==="chgk") return `<div class="stack">
+    <div><h1>Банк вопросов</h1><p class="lead">Вопросы для игры «Что? Где? Когда?»: без вариантов ответа, с ответом, зачётом и комментарием для ведущего.</p></div>
+    ${stateBanner()}${sw}${renderBankC()}</div>`;
+  return renderBankQ(sw);
+}
+function renderBankQ(sw){
   const c=counts(bankTopic); const list=byLevel(bankLevel,bankTopic);
   const ro=!canWrite;
   const card=(q,i)=>{
@@ -904,7 +996,7 @@ function renderBank(){
   const tc=k=>{const x=counts(k);return x.easy+x.medium+x.hard};
   return `<div class="stack">
     <div><h1>Банк вопросов</h1><p class="lead">Вопросы разложены по темам и уровням. Можно добавить вопрос с картинкой, изменить текст и ответы, выбрать верный ответ.</p></div>
-    ${stateBanner()}
+    ${stateBanner()}${sw}
     <div class="panel stack">
       <div class="label">Тема</div>
       <div class="ttabs">${["all",...TOPIC_KEYS].map(k=>`<button id="bt-${k}" data-bt="${k}" aria-pressed="${k===bankTopic}">${k==="all"?"Все темы":esc(topicName(k))} · ${tc(k)}</button>`).join("")}</div>
@@ -1018,6 +1110,9 @@ const WALK_PTS=[[130, 890], [284, 931], [440, 912], [596, 888], [751, 925], [904
 const WALK_DECOR="<defs><radialGradient id=\"wglow\" cx=\".5\" cy=\".5\" r=\".5\"><stop offset=\"0\" stop-color=\"#fff7c8\" stop-opacity=\".95\"/><stop offset=\"1\" stop-color=\"#fff7c8\" stop-opacity=\"0\"/></radialGradient><linearGradient id=\"wland\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"1\"><stop offset=\"0\" stop-color=\"#f6e2a8\"/><stop offset=\"1\" stop-color=\"#eccf8c\"/></linearGradient></defs><rect width=\"1600\" height=\"1000\" rx=\"26\" fill=\"url(#wland)\"/><path d=\"M0 0 H760 C820 60 760 240 620 270 C470 300 330 260 220 300 C120 330 40 300 0 280Z\" fill=\"#b9d982\"/><path d=\"M560 170 C700 150 900 170 1060 190 C1140 230 1100 300 980 320 C820 340 640 320 560 290 C500 260 500 200 560 170Z\" fill=\"#c6e08e\"/><path d=\"M60 430 C120 400 300 440 420 480 C470 520 430 580 330 580 C220 580 90 560 50 520Z\" fill=\"#b9d982\"/><path d=\"M1150 650 C1260 620 1420 640 1480 700 C1520 780 1460 840 1360 830 C1250 830 1160 790 1130 740 C1110 700 1110 670 1150 650Z\" fill=\"#cfe39b\"/><path d=\"M330 700 C420 740 480 780 470 840 C460 900 540 940 600 1000\" stroke=\"#5ab0e6\" stroke-width=\"46\" fill=\"none\" stroke-linecap=\"round\"/><path d=\"M330 700 C420 740 480 780 470 840 C460 900 540 940 600 1000\" stroke=\"#9fd6f5\" stroke-width=\"16\" fill=\"none\" stroke-dasharray=\"30 26\" stroke-linecap=\"round\"/><path d=\"M1410.0 330 L1510 180 L1610.0 330Z\" fill=\"#c9a875\"/><path d=\"M1510 180 L1610.0 330 L1534.0 330Z\" fill=\"#000\" opacity=\".1\"/><path d=\"M1486.0 216.0 L1510 180 L1534.0 216.0 L1518.0 225.0 L1504.0 213.0Z\" fill=\"#fff\"/><path d=\"M1510.0 330 L1590 210 L1670.0 330Z\" fill=\"#bf9b66\"/><path d=\"M1590 210 L1670.0 330 L1609.2 330Z\" fill=\"#000\" opacity=\".1\"/><path d=\"M1570.8 238.8 L1590 210 L1609.2 238.8 L1596.4 246.0 L1585.2 236.39999999999998Z\" fill=\"#fff\"/><path d=\"M1350.0 330 L1420 230 L1490.0 330Z\" fill=\"#d4b27f\"/><path d=\"M1420 230 L1490.0 330 L1436.8 330Z\" fill=\"#000\" opacity=\".1\"/><path d=\"M1403.2 254.0 L1420 230 L1436.8 254.0 L1425.6 260.0 L1415.8 252.0Z\" fill=\"#fff\"/><path d=\"M520.0 540 Q606.6666666666666 506 650 526 Q702.0 500 780.0 540Z\" fill=\"#e3c27f\" opacity=\".85\"/><path d=\"M790.0 520 Q863.3333333333334 486 900 506 Q944.0 480 1010.0 520Z\" fill=\"#e3c27f\" opacity=\".85\"/><path d=\"M980.0 545 Q1046.6666666666667 511 1080 531 Q1120.0 505 1180.0 545Z\" fill=\"#e3c27f\" opacity=\".85\"/><path d=\"M460.0 790 Q526.6666666666666 756 560 776 Q600.0 750 660.0 790Z\" fill=\"#e3c27f\" opacity=\".85\"/><path d=\"M700.0 780 Q780.0 746 820 766 Q868.0 740 940.0 780Z\" fill=\"#e3c27f\" opacity=\".85\"/><path d=\"M930.0 795 Q990.0 761 1020 781 Q1056.0 755 1110.0 795Z\" fill=\"#e3c27f\" opacity=\".85\"/><ellipse cx=\"760\" cy=\"520\" rx=\"16\" ry=\"9\" fill=\"#bfa47a\"/><ellipse cx=\"756\" cy=\"517\" rx=\"9\" ry=\"5\" fill=\"#d8c29c\"/><ellipse cx=\"1000\" cy=\"760\" rx=\"16\" ry=\"9\" fill=\"#bfa47a\"/><ellipse cx=\"996\" cy=\"757\" rx=\"9\" ry=\"5\" fill=\"#d8c29c\"/><ellipse cx=\"700\" cy=\"760\" rx=\"16\" ry=\"9\" fill=\"#bfa47a\"/><ellipse cx=\"696\" cy=\"757\" rx=\"9\" ry=\"5\" fill=\"#d8c29c\"/><ellipse cx=\"1240\" cy=\"470\" rx=\"16\" ry=\"9\" fill=\"#bfa47a\"/><ellipse cx=\"1236\" cy=\"467\" rx=\"9\" ry=\"5\" fill=\"#d8c29c\"/><ellipse cx=\"420\" cy=\"330\" rx=\"16\" ry=\"9\" fill=\"#bfa47a\"/><ellipse cx=\"416\" cy=\"327\" rx=\"9\" ry=\"5\" fill=\"#d8c29c\"/><ellipse cx=\"130\" cy=\"650\" rx=\"16\" ry=\"9\" fill=\"#bfa47a\"/><ellipse cx=\"126\" cy=\"647\" rx=\"9\" ry=\"5\" fill=\"#d8c29c\"/><g transform=\"translate(1010 300) scale(1)\" fill=\"#5aa64a\"><circle cx=\"-10\" cy=\"-8\" r=\"11\"/><circle cx=\"6\" cy=\"-12\" r=\"13\"/><circle cx=\"16\" cy=\"-5\" r=\"9\"/></g><g transform=\"translate(1100 250) scale(0.8)\" fill=\"#5aa64a\"><circle cx=\"-10\" cy=\"-8\" r=\"11\"/><circle cx=\"6\" cy=\"-12\" r=\"13\"/><circle cx=\"16\" cy=\"-5\" r=\"9\"/></g><g transform=\"translate(90 590) scale(0.9)\" fill=\"#5aa64a\"><circle cx=\"-10\" cy=\"-8\" r=\"11\"/><circle cx=\"6\" cy=\"-12\" r=\"13\"/><circle cx=\"16\" cy=\"-5\" r=\"9\"/></g><g transform=\"translate(470 300) scale(1)\" fill=\"#5aa64a\"><circle cx=\"-10\" cy=\"-8\" r=\"11\"/><circle cx=\"6\" cy=\"-12\" r=\"13\"/><circle cx=\"16\" cy=\"-5\" r=\"9\"/></g><g transform=\"translate(1180 820) scale(0.9)\" fill=\"#5aa64a\"><circle cx=\"-10\" cy=\"-8\" r=\"11\"/><circle cx=\"6\" cy=\"-12\" r=\"13\"/><circle cx=\"16\" cy=\"-5\" r=\"9\"/></g><g transform=\"translate(1480 820) scale(0.8)\" fill=\"#5aa64a\"><circle cx=\"-10\" cy=\"-8\" r=\"11\"/><circle cx=\"6\" cy=\"-12\" r=\"13\"/><circle cx=\"16\" cy=\"-5\" r=\"9\"/></g><g transform=\"translate(70 820) scale(0.9)\"><ellipse cx=\"0\" cy=\"2\" rx=\"48\" ry=\"8\" fill=\"#000\" opacity=\".12\"/><path d=\"M-46 0 L0 -54 L46 0Z\" fill=\"#6b4fa0\"/><path d=\"M-46 0 L0 -54 L-16 0Z\" fill=\"#000\" opacity=\".12\"/><path d=\"M-30 0 L0 -54 L-18 0 M30 0 L0 -54 L18 0\" stroke=\"#f3e2b8\" stroke-width=\"5\" fill=\"none\"/><path d=\"M-10 0 L0 -24 L10 0Z\" fill=\"#5b3b2a\"/><path d=\"M0 -54 L0 -66\" stroke=\"#7a4a24\" stroke-width=\"3\"/><path d=\"M0 -66 l12 4 l-12 4Z\" fill=\"#f0c95e\"/></g><g transform=\"translate(190 790) scale(1)\"><ellipse cx=\"0\" cy=\"2\" rx=\"48\" ry=\"8\" fill=\"#000\" opacity=\".12\"/><path d=\"M-46 0 L0 -54 L46 0Z\" fill=\"#c8463a\"/><path d=\"M-46 0 L0 -54 L-16 0Z\" fill=\"#000\" opacity=\".12\"/><path d=\"M-30 0 L0 -54 L-18 0 M30 0 L0 -54 L18 0\" stroke=\"#f3e2b8\" stroke-width=\"5\" fill=\"none\"/><path d=\"M-10 0 L0 -24 L10 0Z\" fill=\"#5b3b2a\"/><path d=\"M0 -54 L0 -66\" stroke=\"#7a4a24\" stroke-width=\"3\"/><path d=\"M0 -66 l12 4 l-12 4Z\" fill=\"#f0c95e\"/></g><g transform=\"translate(300 830) scale(0.85)\"><ellipse cx=\"0\" cy=\"2\" rx=\"48\" ry=\"8\" fill=\"#000\" opacity=\".12\"/><path d=\"M-46 0 L0 -54 L46 0Z\" fill=\"#2f7d4f\"/><path d=\"M-46 0 L0 -54 L-16 0Z\" fill=\"#000\" opacity=\".12\"/><path d=\"M-30 0 L0 -54 L-18 0 M30 0 L0 -54 L18 0\" stroke=\"#f3e2b8\" stroke-width=\"5\" fill=\"none\"/><path d=\"M-10 0 L0 -24 L10 0Z\" fill=\"#5b3b2a\"/><path d=\"M0 -54 L0 -66\" stroke=\"#7a4a24\" stroke-width=\"3\"/><path d=\"M0 -66 l12 4 l-12 4Z\" fill=\"#f0c95e\"/></g><g transform=\"translate(60 982) scale(0.6)\"><ellipse cx=\"0\" cy=\"2\" rx=\"42\" ry=\"7\" fill=\"#000\" opacity=\".12\"/><path d=\"M-34 -30 C-34 -50 -20 -52 -14 -40 C-8 -56 10 -56 14 -38 C22 -40 26 -36 28 -30 L30 -44 C30 -58 46 -60 48 -50 L52 -46 L44 -44 L40 -24 C36 -16 28 -16 24 -18 L-28 -18 C-34 -20 -36 -24 -34 -30Z\" fill=\"#c8995a\"/><path d=\"M-26 -20 L-28 0 M-16 -20 L-14 0 M14 -20 L12 0 M22 -20 L26 0\" stroke=\"#a87a42\" stroke-width=\"5\" stroke-linecap=\"round\"/><circle cx=\"44\" cy=\"-52\" r=\"1.8\" fill=\"#222\"/><path d=\"M-20 -44 Q-6 -52 8 -44 L6 -34 L-18 -34Z\" fill=\"#c8463a\"/></g><g transform=\"translate(340 982) scale(0.8)\"><ellipse cx=\"0\" cy=\"2\" rx=\"14\" ry=\"4\" fill=\"#000\" opacity=\".12\"/><path d=\"M-12 0 L-8 -32 L8 -32 L12 0Z\" fill=\"#2f5bb5\"/><circle cx=\"0\" cy=\"-40\" r=\"9\" fill=\"#f6d5b8\"/><path d=\"M-9 -45 L-8 -55 L-4 -49 L0 -57 L4 -49 L8 -55 L9 -45Z\" fill=\"#f0c95e\"/><rect x=\"6\" y=\"-28\" width=\"9\" height=\"8\" rx=\"2\" fill=\"#f0c95e\" stroke=\"#b9852a\"/></g><g transform=\"translate(368 985) scale(0.8)\"><ellipse cx=\"0\" cy=\"2\" rx=\"14\" ry=\"4\" fill=\"#000\" opacity=\".12\"/><path d=\"M-12 0 L-8 -32 L8 -32 L12 0Z\" fill=\"#c8463a\"/><circle cx=\"0\" cy=\"-40\" r=\"9\" fill=\"#f6d5b8\"/><path d=\"M-9 -45 L-8 -55 L-4 -49 L0 -57 L4 -49 L8 -55 L9 -45Z\" fill=\"#f0c95e\"/><rect x=\"6\" y=\"-28\" width=\"9\" height=\"8\" rx=\"2\" fill=\"#f0c95e\" stroke=\"#b9852a\"/></g><g transform=\"translate(396 982) scale(0.8)\"><ellipse cx=\"0\" cy=\"2\" rx=\"14\" ry=\"4\" fill=\"#000\" opacity=\".12\"/><path d=\"M-12 0 L-8 -32 L8 -32 L12 0Z\" fill=\"#2f7d4f\"/><circle cx=\"0\" cy=\"-40\" r=\"9\" fill=\"#f6d5b8\"/><path d=\"M-9 -45 L-8 -55 L-4 -49 L0 -57 L4 -49 L8 -55 L9 -45Z\" fill=\"#f0c95e\"/><rect x=\"6\" y=\"-28\" width=\"9\" height=\"8\" rx=\"2\" fill=\"#f0c95e\" stroke=\"#b9852a\"/></g><g transform=\"translate(185 705)\"><rect x=\"-113.4\" y=\"-17\" width=\"226.8\" height=\"34\" rx=\"17\" fill=\"#fff\" stroke=\"#1f3c88\" stroke-width=\"3\"/><text y=\"7\" text-anchor=\"middle\" font-family=\"Nunito,Segoe UI,sans-serif\" font-weight=\"900\" font-size=\"19\" fill=\"#1f3c88\" letter-spacing=\".5\">СТРАНА ВОСТОКА</text></g><g transform=\"translate(560 735)\"><rect x=\"-84.2\" y=\"-17\" width=\"168.4\" height=\"34\" rx=\"17\" fill=\"#fff\" stroke=\"#1f3c88\" stroke-width=\"3\"/><text y=\"7\" text-anchor=\"middle\" font-family=\"Nunito,Segoe UI,sans-serif\" font-weight=\"900\" font-size=\"17\" fill=\"#1f3c88\" letter-spacing=\".5\">РЕКА ЕВФРАТ</text></g><g transform=\"translate(830 528) scale(0.75)\"><ellipse cx=\"0\" cy=\"2\" rx=\"42\" ry=\"7\" fill=\"#000\" opacity=\".12\"/><path d=\"M-34 -30 C-34 -50 -20 -52 -14 -40 C-8 -56 10 -56 14 -38 C22 -40 26 -36 28 -30 L30 -44 C30 -58 46 -60 48 -50 L52 -46 L44 -44 L40 -24 C36 -16 28 -16 24 -18 L-28 -18 C-34 -20 -36 -24 -34 -30Z\" fill=\"#c8995a\"/><path d=\"M-26 -20 L-28 0 M-16 -20 L-14 0 M14 -20 L12 0 M22 -20 L26 0\" stroke=\"#a87a42\" stroke-width=\"5\" stroke-linecap=\"round\"/><circle cx=\"44\" cy=\"-52\" r=\"1.8\" fill=\"#222\"/><path d=\"M-20 -44 Q-6 -52 8 -44 L6 -34 L-18 -34Z\" fill=\"#c8463a\"/><path d=\"M-14 -58 L-24 -26 L-4 -26Z\" fill=\"#6b4fa0\"/><circle cx=\"-14\" cy=\"-64\" r=\"8\" fill=\"#f6d5b8\"/><path d=\"M-22 -70 L-20 -78 L-16 -72 L-14 -80 L-12 -72 L-8 -78 L-6 -70Z\" fill=\"#f0c95e\"/></g><g transform=\"translate(905 532) scale(0.75)\"><ellipse cx=\"0\" cy=\"2\" rx=\"42\" ry=\"7\" fill=\"#000\" opacity=\".12\"/><path d=\"M-34 -30 C-34 -50 -20 -52 -14 -40 C-8 -56 10 -56 14 -38 C22 -40 26 -36 28 -30 L30 -44 C30 -58 46 -60 48 -50 L52 -46 L44 -44 L40 -24 C36 -16 28 -16 24 -18 L-28 -18 C-34 -20 -36 -24 -34 -30Z\" fill=\"#c8995a\"/><path d=\"M-26 -20 L-28 0 M-16 -20 L-14 0 M14 -20 L12 0 M22 -20 L26 0\" stroke=\"#a87a42\" stroke-width=\"5\" stroke-linecap=\"round\"/><circle cx=\"44\" cy=\"-52\" r=\"1.8\" fill=\"#222\"/><path d=\"M-20 -44 Q-6 -52 8 -44 L6 -34 L-18 -34Z\" fill=\"#c8463a\"/><path d=\"M-14 -58 L-24 -26 L-4 -26Z\" fill=\"#c8463a\"/><circle cx=\"-14\" cy=\"-64\" r=\"8\" fill=\"#f6d5b8\"/><path d=\"M-22 -70 L-20 -78 L-16 -72 L-14 -80 L-12 -72 L-8 -78 L-6 -70Z\" fill=\"#f0c95e\"/></g><g transform=\"translate(980 536) scale(0.75)\"><ellipse cx=\"0\" cy=\"2\" rx=\"42\" ry=\"7\" fill=\"#000\" opacity=\".12\"/><path d=\"M-34 -30 C-34 -50 -20 -52 -14 -40 C-8 -56 10 -56 14 -38 C22 -40 26 -36 28 -30 L30 -44 C30 -58 46 -60 48 -50 L52 -46 L44 -44 L40 -24 C36 -16 28 -16 24 -18 L-28 -18 C-34 -20 -36 -24 -34 -30Z\" fill=\"#c8995a\"/><path d=\"M-26 -20 L-28 0 M-16 -20 L-14 0 M14 -20 L12 0 M22 -20 L26 0\" stroke=\"#a87a42\" stroke-width=\"5\" stroke-linecap=\"round\"/><circle cx=\"44\" cy=\"-52\" r=\"1.8\" fill=\"#222\"/><path d=\"M-20 -44 Q-6 -52 8 -44 L6 -34 L-18 -34Z\" fill=\"#c8463a\"/><path d=\"M-14 -58 L-24 -26 L-4 -26Z\" fill=\"#2f7d4f\"/><circle cx=\"-14\" cy=\"-64\" r=\"8\" fill=\"#f6d5b8\"/><path d=\"M-22 -70 L-20 -78 L-16 -72 L-14 -80 L-12 -72 L-8 -78 L-6 -70Z\" fill=\"#f0c95e\"/></g><g transform=\"translate(660 500)\"><rect x=\"-59\" y=\"-17\" width=\"118.1\" height=\"34\" rx=\"17\" fill=\"#fff\" stroke=\"#1f3c88\" stroke-width=\"3\"/><text y=\"7\" text-anchor=\"middle\" font-family=\"Nunito,Segoe UI,sans-serif\" font-weight=\"900\" font-size=\"17\" fill=\"#1f3c88\" letter-spacing=\".5\">ПУСТЫНЯ</text></g><g transform=\"translate(1125 800)\"><rect x=\"0\" y=\"-70\" width=\"300\" height=\"70\" fill=\"#e8d6ae\" stroke=\"#c9b07e\" stroke-width=\"3\"/><rect x=\"0\" y=\"-80\" width=\"12\" height=\"12\" fill=\"#e8d6ae\" stroke=\"#c9b07e\" stroke-width=\"2\"/><rect x=\"20\" y=\"-80\" width=\"12\" height=\"12\" fill=\"#e8d6ae\" stroke=\"#c9b07e\" stroke-width=\"2\"/><rect x=\"40\" y=\"-80\" width=\"12\" height=\"12\" fill=\"#e8d6ae\" stroke=\"#c9b07e\" stroke-width=\"2\"/><rect x=\"60\" y=\"-80\" width=\"12\" height=\"12\" fill=\"#e8d6ae\" stroke=\"#c9b07e\" stroke-width=\"2\"/><rect x=\"80\" y=\"-80\" width=\"12\" height=\"12\" fill=\"#e8d6ae\" stroke=\"#c9b07e\" stroke-width=\"2\"/><rect x=\"100\" y=\"-80\" width=\"12\" height=\"12\" fill=\"#e8d6ae\" stroke=\"#c9b07e\" stroke-width=\"2\"/><rect x=\"120\" y=\"-80\" width=\"12\" height=\"12\" fill=\"#e8d6ae\" stroke=\"#c9b07e\" stroke-width=\"2\"/><rect x=\"140\" y=\"-80\" width=\"12\" height=\"12\" fill=\"#e8d6ae\" stroke=\"#c9b07e\" stroke-width=\"2\"/><rect x=\"160\" y=\"-80\" width=\"12\" height=\"12\" fill=\"#e8d6ae\" stroke=\"#c9b07e\" stroke-width=\"2\"/><rect x=\"180\" y=\"-80\" width=\"12\" height=\"12\" fill=\"#e8d6ae\" stroke=\"#c9b07e\" stroke-width=\"2\"/><rect x=\"200\" y=\"-80\" width=\"12\" height=\"12\" fill=\"#e8d6ae\" stroke=\"#c9b07e\" stroke-width=\"2\"/><rect x=\"220\" y=\"-80\" width=\"12\" height=\"12\" fill=\"#e8d6ae\" stroke=\"#c9b07e\" stroke-width=\"2\"/><rect x=\"240\" y=\"-80\" width=\"12\" height=\"12\" fill=\"#e8d6ae\" stroke=\"#c9b07e\" stroke-width=\"2\"/><rect x=\"260\" y=\"-80\" width=\"12\" height=\"12\" fill=\"#e8d6ae\" stroke=\"#c9b07e\" stroke-width=\"2\"/><rect x=\"280\" y=\"-80\" width=\"12\" height=\"12\" fill=\"#e8d6ae\" stroke=\"#c9b07e\" stroke-width=\"2\"/><rect x=\"-14\" y=\"-104\" width=\"40\" height=\"104\" fill=\"#dcc79a\" stroke=\"#c9b07e\" stroke-width=\"3\"/><rect x=\"274\" y=\"-104\" width=\"40\" height=\"104\" fill=\"#dcc79a\" stroke=\"#c9b07e\" stroke-width=\"3\"/><path d=\"M130 0 V-44 A20 20 0 0 1 170 -44 V0Z\" fill=\"#7a4a24\"/><rect x=\"70\" y=\"-150\" width=\"160\" height=\"72\" fill=\"#f6ead0\" stroke=\"#c9b07e\" stroke-width=\"3\"/><path d=\"M60 -150 H240 L150 -186Z\" fill=\"#e3b04a\" stroke=\"#b9852a\" stroke-width=\"3\"/><g fill=\"#c9a875\"><rect x=\"88\" y=\"-140\" width=\"10\" height=\"56\"/><rect x=\"122\" y=\"-140\" width=\"10\" height=\"56\"/><rect x=\"156\" y=\"-140\" width=\"10\" height=\"56\"/><rect x=\"190\" y=\"-140\" width=\"10\" height=\"56\"/><rect x=\"224\" y=\"-140\" width=\"10\" height=\"56\"/></g><rect x=\"186\" y=\"-112\" width=\"60\" height=\"34\" fill=\"#efe0bd\" stroke=\"#c9b07e\" stroke-width=\"2\"/></g><g transform=\"translate(1275 768)\"><rect x=\"-78.3\" y=\"-17\" width=\"156.5\" height=\"34\" rx=\"17\" fill=\"#fff\" stroke=\"#1f3c88\" stroke-width=\"3\"/><text y=\"7\" text-anchor=\"middle\" font-family=\"Nunito,Segoe UI,sans-serif\" font-weight=\"900\" font-size=\"19\" fill=\"#1f3c88\" letter-spacing=\".5\">ИЕРУСАЛИМ</text></g><g transform=\"translate(95 480) scale(1.1)\"><ellipse cx=\"0\" cy=\"2\" rx=\"22\" ry=\"6\" fill=\"#000\" opacity=\".12\"/><path d=\"M-4 0 Q-10 -36 0 -72 L6 -72 Q0 -36 6 0Z\" fill=\"#a7652b\"/><path d=\"M0 -70 Q-30 -90 -58 -62\" stroke=\"#3f8f3a\" stroke-width=\"10\" fill=\"none\" stroke-linecap=\"round\"/><path d=\"M0 -70 Q-24.3 -104.1 -46.9 -85.5\" stroke=\"#3f8f3a\" stroke-width=\"10\" fill=\"none\" stroke-linecap=\"round\"/><path d=\"M0 -70 Q-9.3 -112.8 -17.9 -100\" stroke=\"#3f8f3a\" stroke-width=\"10\" fill=\"none\" stroke-linecap=\"round\"/><path d=\"M0 -70 Q9.3 -112.8 17.9 -100\" stroke=\"#3f8f3a\" stroke-width=\"10\" fill=\"none\" stroke-linecap=\"round\"/><path d=\"M0 -70 Q24.3 -104.1 46.9 -85.5\" stroke=\"#3f8f3a\" stroke-width=\"10\" fill=\"none\" stroke-linecap=\"round\"/><path d=\"M0 -70 Q30 -90 58 -62\" stroke=\"#3f8f3a\" stroke-width=\"10\" fill=\"none\" stroke-linecap=\"round\"/><circle cx=\"-4\" cy=\"-68\" r=\"5\" fill=\"#7a4a24\"/><circle cx=\"5\" cy=\"-66\" r=\"5\" fill=\"#7a4a24\"/></g><g transform=\"translate(445 510) scale(0.9)\"><ellipse cx=\"0\" cy=\"2\" rx=\"22\" ry=\"6\" fill=\"#000\" opacity=\".12\"/><path d=\"M-4 0 Q-10 -36 0 -72 L6 -72 Q0 -36 6 0Z\" fill=\"#a7652b\"/><path d=\"M0 -70 Q-30 -90 -58 -62\" stroke=\"#3f8f3a\" stroke-width=\"10\" fill=\"none\" stroke-linecap=\"round\"/><path d=\"M0 -70 Q-24.3 -104.1 -46.9 -85.5\" stroke=\"#3f8f3a\" stroke-width=\"10\" fill=\"none\" stroke-linecap=\"round\"/><path d=\"M0 -70 Q-9.3 -112.8 -17.9 -100\" stroke=\"#3f8f3a\" stroke-width=\"10\" fill=\"none\" stroke-linecap=\"round\"/><path d=\"M0 -70 Q9.3 -112.8 17.9 -100\" stroke=\"#3f8f3a\" stroke-width=\"10\" fill=\"none\" stroke-linecap=\"round\"/><path d=\"M0 -70 Q24.3 -104.1 46.9 -85.5\" stroke=\"#3f8f3a\" stroke-width=\"10\" fill=\"none\" stroke-linecap=\"round\"/><path d=\"M0 -70 Q30 -90 58 -62\" stroke=\"#3f8f3a\" stroke-width=\"10\" fill=\"none\" stroke-linecap=\"round\"/><circle cx=\"-4\" cy=\"-68\" r=\"5\" fill=\"#7a4a24\"/><circle cx=\"5\" cy=\"-66\" r=\"5\" fill=\"#7a4a24\"/></g><g transform=\"translate(70 610) scale(0.9)\"><ellipse cx=\"0\" cy=\"2\" rx=\"22\" ry=\"6\" fill=\"#000\" opacity=\".12\"/><path d=\"M-4 0 Q-10 -36 0 -72 L6 -72 Q0 -36 6 0Z\" fill=\"#a7652b\"/><path d=\"M0 -70 Q-30 -90 -58 -62\" stroke=\"#3f8f3a\" stroke-width=\"10\" fill=\"none\" stroke-linecap=\"round\"/><path d=\"M0 -70 Q-24.3 -104.1 -46.9 -85.5\" stroke=\"#3f8f3a\" stroke-width=\"10\" fill=\"none\" stroke-linecap=\"round\"/><path d=\"M0 -70 Q-9.3 -112.8 -17.9 -100\" stroke=\"#3f8f3a\" stroke-width=\"10\" fill=\"none\" stroke-linecap=\"round\"/><path d=\"M0 -70 Q9.3 -112.8 17.9 -100\" stroke=\"#3f8f3a\" stroke-width=\"10\" fill=\"none\" stroke-linecap=\"round\"/><path d=\"M0 -70 Q24.3 -104.1 46.9 -85.5\" stroke=\"#3f8f3a\" stroke-width=\"10\" fill=\"none\" stroke-linecap=\"round\"/><path d=\"M0 -70 Q30 -90 58 -62\" stroke=\"#3f8f3a\" stroke-width=\"10\" fill=\"none\" stroke-linecap=\"round\"/><circle cx=\"-4\" cy=\"-68\" r=\"5\" fill=\"#7a4a24\"/><circle cx=\"5\" cy=\"-66\" r=\"5\" fill=\"#7a4a24\"/></g><g transform=\"translate(345 548)\"><ellipse cx=\"0\" cy=\"4\" rx=\"36\" ry=\"10\" fill=\"#000\" opacity=\".12\"/><rect x=\"-30\" y=\"-24\" width=\"60\" height=\"28\" fill=\"#bfa47a\" stroke=\"#8f7a55\" stroke-width=\"3\"/><ellipse cx=\"0\" cy=\"-24\" rx=\"30\" ry=\"8\" fill=\"#3b78b0\"/><path d=\"M-26 -24 V-60 M26 -24 V-60 M-32 -60 H32\" stroke=\"#7a4a24\" stroke-width=\"5\"/><path d=\"M0 -60 V-38\" stroke=\"#7a4a24\" stroke-width=\"2\"/><rect x=\"-7\" y=\"-40\" width=\"14\" height=\"10\" fill=\"#a7652b\"/></g><ellipse cx=\"135\" cy=\"535\" rx=\"38\" ry=\"13\" fill=\"#5ab0e6\"/><g transform=\"translate(330 452)\"><rect x=\"-103.8\" y=\"-17\" width=\"207.6\" height=\"34\" rx=\"17\" fill=\"#fff\" stroke=\"#1f3c88\" stroke-width=\"3\"/><text y=\"7\" text-anchor=\"middle\" font-family=\"Nunito,Segoe UI,sans-serif\" font-weight=\"900\" font-size=\"15\" fill=\"#1f3c88\" letter-spacing=\".5\">ПРИВАЛ У КОЛОДЦА</text></g><g transform=\"translate(620 245) scale(1)\"><ellipse cx=\"0\" cy=\"2\" rx=\"18\" ry=\"4\" fill=\"#000\" opacity=\".12\"/><path d=\"M-10 -8 V0 M6 -8 V0\" stroke=\"#5b4a3a\" stroke-width=\"3\"/><g fill=\"#fff\" stroke=\"#d6d9e2\"><circle cx=\"-10\" cy=\"-14\" r=\"8\"/><circle cx=\"0\" cy=\"-17\" r=\"9\"/><circle cx=\"10\" cy=\"-14\" r=\"8\"/><circle cx=\"0\" cy=\"-10\" r=\"8\"/></g><ellipse cx=\"17\" cy=\"-16\" rx=\"6\" ry=\"5\" fill=\"#5b4a3a\"/></g><g transform=\"translate(660 262) scale(-0.9 0.9)\"><ellipse cx=\"0\" cy=\"2\" rx=\"18\" ry=\"4\" fill=\"#000\" opacity=\".12\"/><path d=\"M-10 -8 V0 M6 -8 V0\" stroke=\"#5b4a3a\" stroke-width=\"3\"/><g fill=\"#fff\" stroke=\"#d6d9e2\"><circle cx=\"-10\" cy=\"-14\" r=\"8\"/><circle cx=\"0\" cy=\"-17\" r=\"9\"/><circle cx=\"10\" cy=\"-14\" r=\"8\"/><circle cx=\"0\" cy=\"-10\" r=\"8\"/></g><ellipse cx=\"17\" cy=\"-16\" rx=\"6\" ry=\"5\" fill=\"#5b4a3a\"/></g><g transform=\"translate(700 240) scale(1)\"><ellipse cx=\"0\" cy=\"2\" rx=\"18\" ry=\"4\" fill=\"#000\" opacity=\".12\"/><path d=\"M-10 -8 V0 M6 -8 V0\" stroke=\"#5b4a3a\" stroke-width=\"3\"/><g fill=\"#fff\" stroke=\"#d6d9e2\"><circle cx=\"-10\" cy=\"-14\" r=\"8\"/><circle cx=\"0\" cy=\"-17\" r=\"9\"/><circle cx=\"10\" cy=\"-14\" r=\"8\"/><circle cx=\"0\" cy=\"-10\" r=\"8\"/></g><ellipse cx=\"17\" cy=\"-16\" rx=\"6\" ry=\"5\" fill=\"#5b4a3a\"/></g><g transform=\"translate(760 258) scale(-0.9 0.9)\"><ellipse cx=\"0\" cy=\"2\" rx=\"18\" ry=\"4\" fill=\"#000\" opacity=\".12\"/><path d=\"M-10 -8 V0 M6 -8 V0\" stroke=\"#5b4a3a\" stroke-width=\"3\"/><g fill=\"#fff\" stroke=\"#d6d9e2\"><circle cx=\"-10\" cy=\"-14\" r=\"8\"/><circle cx=\"0\" cy=\"-17\" r=\"9\"/><circle cx=\"10\" cy=\"-14\" r=\"8\"/><circle cx=\"0\" cy=\"-10\" r=\"8\"/></g><ellipse cx=\"17\" cy=\"-16\" rx=\"6\" ry=\"5\" fill=\"#5b4a3a\"/></g><g transform=\"translate(820 240) scale(1)\"><ellipse cx=\"0\" cy=\"2\" rx=\"18\" ry=\"4\" fill=\"#000\" opacity=\".12\"/><path d=\"M-10 -8 V0 M6 -8 V0\" stroke=\"#5b4a3a\" stroke-width=\"3\"/><g fill=\"#fff\" stroke=\"#d6d9e2\"><circle cx=\"-10\" cy=\"-14\" r=\"8\"/><circle cx=\"0\" cy=\"-17\" r=\"9\"/><circle cx=\"10\" cy=\"-14\" r=\"8\"/><circle cx=\"0\" cy=\"-10\" r=\"8\"/></g><ellipse cx=\"17\" cy=\"-16\" rx=\"6\" ry=\"5\" fill=\"#5b4a3a\"/></g><g transform=\"translate(880 255) scale(0.9)\"><ellipse cx=\"0\" cy=\"2\" rx=\"18\" ry=\"4\" fill=\"#000\" opacity=\".12\"/><path d=\"M-10 -8 V0 M6 -8 V0\" stroke=\"#5b4a3a\" stroke-width=\"3\"/><g fill=\"#fff\" stroke=\"#d6d9e2\"><circle cx=\"-10\" cy=\"-14\" r=\"8\"/><circle cx=\"0\" cy=\"-17\" r=\"9\"/><circle cx=\"10\" cy=\"-14\" r=\"8\"/><circle cx=\"0\" cy=\"-10\" r=\"8\"/></g><ellipse cx=\"17\" cy=\"-16\" rx=\"6\" ry=\"5\" fill=\"#5b4a3a\"/></g><g transform=\"translate(940 235) scale(-0.85 0.85)\"><ellipse cx=\"0\" cy=\"2\" rx=\"18\" ry=\"4\" fill=\"#000\" opacity=\".12\"/><path d=\"M-10 -8 V0 M6 -8 V0\" stroke=\"#5b4a3a\" stroke-width=\"3\"/><g fill=\"#fff\" stroke=\"#d6d9e2\"><circle cx=\"-10\" cy=\"-14\" r=\"8\"/><circle cx=\"0\" cy=\"-17\" r=\"9\"/><circle cx=\"10\" cy=\"-14\" r=\"8\"/><circle cx=\"0\" cy=\"-10\" r=\"8\"/></g><ellipse cx=\"17\" cy=\"-16\" rx=\"6\" ry=\"5\" fill=\"#5b4a3a\"/></g><g transform=\"translate(990 265) scale(1)\"><ellipse cx=\"0\" cy=\"2\" rx=\"14\" ry=\"4\" fill=\"#000\" opacity=\".12\"/><path d=\"M-12 0 L-8 -32 L8 -32 L12 0Z\" fill=\"#8a6a3a\"/><circle cx=\"0\" cy=\"-40\" r=\"9\" fill=\"#f6d5b8\"/><path d=\"M-10 -40 C-10 -54 10 -54 10 -40 L12 -30 L-12 -30Z\" fill=\"#e8d6ae\"/><circle cx=\"0\" cy=\"-40\" r=\"7\" fill=\"#f6d5b8\"/><path d=\"M14 0 L14 -50 Q14 -60 22 -58\" stroke=\"#7a4a24\" stroke-width=\"3\" fill=\"none\"/></g><g transform=\"translate(580 250) scale(0.95)\"><ellipse cx=\"0\" cy=\"2\" rx=\"14\" ry=\"4\" fill=\"#000\" opacity=\".12\"/><path d=\"M-12 0 L-8 -32 L8 -32 L12 0Z\" fill=\"#8a6a3a\"/><circle cx=\"0\" cy=\"-40\" r=\"9\" fill=\"#f6d5b8\"/><path d=\"M-10 -40 C-10 -54 10 -54 10 -40 L12 -30 L-12 -30Z\" fill=\"#e8d6ae\"/><circle cx=\"0\" cy=\"-40\" r=\"7\" fill=\"#f6d5b8\"/><path d=\"M14 0 L14 -50 Q14 -60 22 -58\" stroke=\"#7a4a24\" stroke-width=\"3\" fill=\"none\"/></g><g transform=\"translate(790 300)\"><rect x=\"-96.8\" y=\"-17\" width=\"193.5\" height=\"34\" rx=\"17\" fill=\"#fff\" stroke=\"#1f3c88\" stroke-width=\"3\"/><text y=\"7\" text-anchor=\"middle\" font-family=\"Nunito,Segoe UI,sans-serif\" font-weight=\"900\" font-size=\"17\" fill=\"#1f3c88\" letter-spacing=\".5\">ПОЛЕ ПАСТУХОВ</text></g><g transform=\"translate(1250 220) scale(0.8)\"><ellipse cx=\"0\" cy=\"2\" rx=\"42\" ry=\"7\" fill=\"#000\" opacity=\".12\"/><path d=\"M-34 -30 C-34 -50 -20 -52 -14 -40 C-8 -56 10 -56 14 -38 C22 -40 26 -36 28 -30 L30 -44 C30 -58 46 -60 48 -50 L52 -46 L44 -44 L40 -24 C36 -16 28 -16 24 -18 L-28 -18 C-34 -20 -36 -24 -34 -30Z\" fill=\"#c8995a\"/><path d=\"M-26 -20 L-28 0 M-16 -20 L-14 0 M14 -20 L12 0 M22 -20 L26 0\" stroke=\"#a87a42\" stroke-width=\"5\" stroke-linecap=\"round\"/><circle cx=\"44\" cy=\"-52\" r=\"1.8\" fill=\"#222\"/><path d=\"M-20 -44 Q-6 -52 8 -44 L6 -34 L-18 -34Z\" fill=\"#c8463a\"/></g><g transform=\"translate(1180 230) scale(0.8)\"><ellipse cx=\"0\" cy=\"2\" rx=\"42\" ry=\"7\" fill=\"#000\" opacity=\".12\"/><path d=\"M-34 -30 C-34 -50 -20 -52 -14 -40 C-8 -56 10 -56 14 -38 C22 -40 26 -36 28 -30 L30 -44 C30 -58 46 -60 48 -50 L52 -46 L44 -44 L40 -24 C36 -16 28 -16 24 -18 L-28 -18 C-34 -20 -36 -24 -34 -30Z\" fill=\"#c8995a\"/><path d=\"M-26 -20 L-28 0 M-16 -20 L-14 0 M14 -20 L12 0 M22 -20 L26 0\" stroke=\"#a87a42\" stroke-width=\"5\" stroke-linecap=\"round\"/><circle cx=\"44\" cy=\"-52\" r=\"1.8\" fill=\"#222\"/><path d=\"M-20 -44 Q-6 -52 8 -44 L6 -34 L-18 -34Z\" fill=\"#c8463a\"/></g><g transform=\"translate(1200 262)\"><rect x=\"-97.9\" y=\"-17\" width=\"195.8\" height=\"34\" rx=\"17\" fill=\"#fff\" stroke=\"#1f3c88\" stroke-width=\"3\"/><text y=\"7\" text-anchor=\"middle\" font-family=\"Nunito,Segoe UI,sans-serif\" font-weight=\"900\" font-size=\"14\" fill=\"#1f3c88\" letter-spacing=\".5\">ПОПУТНЫЙ КАРАВАН</text></g><circle cx=\"200\" cy=\"120\" r=\"210\" fill=\"url(#wglow)\"/><g transform=\"translate(40 230)\"><rect x=\"3\" y=\"-47\" width=\"70\" height=\"50\" fill=\"#000\" opacity=\".1\"/><rect x=\"0\" y=\"-50\" width=\"70\" height=\"50\" fill=\"#efe0bd\" stroke=\"#c9b07e\" stroke-width=\"2\"/><path d=\"M14 -50 A21 21 0 0 1 56 -50Z\" fill=\"#e3b04a\"/><rect x=\"10.5\" y=\"-35\" width=\"10\" height=\"12\" rx=\"5\" fill=\"#7a5a3a\"/><path d=\"M38.5 0 V-25 A8 8 0 0 1 54.5 -25 V0Z\" fill=\"#7a4a24\"/></g><g transform=\"translate(120 250)\"><rect x=\"3\" y=\"-37\" width=\"60\" height=\"40\" fill=\"#000\" opacity=\".1\"/><rect x=\"0\" y=\"-40\" width=\"60\" height=\"40\" fill=\"#efe0bd\" stroke=\"#c9b07e\" stroke-width=\"2\"/><rect x=\"9\" y=\"-28\" width=\"10\" height=\"12\" rx=\"5\" fill=\"#7a5a3a\"/><path d=\"M33 0 V-20 A8 8 0 0 1 49 -20 V0Z\" fill=\"#7a4a24\"/></g><g transform=\"translate(250 260)\"><rect x=\"3\" y=\"-43\" width=\"70\" height=\"46\" fill=\"#000\" opacity=\".1\"/><rect x=\"0\" y=\"-46\" width=\"70\" height=\"46\" fill=\"#f3e6c8\" stroke=\"#c9b07e\" stroke-width=\"2\"/><rect x=\"10.5\" y=\"-32.2\" width=\"10\" height=\"12\" rx=\"5\" fill=\"#7a5a3a\"/><path d=\"M38.5 0 V-23 A8 8 0 0 1 54.5 -23 V0Z\" fill=\"#7a4a24\"/></g><g transform=\"translate(110 205)\"><path d=\"M0 0 L60 -50 L120 0Z\" fill=\"#8b4f22\"/><rect x=\"12\" y=\"0\" width=\"96\" height=\"44\" fill=\"#a7652b\"/><path d=\"M40 44 V16 H80 V44Z\" fill=\"#5b3b2a\"/><circle cx=\"60\" cy=\"26\" r=\"9\" fill=\"#f0c95e\"/><circle cx=\"60\" cy=\"27\" r=\"5\" fill=\"#f6d5b8\"/></g><path d=\"M200 70 L200 205\" stroke=\"#ffe27a\" stroke-width=\"4\" opacity=\".8\"/><path d=\"M200 16 L203.9 52.7 L213.7 48.3 L209.3 58.1 L246 62 L209.3 65.9 L213.7 75.7 L203.9 71.3 L200 108 L196.1 71.3 L186.3 75.7 L190.7 65.9 L154 62 L190.7 58.1 L186.3 48.3 L196.1 52.7Z\" fill=\"#ffe27a\" stroke=\"#e3a92e\" stroke-width=\"2\"/><g transform=\"translate(205 290)\"><rect x=\"-72\" y=\"-17\" width=\"144\" height=\"34\" rx=\"17\" fill=\"#fff\" stroke=\"#1f3c88\" stroke-width=\"3\"/><text y=\"7\" text-anchor=\"middle\" font-family=\"Nunito,Segoe UI,sans-serif\" font-weight=\"900\" font-size=\"22\" fill=\"#1f3c88\" letter-spacing=\".5\">ВИФЛЕЕМ</text></g>";
 const WALK_ROAD="M130 890 L135 891 L142 893 L149 895 L157 898 L165 900 L174 903 L184 906 L194 909 L205 912 L216 916 L227 919 L238 922 L250 924 L261 927 L273 929 L285 931 L296 933 L308 934 L319 935 L330 935 L341 935 L352 933 L363 932 L374 930 L386 927 L397 924 L409 921 L421 918 L433 914 L444 910 L456 907 L468 903 L480 900 L492 896 L503 893 L515 891 L526 889 L538 887 L549 886 L560 885 L571 885 L582 886 L593 887 L603 889 L614 891 L624 893 L635 896 L645 899 L656 902 L666 905 L677 908 L687 912 L697 914 L708 917 L718 920 L728 922 L739 923 L749 924 L760 925 L770 925 L781 924 L791 923 L802 921 L812 919 L823 916 L833 912 L844 909 L854 905 L865 901 L876 898 L886 894 L897 890 L907 886 L918 883 L928 879 L939 876 L949 874 L959 872 L970 871 L980 870 L990 870 L1000 871 L1010 872 L1020 873 L1030 875 L1040 878 L1050 881 L1060 883 L1070 887 L1079 890 L1089 893 L1099 896 L1109 899 L1119 902 L1129 904 L1139 906 L1149 908 L1159 909 L1170 910 L1180 910 L1191 910 L1202 909 L1213 908 L1225 907 L1236 906 L1248 904 L1260 902 L1272 900 L1284 898 L1296 896 L1308 893 L1319 890 L1331 887 L1342 884 L1353 880 L1363 877 L1373 873 L1383 869 L1392 864 L1400 860 L1408 855 L1416 850 L1424 845 L1432 839 L1439 833 L1446 827 L1453 820 L1460 814 L1466 807 L1472 800 L1478 793 L1483 786 L1488 779 L1492 772 L1496 764 L1499 757 L1501 750 L1503 743 L1504 737 L1505 730 L1505 723 L1504 717 L1503 709 L1501 702 L1498 695 L1495 688 L1492 680 L1487 673 L1483 666 L1478 658 L1472 651 L1467 644 L1460 638 L1454 631 L1447 625 L1440 619 L1433 614 L1425 609 L1418 604 L1410 600 L1402 596 L1393 593 L1384 590 L1374 587 L1364 584 L1353 582 L1342 580 L1331 579 L1320 577 L1308 576 L1296 575 L1284 574 L1272 574 L1260 573 L1248 573 L1236 573 L1224 573 L1213 574 L1201 574 L1190 575 L1179 576 L1168 578 L1157 580 L1146 582 L1135 585 L1124 588 L1113 592 L1102 595 L1091 599 L1080 602 L1069 606 L1058 610 L1047 613 L1036 617 L1025 620 L1014 623 L1003 625 L992 627 L981 629 L970 630 L959 630 L948 630 L937 630 L926 629 L915 628 L904 626 L893 625 L882 623 L871 621 L860 618 L849 616 L838 614 L827 612 L816 610 L805 609 L794 607 L783 606 L772 605 L761 605 L750 605 L739 606 L728 607 L717 608 L706 610 L695 612 L684 615 L673 617 L662 620 L650 623 L639 626 L628 628 L617 631 L606 634 L595 636 L584 639 L573 641 L562 642 L552 644 L541 645 L530 645 L519 645 L508 645 L497 645 L486 644 L475 643 L464 642 L453 641 L442 640 L431 639 L421 637 L410 635 L399 633 L389 631 L378 628 L368 626 L358 623 L348 620 L339 617 L329 614 L320 610 L311 606 L301 602 L292 598 L282 593 L273 588 L263 583 L254 578 L244 572 L235 566 L226 561 L218 555 L210 549 L202 543 L195 536 L189 530 L184 524 L179 518 L175 512 L172 506 L170 500 L169 494 L169 487 L169 481 L171 473 L173 466 L175 459 L179 451 L182 443 L187 436 L192 428 L197 421 L203 414 L209 408 L216 401 L223 395 L230 390 L237 385 L245 381 L252 378 L260 375 L268 373 L277 372 L286 372 L296 373 L306 374 L316 376 L327 379 L339 381 L350 384 L362 388 L374 391 L386 394 L398 397 L410 400 L422 403 L434 406 L446 408 L457 409 L469 410 L480 410 L491 409 L502 408 L513 407 L524 404 L535 402 L546 399 L557 396 L568 393 L579 389 L590 386 L601 383 L612 379 L623 376 L634 373 L645 371 L656 369 L667 367 L678 366 L689 365 L700 365 L711 366 L722 367 L733 369 L744 372 L755 375 L766 378 L777 382 L788 386 L799 390 L810 395 L821 399 L832 403 L843 407 L854 411 L865 415 L876 418 L887 420 L898 423 L909 424 L920 425 L931 425 L942 425 L953 425 L964 424 L975 422 L986 421 L997 419 L1008 417 L1019 415 L1030 412 L1041 410 L1052 407 L1063 404 L1074 401 L1085 398 L1096 396 L1107 393 L1118 390 L1129 387 L1140 385 L1151 383 L1162 380 L1174 378 L1185 376 L1197 374 L1209 372 L1221 370 L1232 367 L1244 365 L1256 363 L1267 360 L1278 358 L1290 355 L1301 352 L1311 349 L1322 346 L1332 342 L1342 338 L1351 334 L1360 330 L1369 325 L1378 320 L1387 315 L1397 309 L1406 303 L1415 297 L1424 290 L1433 284 L1442 277 L1450 270 L1458 263 L1465 257 L1471 250 L1477 243 L1481 236 L1485 230 L1488 223 L1490 217 L1491 211 L1490 205 L1488 199 L1485 193 L1480 187 L1475 181 L1468 175 L1461 169 L1452 163 L1443 157 L1433 151 L1423 145 L1412 139 L1401 134 L1390 129 L1378 124 L1366 120 L1355 116 L1343 112 L1332 109 L1321 107 L1310 105 L1299 104 L1288 103 L1277 104 L1266 104 L1254 106 L1242 108 L1230 110 L1218 112 L1206 115 L1194 118 L1181 121 L1169 124 L1156 127 L1144 130 L1131 133 L1119 135 L1107 137 L1094 139 L1082 140 L1070 140 L1058 140 L1046 139 L1034 138 L1022 137 L1010 135 L997 134 L985 132 L973 129 L961 127 L949 125 L937 122 L925 120 L913 118 L901 116 L889 114 L877 113 L865 111 L853 110 L842 110 L830 110 L819 111 L807 111 L796 113 L785 115 L774 117 L763 119 L752 122 L741 124 L730 127 L719 130 L708 133 L697 136 L686 138 L675 141 L665 143 L654 145 L643 147 L632 149 L621 149 L610 150 L599 150 L587 150 L575 149 L562 148 L550 147 L537 145 L524 143 L511 142 L499 140 L486 138 L474 135 L462 133 L451 131 L440 129 L430 127 L420 125 L411 124 L403 122 L396 121 L390 120 L390 120";
 function walkXY(i){const p=WALK_PTS[i];return {x:p[0],y:p[1]}}
+function walkSafe(raw,dir){raw=Math.max(0,Math.min(WALK_LAST,raw));while(raw>0&&raw<WALK_LAST&&WALK_CELLS[raw].t!=="q")raw+=dir;return Math.max(0,Math.min(WALK_LAST,raw))}
+function cellWord(n){const a=n%10,b=n%100;if(a===1&&b!==11)return "клетку";if(a>=2&&a<=4&&(b<10||b>=20))return "клетки";return "клеток"}
+function walkAnswerTarget(){const k=walk.turn,ok=walk.ans===walk.q.correct;return walkSafe(walk.pos[k]+(ok?1:-1),ok?1:-1)}
 function walkLevel(i){const m=walk.levelMode;if(m!=="grow")return m;return i<12?"easy":i<24?"medium":"hard"}
 let walk={phase:"setup",teamCount:2,names:["","","",""],topic:"all",levelMode:"grow",untilAll:false,
   teams:[],pos:[],skip:[],fin:[],right:[],turn:0,stage:"roll",die:1,card:null,q:null,ans:null,used:[],reveal:null,moves:0};
@@ -1049,6 +1144,11 @@ function walkBoardSVG(){
     ${arrows}${cells}${tokens}
   </svg>`;
 }
+const DIE_FACE={1:[0,0],6:[0,180],2:[0,-90],5:[0,90],3:[-90,0],4:[90,0]};
+function die3d(){const r=Object.assign({x:0,y:0,tx:-22,ty:28},walk.rot||{});
+  const face=n=>{const P={1:[[50,50]],2:[[27,27],[73,73]],3:[[25,25],[50,50],[75,75]],4:[[27,27],[73,27],[27,73],[73,73]],5:[[25,25],[75,25],[50,50],[25,75],[75,75]],6:[[28,24],[72,24],[28,50],[72,50],[28,76],[72,76]]}[n];
+    return `<div class="dface f${n}">${P.map(([x,y])=>`<i style="left:${x}%;top:${y}%"></i>`).join("")}</div>`};
+  return `<div class="die3d-wrap" id="dieWrap"><div class="die3d" id="die3d" style="transform:rotateX(${r.tx}deg) rotateY(${r.ty}deg) rotateX(${r.x}deg) rotateY(${r.y}deg)">${[1,2,3,4,5,6].map(face).join("")}</div><div class="die-shadow"></div></div>`}
 function dieSVG(n){const P={1:[[50,50]],2:[[28,28],[72,72]],3:[[26,26],[50,50],[74,74]],4:[[28,28],[72,28],[28,72],[72,72]],5:[[26,26],[74,26],[50,50],[26,74],[74,74]],6:[[28,24],[72,24],[28,50],[72,50],[28,76],[72,76]]}[n]||[];
   return `<svg viewBox="0 0 100 100" class="die" aria-label="На кубике ${n}"><rect x="4" y="4" width="92" height="92" rx="18" fill="#fff" stroke="#c9b07e" stroke-width="4"/>${P.map(([x,y])=>`<circle cx="${x}" cy="${y}" r="9" fill="#1f3c88"/>`).join("")}</svg>`}
 
@@ -1077,10 +1177,10 @@ function renderWalk(){
     <div class="label">Правила</div>
     <ol>
       <li>Команды ходят по очереди. Ведущий нажимает «Бросить кубик», фишка проходит столько клеток, сколько выпало.</li>
-      <li><b>Белая клетка с номером</b> — вопрос. Ответили верно — <b>+1 клетка</b> вперёд, неверно — <b>1 клетка</b> назад.</li>
+      <li><b>Белая клетка с номером</b> — вопрос. Ответили верно — шаг <b>вперёд</b>, неверно — шаг <b>назад</b>.</li>
       <li><b>Зелёная +2</b> — доброе дело, вперёд. <b>Красная −2 / −3</b> — искушение, назад.</li>
       <li><b>Золотая со звездой</b> — перелёт по оранжевой стрелке вперёд. <b>Серая с паузой</b> — пропуск следующего хода.</li>
-      <li>Действует только клетка, на которую фишка встала после броска кубика.</li>
+      <li>Цветная клетка действует, только если фишка встала на неё <b>после броска кубика</b>. После ответа на вопрос, доброго дела или искушения фишка всегда встаёт на <b>ближайшую белую клетку</b>: цветные клетки по пути она проходит мимо.</li>
       <li>Побеждает команда, которая первой придёт в Вифлеем.</li>
     </ol>
   </section>
@@ -1091,11 +1191,19 @@ function renderWalkPlay(){
   const t=walk.teams[walk.turn];
   let panel="";
   if(walk.stage==="roll") panel=`<div class="wturn" style="--c:${t.color}">Ходит команда<b>${esc(t.name)}</b></div>
-      <div class="wdie">${dieSVG(walk.die)}</div>
+      <div class="wdie">${die3d()}</div>
       <button class="btn gold big" id="wroll">Бросить кубик</button>`;
-  else if(walk.stage==="rolling"||walk.stage==="moving") panel=`<div class="wturn" style="--c:${t.color}">Ходит команда<b>${esc(t.name)}</b></div><div class="wdie" id="wdie">${dieSVG(walk.die)}</div><p class="hidden-msg" style="text-align:center;margin:0">${walk.stage==="rolling"?"Кубик катится…":"Идём…"}</p>`;
+  else if(walk.stage==="rolling"||walk.stage==="moving") panel=`<div class="wturn" style="--c:${t.color}">Ходит команда<b>${esc(t.name)}</b></div><div class="wdie">${die3d()}</div>
+      <div class="die-res" id="dieRes">${walk.stage==="rolling"&&!walk.settled?"Кубик катится…":`Выпало: <b>${walk.die}</b>`}</div>
+      ${walk.stage==="moving"?`<p class="hidden-msg" style="text-align:center;margin:0">Фишка идёт…</p>`:""}`;
+  else if(walk.stage==="toq"){const pq=walk.pendingQ;
+    panel=`<div class="wturn" style="--c:${t.color}">Ходит команда<b>${esc(t.name)}</b></div><div class="wdie">${die3d()}</div>
+      <div class="die-res">Выпало: <b>${walk.die}</b></div>
+      <div class="wcard"><div class="wcard-t">Клетка ${walk.pos[walk.turn]}</div><p>Вопрос для команды · <span class="chip lv lv-${pq.level}" style="font-size:.85rem">${LVNAME[pq.level]}</span></p></div>
+      <button class="btn gold big" id="wgoq">Перейти к вопросу</button>`}
   else if(walk.stage==="card"){const c=walk.card;
     panel=`<div class="wturn" style="--c:${t.color}">Команда<b>${esc(t.name)}</b></div>
+      ${walk.fromRoll?`<div class="wdie">${die3d()}</div><div class="die-res">Выпало: <b>${walk.die}</b></div>`:""}
       <div class="wcard w-${c.t}"><div class="wcard-t">${esc(c.title)}</div><p>${esc(c.msg)}</p></div>
       <button class="btn primary big" id="wnext">${c.t==="finish"?"Ура!":"Дальше"}</button>`}
   const list=walk.teams.map((x,k)=>`<div class="wteam ${k===walk.turn?"on":""}" style="--c:${x.color}"><span class="dot">${k+1}</span><b>${esc(x.name)}</b><span class="wpos">${walk.fin.includes(k)?"в Вифлееме":"клетка "+walk.pos[k]}${walk.skip[k]?" · пропуск":""}</span></div>`).join("");
@@ -1106,7 +1214,11 @@ function renderWalkPlay(){
       <p class="question">${esc(q.question)}</p>
       ${q.image?`<div class="qpic">${picHTML(q.image)}</div>`:""}
       <div class="answers">${q.answers.map((a,k)=>`<button class="ans wans ${walk.ansShown&&k===q.correct?"right":""} ${walk.ansShown&&walk.ans===k&&k!==q.correct?"wrong":""} ${!walk.ansShown&&walk.ans===k?"picked":""}" data-wans="${k}" id="wans${k}" ${walk.ansShown?"disabled":""}><span class="letter">${LETTERS[k]}</span><span style="min-width:0">${esc(a)}${walk.ansShown&&k===q.correct?`<span class="right-tag">✓ Верный ответ</span>`:""}</span></button>`).join("")}</div>
-      ${walk.ansShown?`<div class="verdict ${walk.ans===q.correct?"ok":"bad"}">${walk.ans===q.correct?"✓ Верно! Вперёд на 1 клетку":walk.ans==null?"Ответ не отмечен. Назад на 1 клетку":"✗ Неверно. Назад на 1 клетку"}</div>
+      ${walk.ansShown?`<div class="verdict ${walk.ans===q.correct?"ok":"bad"}">${(()=>{const ok=walk.ans===q.correct,tgt=walkAnswerTarget(),d=Math.abs(tgt-walk.pos[walk.turn]);
+          const head=ok?"✓ Верно!":walk.ans==null?"Ответ не отмечен.":"✗ Неверно.";
+          if(!d) return head+" Вы остаётесь на месте.";
+          const mv=(ok?" Вперёд на ":" Назад на ")+d+" "+cellWord(d);
+          return head+mv+(d>1?` — цветные клетки проходите мимо, встаёте на белую клетку ${tgt}.`:".")})()}</div>
         <div class="row"><button class="btn primary big" id="wqnext">Дальше</button></div>`
        :`<p class="hidden-msg" style="text-align:center;margin:0">Отметьте ответ команды и нажмите «Проверить».</p><div class="row"><button class="btn gold big" id="wcheck">Проверить ответ</button></div>`}
     </div></div>`:"";
@@ -1144,12 +1256,15 @@ function walkLand(k){
   const i=walk.pos[k],c=WALK_CELLS[i];
   if(i>=WALK_LAST){walkFinish(k);return}
   if(c.t==="q"){const q=walkPickQuestion(walkLevel(i));if(!q){walkNextTurn();return}
-    walk.q=q;walk.ans=null;walk.ansShown=false;walk.stage="question";walkTimerStart(q.level);render();return}
-  walk.card=c;walk.stage="card";render();
+    walk.pendingQ=q;walk.stage="toq";render();return}
+  const card=Object.assign({},c);
+  if(c.t==="good"||c.t==="bad"){const raw=Math.max(0,Math.min(WALK_LAST,i+c.n)),tgt=walkSafe(raw,c.n>0?1:-1);card.to=tgt;
+    if(tgt!==raw) card.msg+=` Клетку ${raw} вы проходите мимо и встаёте на белую клетку ${tgt}.`}
+  walk.card=card;walk.stage="card";render();
 }
 function walkApplyCard(){
-  const k=walk.turn,c=walk.card;walk.card=null;
-  if(c.t==="good"||c.t==="bad"){walkMoveTo(k,walk.pos[k]+c.n,()=>{if(walk.pos[k]>=WALK_LAST)walkFinish(k);else walkNextTurn()});return}
+  const k=walk.turn,c=walk.card;walk.card=null;walk.fromRoll=false;
+  if(c.t==="good"||c.t==="bad"){walkMoveTo(k,c.to,()=>{if(walk.pos[k]>=WALK_LAST)walkFinish(k);else walkNextTurn()});return}
   if(c.t==="jump"){walkJump(k,c.to,walkNextTurn);return}
   if(c.t==="skip"){walk.skip[k]=1;walkNextTurn();return}
   walkNextTurn();
@@ -1178,10 +1293,18 @@ function walkTimerStart(level){clearInterval(wtick);if(!settings.timerOn)return;
   wtick=setInterval(()=>{walk.tLeft=Math.max(0,(walk.tEnd-Date.now())/1000);const c=$("#wclock");if(c){c.textContent=mmss(walk.tLeft);c.classList.toggle("low",walk.tLeft<=10)}
     if(walk.tLeft<=0){clearInterval(wtick);beep()}},250)}
 function walkRoll(){
-  walk.stage="rolling";render();
-  let n=0;const spin=setInterval(()=>{walk.die=1+Math.floor(Math.random()*6);const d=$("#wdie");if(d)d.innerHTML=dieSVG(walk.die);
-    if(++n>=10){clearInterval(spin);const k=walk.turn;walk.moves++;
-      setTimeout(()=>walkMoveTo(k,walk.pos[k]+walk.die,()=>walkLand(k)),350)}},80);
+  walk.settled=false;walk.fromRoll=true;walk.stage="rolling";render();
+  const n=1+Math.floor(Math.random()*6);walk.die=n;
+  const r=Object.assign({x:0,y:0},walk.rot||{}),f=DIE_FACE[n];
+  const tx=(Math.floor(r.x/360)+2)*360+f[0], ty=(Math.floor(r.y/360)+3)*360+f[1];
+  walk.rot={x:tx,y:ty,tx:0,ty:0};
+  const cube=$("#die3d"),wrap=$("#dieWrap");
+  requestAnimationFrame(()=>{if(cube){cube.style.transition="transform 1.25s cubic-bezier(.2,.75,.25,1)";cube.style.transform=`rotateX(0deg) rotateY(0deg) rotateX(${tx}deg) rotateY(${ty}deg)`}
+    if(wrap){wrap.classList.remove("bounce");void wrap.offsetWidth;wrap.classList.add("bounce")}});
+  try{actx=actx||new (window.AudioContext||window.webkitAudioContext)();[0,.32,.62,.86,1.05].forEach((t,i)=>{const o=actx.createOscillator(),g=actx.createGain(),st=actx.currentTime+t;o.type="square";o.frequency.value=180+i*20;g.gain.setValueAtTime(.05,st);g.gain.exponentialRampToValueAtTime(.0001,st+.07);o.connect(g).connect(actx.destination);o.start(st);o.stop(st+.08)})}catch(e){}
+  const k=walk.turn;walk.moves++;
+  setTimeout(()=>{walk.settled=true;const d=$("#dieRes");if(d){d.innerHTML=`Выпало: <b>${n}</b>`;d.classList.add("pop")}},1300);
+  setTimeout(()=>walkMoveTo(k,walk.pos[k]+n,()=>walkLand(k)),2400);
 }
 function walkEndPlaces(){
   const N=walk.teams.length;
@@ -1211,8 +1334,9 @@ function bindWalk(on){
       if(walk.card&&walk.card.t==="finish"){walk.card=null;walkNextTurn();return}walkApplyCard()});
     on("[data-wans]","click",e=>{const k=+e.currentTarget.dataset.wans;walk.ans=walk.ans===k?null:k;render()});
     on("#wcheck","click",()=>{clearInterval(wtick);walk.ansShown=true;const k=walk.turn;if(walk.ans===walk.q.correct)walk.right[k]=(walk.right[k]||0)+1;render()});
-    on("#wqnext","click",()=>{const k=walk.turn,ok=walk.ans===walk.q.correct;walk.q=null;
-      walkMoveTo(k,walk.pos[k]+(ok?1:-1),()=>{if(walk.pos[k]>=WALK_LAST)walkFinish(k);else walkNextTurn()})});
+    on("#wgoq","click",()=>{walk.q=walk.pendingQ;walk.pendingQ=null;walk.ans=null;walk.ansShown=false;walk.stage="question";walkTimerStart(walk.q.level);render()});
+    on("#wqnext","click",()=>{const k=walk.turn,tgt=walkAnswerTarget();walk.q=null;walk.fromRoll=false;
+      walkMoveTo(k,tgt,()=>{if(walk.pos[k]>=WALK_LAST)walkFinish(k);else walkNextTurn()})});
     on("#wstop","click",()=>{walk.confirmStop=true;render()});
     on("#wstopNo","click",()=>{walk.confirmStop=false;render()});
     on("#wstopYes","click",()=>{clearInterval(wtick);walk.confirmStop=false;walk.phase="end";walk.reveal=0;render();window.scrollTo(0,0)});
@@ -1227,6 +1351,489 @@ function bindWalk(on){
     on("#newGame","click",()=>{walk.phase="setup";walk.reveal=null;render()});
   }
 }
+
+/* ---------- ЗНАТОКИ ---------- */
+const DEFAULT_C=[{"id": "kn001", "kind": "normal", "topic": "gospel", "question": "В одной притче Христос сравнивает Царство Небесное с семенем, которое меньше всех семян, но вырастает в большое дерево, и птицы укрываются в его ветвях. Назовите это растение.", "answer": "Горчица", "accept": "Горчичное зерно", "comment": "Притча о горчичном зерне (Мф 13:31–32): из малого начала вырастает великое."}, {"id": "kn002", "kind": "normal", "topic": "christmas", "question": "Ангел сказал пастухам, по какому знаку они узнают родившегося Спасителя. Что это был за знак?", "answer": "Младенец в пеленах, лежащий в яслях", "accept": "Младенец в яслях", "comment": "«И вот вам знак: вы найдёте Младенца в пеленах, лежащего в яслях» (Лк 2:12)."}, {"id": "kn003", "kind": "normal", "topic": "christmas", "question": "В Иерусалиме Христа встречали пальмовыми ветвями. Почему же у нас этот праздник называют Вербным воскресеньем?", "answer": "Пальмы в России не растут, а верба первой распускается весной", "accept": "Потому что пальм нет, а верба распускается раньше всех", "comment": "Вербные веточки заменили пальмовые ветви, которыми встречали Господа (Ин 12:13)."}, {"id": "kn004", "kind": "normal", "topic": "christmas", "question": "По преданию, святая Мария Магдалина подарила римскому императору Тиверию яйцо со словами «Христос воскресе!». Император усомнился: «Это так же невозможно, как…» Закончите его фразу.", "answer": "…как белому яйцу стать красным", "accept": "Яйцо стало красным", "comment": "По преданию, яйцо в руках императора покраснело. Отсюда обычай красить яйца на Пасху."}, {"id": "kn005", "kind": "normal", "topic": "christmas", "question": "Апостол Пётр уверял, что никогда не оставит Христа. Что, по словам Господа, должно было случиться прежде, чем Пётр трижды отречётся?", "answer": "Пропоёт петух", "accept": "Петух пропоёт (запоёт)", "comment": "«В эту ночь, прежде нежели пропоёт петух, трижды отречёшься от Меня» (Мф 26:34)."}, {"id": "kn006", "kind": "normal", "topic": "gospel", "question": "Христос накормил пять тысяч человек пятью хлебами и двумя рыбами. Сколько коробов с остатками собрали после этого ученики?", "answer": "Двенадцать", "accept": "12", "comment": "«И набрали оставшихся кусков двенадцать коробов полных» (Мф 14:20)."}, {"id": "kn007", "kind": "normal", "topic": "ot", "question": "Ной выпускал из ковчега птиц, чтобы узнать, сошла ли вода. Первым он выпустил не голубя. Какую птицу?", "answer": "Ворона", "accept": "Ворон", "comment": "«И выпустил ворона, который, вылетев, отлетал и прилетал» (Быт 8:7)."}, {"id": "kn008", "kind": "normal", "topic": "ot", "question": "Юноша Давид рассказывал царю Саулу, что, пася овец, уже защищал стадо от двух хищных зверей. От каких?", "answer": "От льва и медведя", "accept": "Лев и медведь", "comment": "«Когда приходил лев или медведь и уносил овцу из стада…» (1 Цар 17:34)."}, {"id": "kn009", "kind": "normal", "topic": "ot", "question": "Сколько дней и ночей пророк Иона пробыл во чреве большой рыбы?", "answer": "Три дня и три ночи", "accept": "Три дня", "comment": "Господь Иисус Христос сравнил это со Своим трёхдневным пребыванием во гробе (Мф 12:40)."}, {"id": "kn010", "kind": "normal", "topic": "ot", "question": "Подойдя к горящему и несгорающему кусту, Моисей услышал голос Бога. Что Бог велел ему снять, потому что место было святое?", "answer": "Обувь", "accept": "Сандалии, обувь с ног", "comment": "«Сними обувь твою с ног твоих, ибо место, на котором ты стоишь, есть земля святая» (Исх 3:5)."}, {"id": "kn011", "kind": "normal", "topic": "church", "question": "Икона Божией Матери называется так же, как куст, который горел и не сгорал. Назовите эту икону.", "answer": "«Неопалимая Купина»", "accept": "Неопалимая купина", "comment": "Купина горела и не сгорала — образ Девы Марии, родившей Сына Божия и оставшейся Девой."}, {"id": "kn012", "kind": "normal", "topic": "gospel", "question": "Мытарь Закхей залез на дерево, когда Христос проходил через Иерихон. Почему он это сделал?", "answer": "Он был мал ростом и хотел увидеть Иисуса", "accept": "Был маленького роста; хотел увидеть Христа из-за толпы", "comment": "Закхей влез на смоковницу (Лк 19:3–4). Христос остановился и пошёл к нему в дом."}, {"id": "kn013", "kind": "normal", "topic": "ot", "question": "Юноша Давид играл царю Саулу, и тому становилось легче. На каком инструменте он играл?", "answer": "На гуслях", "accept": "Арфа, кифара", "comment": "«Давид, взяв гусли, играл, — и отраднее и лучше становилось Саулу» (1 Цар 16:23)."}, {"id": "kn014", "kind": "normal", "topic": "church", "question": "Праздник Крещения Господня называют ещё Богоявлением. Почему?", "answer": "Явилась вся Святая Троица", "accept": "Сын крестился, Дух сошёл в виде голубя, Отец свидетельствовал голосом с неба", "comment": "При Крещении Христа явилась Святая Троица (Мф 3:16–17)."}, {"id": "kn015", "kind": "normal", "topic": "christmas", "question": "Волхвы получили во сне откровение не возвращаться к царю Ироду. Как они поступили?", "answer": "Ушли в свою страну иным путём", "accept": "Другой дорогой вернулись домой", "comment": "«…иным путём отошли в страну свою» (Мф 2:12)."}, {"id": "kn016", "kind": "normal", "topic": "christmas", "question": "Почему Иосиф и Мария пошли на перепись именно в Вифлеем, а не остались в Назарете?", "answer": "Иосиф был из рода Давида, а Вифлеем — город Давидов", "accept": "Вифлеем — родной город рода Давида", "comment": "Каждый шёл записываться в свой город, а Иосиф был «из дома и рода Давидова» (Лк 2:3–4)."}, {"id": "kn017", "kind": "normal", "topic": "gospel", "question": "Апостол Андрей пошёл за Христом раньше своего брата Петра и привёл его ко Господу. Как поэтому называют апостола Андрея?", "answer": "Первозванный", "accept": "Андрей Первозванный", "comment": "Андрей первым из апостолов был призван Христом (Ин 1:40–42)."}, {"id": "kn018", "kind": "normal", "topic": "ot", "question": "Для христиан главный день недели — воскресенье, день Воскресения Христова. А какой день был днём покоя в Ветхом Завете?", "answer": "Суббота", "accept": "", "comment": "Четвёртая заповедь: «Помни день субботний, чтобы святить его» (Исх 20:8)."}, {"id": "kn019", "kind": "normal", "topic": "gospel", "question": "Перед Тайной вечерей Христос сделал то, что обычно делали слуги, и показал ученикам пример смирения. Что Он сделал?", "answer": "Омыл ученикам ноги", "accept": "Умыл ноги апостолам", "comment": "«Если Я, Господь и Учитель, умыл ноги вам, то и вы должны умывать ноги друг другу» (Ин 13:14)."}, {"id": "kn020", "kind": "normal", "topic": "christmas", "question": "Кому из людей Христос первым обещал рай?", "answer": "Благоразумному разбойнику на кресте", "accept": "Раскаявшемуся разбойнику", "comment": "«Ныне же будешь со Мною в раю» (Лк 23:43)."}, {"id": "kn021", "kind": "normal", "topic": "christmas", "question": "Великий пост длится сорок дней, а потом идёт Страстная седмица. В память о каком событии пост длится именно сорок дней?", "answer": "Христос постился сорок дней в пустыне", "accept": "Сорокадневный пост Спасителя в пустыне", "comment": "После Крещения Господь сорок дней постился в пустыне (Мф 4:2)."}, {"id": "kn022", "kind": "normal", "topic": "ot", "question": "В Ветхом Завете животное заговорило человеческим голосом и остановило пророка Валаама на пути. Что это было за животное?", "answer": "Ослица", "accept": "Осёл", "comment": "Ослица увидела Ангела Господня на дороге (Числ 22:28)."}, {"id": "kn023", "kind": "normal", "topic": "ot", "question": "Иаков полюбил Рахиль и работал за неё у её отца Лавана. Сколько всего лет он прослужил, чтобы жениться на Рахили?", "answer": "Четырнадцать лет", "accept": "14", "comment": "Сначала семь лет, но Лаван отдал ему старшую дочь Лию, и за Рахиль пришлось служить ещё семь лет (Быт 29)."}, {"id": "kn024", "kind": "normal", "topic": "ot", "question": "Народ в пустыне страдал от жажды. Как Моисей по повелению Бога дал людям воду?", "answer": "Ударил жезлом в скалу", "accept": "Ударил посохом по камню", "comment": "«Ударишь в скалу, и пойдёт из неё вода, и будет пить народ» (Исх 17:6)."}, {"id": "kn025", "kind": "normal", "topic": "church", "question": "Праздник 21 ноября называется не просто днём Архангела Михаила, а «Собором Архистратига Михаила и прочих Небесных Сил бесплотных». Почему «собором»?", "answer": "Вместе прославляют всех ангелов", "accept": "Собрание всех Небесных Сил во главе с Михаилом", "comment": "Слово «собор» здесь значит «собрание»: в этот день Церковь прославляет все чины ангельские."}, {"id": "kn026", "kind": "normal", "topic": "church", "question": "Князь Владимир, выбирая веру, отправил послов в разные страны. Побывав на службе в Константинополе, послы сказали: «Не знали — на небе мы были или…» Закончите фразу.", "answer": "…на земле", "accept": "На земле", "comment": "Так об этом рассказывает «Повесть временных лет». После этого князь Владимир принял православную веру."}, {"id": "kn027", "kind": "normal", "topic": "church", "question": "Святых Кирилла и Мефодия называют равноапостольными. Почему?", "answer": "Они, как апостолы, просвещали народы верой Христовой", "accept": "Проповедовали Евангелие славянам, перевели Писание", "comment": "Братья создали славянскую азбуку и перевели на славянский язык богослужебные книги."}, {"id": "kn028", "kind": "normal", "topic": "church", "question": "Рождество всегда празднуется 7 января, а Пасха каждый год приходится на разные числа. Почему?", "answer": "Пасха зависит от весеннего полнолуния", "accept": "Пасха считается по Луне: первое воскресенье после весеннего полнолуния", "comment": "Пасха празднуется в первое воскресенье после весеннего полнолуния, поэтому её дата каждый год разная."}, {"id": "kn029", "kind": "normal", "topic": "gospel", "question": "В притче о талантах один раб не стал трудиться с данными ему деньгами. Что он с ними сделал?", "answer": "Закопал в землю", "accept": "Спрятал в землю", "comment": "За леность господин назвал его «лукавым и ленивым рабом» (Мф 25:25–26)."}, {"id": "kn030", "kind": "normal", "topic": "gospel", "question": "Блудный сын растратил всё имение отца на чужбине. Какую работу ему пришлось там делать?", "answer": "Пасти свиней", "accept": "Свинопас", "comment": "Он был так голоден, что хотел есть корм свиней (Лк 15:15–16)."}, {"id": "kn031", "kind": "normal", "topic": "gospel", "question": "Христос сказал, что бедная вдова положила в храмовую сокровищницу больше всех, хотя богачи клали много. Что она положила?", "answer": "Две лепты", "accept": "Две мелкие монеты", "comment": "Она положила всё, что имела, всё пропитание своё (Мк 12:42–44)."}, {"id": "kn032", "kind": "normal", "topic": "gospel", "question": "Что сделал Христос на свадьбе в Кане Галилейской, когда у хозяев закончилось вино?", "answer": "Превратил воду в вино", "accept": "Сотворил вино из воды", "comment": "Это было первое чудо Христа (Ин 2:11)."}, {"id": "kn033", "kind": "normal", "topic": "acts", "question": "В день Пятидесятницы апостолы заговорили на разных языках. Некоторые насмешники решили, что апостолы… что?", "answer": "Напились молодого вина", "accept": "Пьяны", "comment": "«Они напились сладкого вина» (Деян 2:13). Пётр ответил, что ещё только третий час дня."}, {"id": "kn034", "kind": "normal", "topic": "acts", "question": "Апостола Павла ужалила змея, но он остался невредим. Жители острова сначала сочли его убийцей. А что они подумали о нём потом?", "answer": "Что он бог", "accept": "Что Павел — бог", "comment": "«Переменили мысли и говорили, что он Бог» (Деян 28:6)."}, {"id": "kn035", "kind": "normal", "topic": "church", "question": "Святитель Николай Чудотворец жил в городе Миры Ликийские. Почему его мощи много веков хранятся в итальянском городе Бари?", "answer": "Их перенесли туда из Мир Ликийских", "accept": "Мощи перевезли купцы (моряки) из Бари", "comment": "Мощи перенесли в Бари в 1087 году. В память об этом Церковь празднует 22 мая."}, {"id": "kn036", "kind": "normal", "topic": "church", "question": "Почему преподобный Сергий Радонежский называл свою обитель Троицкой и посвятил храм Святой Троице?", "answer": "Чтобы люди, глядя на единство Троицы, жили в единстве и любви", "accept": "Ради единства и любви, образ Троицы", "comment": "Преподобный Сергий хотел, чтобы «воззрением на Святую Троицу побеждался страх ненавистной розни мира сего»."}, {"id": "kb001", "kind": "box", "topic": "church", "question": "В чёрном ящике — то, что святитель Николай тайно бросил в окно бедному отцу трёх дочерей, чтобы они могли выйти замуж. Что в чёрном ящике?", "answer": "Мешочек с золотом", "accept": "Золото, золотые монеты", "comment": "Святитель трижды тайно помогал этой семье. Отсюда обычай тайно дарить подарки детям."}, {"id": "kb002", "kind": "box", "topic": "ot", "question": "В чёрном ящике — то, что голубь принёс Ною в ковчег. Что в чёрном ящике?", "answer": "Масличный лист", "accept": "Оливковая ветвь, листок маслины", "comment": "Ной понял, что вода сошла с земли (Быт 8:11)."}, {"id": "kb003", "kind": "box", "topic": "christmas", "question": "В чёрном ящике — один из даров волхвов: так поклоняются Богу. Что в чёрном ящике?", "answer": "Ладан", "accept": "", "comment": "Золото — как Царю, ладан — как Богу, смирна — как Человеку, Которому предстоит умереть."}, {"id": "kb004", "kind": "box", "topic": "ot", "question": "В чёрном ящике — то, что юноша Давид положил в свою пастушескую сумку перед битвой с Голиафом. Что в чёрном ящике?", "answer": "Пять гладких камней", "accept": "Камни", "comment": "«И выбрал себе пять гладких камней из ручья» (1 Цар 17:40)."}, {"id": "kb005", "kind": "box", "topic": "christmas", "question": "В чёрном ящике — то, что держали в руках жители Иерусалима, встречая Христа. У нас их заменяют другим растением. Что в чёрном ящике?", "answer": "Пальмовые ветви", "accept": "Ветви пальм", "comment": "«Взяли пальмовые ветви, вышли навстречу Ему и восклицали: осанна!» (Ин 12:13)."}, {"id": "kb006", "kind": "box", "topic": "gospel", "question": "В чёрном ящике — то, что Христос на Тайной вечере взял в руки, благословил, преломил и раздал ученикам. Что в чёрном ящике?", "answer": "Хлеб", "accept": "", "comment": "«Приимите, ядите: сие есть Тело Мое» (Мф 26:26)."}, {"id": "kz001", "kind": "blitz", "topic": "gospel", "question": "Сколько дней Христос постился в пустыне?", "answer": "Сорок", "accept": "40", "comment": ""}, {"id": "kz002", "kind": "blitz", "topic": "gospel", "question": "Кто из учеников предал Христа?", "answer": "Иуда Искариот", "accept": "Иуда", "comment": ""}, {"id": "kz003", "kind": "blitz", "topic": "gospel", "question": "В каком городе вырос Иисус?", "answer": "В Назарете", "accept": "Назарет", "comment": ""}, {"id": "kz004", "kind": "blitz", "topic": "gospel", "question": "Сколько апостолов избрал Христос?", "answer": "Двенадцать", "accept": "12", "comment": ""}, {"id": "kz005", "kind": "blitz", "topic": "church", "question": "В виде какой птицы Святой Дух сошёл на Христа при Крещении?", "answer": "Голубя", "accept": "Голубь", "comment": ""}, {"id": "kz006", "kind": "blitz", "topic": "ot", "question": "Кто построил ковчег?", "answer": "Ной", "accept": "", "comment": ""}, {"id": "kz007", "kind": "blitz", "topic": "christmas", "question": "Как звали мать Иоанна Крестителя?", "answer": "Елисавета", "accept": "Елизавета", "comment": ""}, {"id": "kz008", "kind": "blitz", "topic": "gospel", "question": "Сколько заповедей блаженства?", "answer": "Девять", "accept": "9", "comment": ""}, {"id": "kz009", "kind": "blitz", "topic": "gospel", "question": "На какой горе Христос преобразился?", "answer": "Фавор", "accept": "", "comment": ""}, {"id": "kz010", "kind": "blitz", "topic": "ot", "question": "Как звали брата пророка Моисея?", "answer": "Аарон", "accept": "", "comment": ""}, {"id": "kz011", "kind": "blitz", "topic": "christmas", "question": "Какой город называют городом Давидовым?", "answer": "Вифлеем", "accept": "", "comment": ""}, {"id": "kz012", "kind": "blitz", "topic": "ot", "question": "Как звали первого царя Израиля?", "answer": "Саул", "accept": "", "comment": ""}];
+const KEY_C="velikaya-radost-znatoki-v1";
+let cq=[];
+function cqLoad(){const s=loadLocal(KEY_C);cq=Array.isArray(s)&&s.length?s:DEFAULT_C.map(x=>Object.assign({},x));
+  const meta=loadLocal(KEY_META)||{};const seen=new Set(meta.seenC||[]);
+  if(Array.isArray(s)&&s.length){let add=0;DEFAULT_C.forEach(d=>{if(!seen.has(d.id)&&!cq.some(x=>x.id===d.id)){cq.push(Object.assign({},d));add++}});if(add)cqSave()}
+  meta.seenC=DEFAULT_C.map(d=>d.id);saveLocal(KEY_META,meta)}
+function cqSave(){if(!saveLocal(KEY_C,cq))toast("Изменения действуют до закрытия страницы")}
+const CKIND={normal:"Обычный вопрос",box:"Чёрный ящик",blitz:"Блиц"};
+const SECTORS=13;
+let chgk={phase:"mode",mode:"classic",teamName:"",teamCount:2,names:["","","",""],topic:"all",target:6,rounds:12,time:60,btime:20,
+  sectors:[],angle:0,cur:-1,stage:"spin",q:null,blitz:[],bi:0,score:{team:0,tv:0},pts:[],marks:[],played:0,reveal:null,note:""};
+
+function cqPool(kind){return cq.filter(x=>x.kind===kind&&(chgk.topic==="all"||x.topic===chgk.topic))}
+function chgkSetup(){
+  const pick=(arr,n)=>shuffle(arr).slice(0,n);
+  let normals=pick(cqPool("normal"),SECTORS-2), box=pick(cqPool("box"),1)[0], blitz=pick(cqPool("blitz"),3);
+  if(normals.length<SECTORS-2) normals=normals.concat(pick(cq.filter(x=>x.kind==="normal"&&!normals.includes(x)),SECTORS-2-normals.length));
+  if(!box) box=pick(cq.filter(x=>x.kind==="box"),1)[0];
+  if(blitz.length<3) blitz=blitz.concat(pick(cq.filter(x=>x.kind==="blitz"&&!blitz.includes(x)),3-blitz.length));
+  const kinds=Array(SECTORS).fill("normal");const order=shuffle([...Array(SECTORS).keys()]);kinds[order[0]]="box";kinds[order[1]]="blitz";
+  let ni=0;
+  chgk.sectors=kinds.map((k,i)=>({kind:k,played:false,q:k==="box"?box:k==="blitz"?null:normals[ni++]||null,blitz:k==="blitz"?blitz:null}))
+    .map(s=>s.kind==="normal"&&!s.q?Object.assign(s,{played:true}):s);
+}
+function tableSVG(){
+  const step=360/SECTORS, R=300, C=350;
+  const secs=chgk.sectors.map((s,i)=>{const a=(i*step-90)*Math.PI/180, a1=((i-.5)*step-90)*Math.PI/180, a2=((i+.5)*step-90)*Math.PI/180;
+    const x=C+Math.cos(a)*235, y=C+Math.sin(a)*235;
+    const path=`M${C+Math.cos(a1)*170} ${C+Math.sin(a1)*170} L${C+Math.cos(a1)*R} ${C+Math.sin(a1)*R} A${R} ${R} 0 0 1 ${C+Math.cos(a2)*R} ${C+Math.sin(a2)*R} L${C+Math.cos(a2)*170} ${C+Math.sin(a2)*170} A170 170 0 0 0 ${C+Math.cos(a1)*170} ${C+Math.sin(a1)*170}Z`;
+    const env=s.played?"":s.kind==="box"?`<rect x="-24" y="-20" width="48" height="40" rx="4" fill="#1b1b1b" stroke="#f0c95e" stroke-width="2"/><text y="7" class="tsec-q" fill="#f0c95e">?</text>`
+      :`<rect x="-26" y="-17" width="52" height="34" rx="3" fill="${s.kind==="blitz"?"#fde9a8":"#fff"}" stroke="#c9b07e" stroke-width="2"/><path d="M-26 -17 L0 4 L26 -17" fill="none" stroke="#c9b07e" stroke-width="2"/>${s.kind==="blitz"?`<path d="M3 -12 L-6 3 H0 L-3 14 L7 -2 H1Z" fill="#c8463a"/>`:""}`;
+    return `<g class="tsec ${s.played?"played":""} ${i===chgk.cur?"cur":""}"><path d="${path}" class="tsec-bg ${i%2?"odd":""}"/>
+      <g transform="translate(${x} ${y}) rotate(${i*step})">${env}</g>
+      <text x="${C+Math.cos(a)*(R-14)}" y="${C+Math.sin(a)*(R-14)+5}" class="tsec-n">${i+1}</text></g>`}).join("");
+  return `<svg class="ctable" viewBox="0 0 700 700" role="img" aria-label="Игровой стол с волчком">
+    <defs><radialGradient id="tfelt" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#28407e"/><stop offset="1" stop-color="#14204a"/></radialGradient></defs>
+    <circle cx="350" cy="350" r="340" fill="#7a4a24"/><circle cx="350" cy="350" r="328" fill="#a7652b"/><circle cx="350" cy="350" r="312" fill="#f0c95e"/>
+    <circle cx="350" cy="350" r="${R}" fill="url(#tfelt)"/>${secs}
+    <circle cx="350" cy="350" r="168" fill="#14204a" stroke="#f0c95e" stroke-width="4"/>
+    <g id="carrow" style="transform-origin:350px 350px;transform:rotate(${chgk.angle}deg)">
+      <path d="M350 205 L372 330 L350 360 L328 330Z" fill="#f0c95e" stroke="#b9852a" stroke-width="3"/>
+      <path d="M350 205 L360 300 L340 300Z" fill="#fff6cf"/>
+      <circle cx="350" cy="350" r="46" fill="#b8352b" stroke="#f0c95e" stroke-width="5"/>
+      <circle cx="350" cy="350" r="16" fill="#f0c95e"/></g>
+  </svg>`;
+}
+function scoreBar(){
+  if(chgk.mode==="classic") return `<div class="cscore"><div class="cs-side"><span>${esc(chgk.teamName||"Знатоки")}</span><b>${chgk.score.team}</b></div><div class="cs-sep">:</div><div class="cs-side"><span>Телезрители</span><b>${chgk.score.tv}</b></div></div><p class="hidden-msg" style="text-align:center;margin:0">Игра до ${chgk.target} очков</p>`;
+  return `<div class="cteams">${chgk.teams.map((t,i)=>`<div class="wteam" style="--c:${t.color}"><span class="dot">${i+1}</span><b>${esc(t.name)}</b><span class="wpos">${chgk.pts[i]} ${plural(chgk.pts[i])}</span></div>`).join("")}</div>
+    <p class="hidden-msg" style="text-align:center;margin:0">Вопрос ${Math.min(chgk.played+(chgk.stage==="spin"?1:0),chgk.rounds)} из ${chgk.rounds}</p>`;
+}
+function renderChgk(){
+  if(chgk.phase==="end") return renderEnd();
+  if(chgk.phase==="mode") return `<div class="stack">
+    <div><h1>Что? Где? Когда?</h1><p class="lead">Интеллектуальная игра: волчок выбирает конверт с вопросом, команда минуту думает и отвечает.</p></div>
+    ${stateBanner()}
+    <div class="panel stack"><div class="label" style="text-align:center">Как играем?</div>
+      <div class="cmodes">
+        <button class="cmode" id="cmode-classic" data-cmode="classic"><b>Классика</b><span>Одна команда знатоков играет против телезрителей. Верный ответ — очко знатокам, неверный — телезрителям. Побеждает тот, кто первым наберёт ${chgk.target} очков.</span></button>
+        <button class="cmode" id="cmode-multi" data-cmode="multi"><b>Несколько команд</b><span>2–4 команды отвечают на один вопрос одновременно: записывают ответ на листочке и сдают ведущему. За каждый верный ответ — очко. В конце — пьедестал.</span></button>
+      </div></div></div>`;
+  if(chgk.phase==="setup"){const cl=chgk.mode==="classic";const n=chgk.teamCount;
+    const tc=k=>cq.filter(x=>k==="all"||x.topic===k).length;
+    return `<div class="stack">
+    <div><h1>${cl?"Что? Где? Когда? Классика":"Что? Где? Когда? Несколько команд"}</h1><p class="lead">${cl?"Команда знатоков против телезрителей.":"Все команды отвечают на один и тот же вопрос."}</p></div>
+    <section class="panel stack">
+      ${cl?`<label class="name-field" style="--c:var(--t2);max-width:520px;margin-inline:auto;width:100%"><span class="label">Название команды знатоков</span><input type="text" id="cname" maxlength="40" placeholder="Например: «Михайлята»" value="${esc(chgk.teamName)}"></label>`
+      :`<div class="label">Количество команд</div>
+       <div class="count-pick">${[2,3,4].map(k=>`<button id="ctc${k}" data-ctc="${k}" aria-pressed="${k===n}">${k}<span>команды</span></button>`).join("")}</div>
+       <div class="names">${Array.from({length:n},(_,i)=>`<label class="name-field" style="--c:${TCOLORS[i]}"><span class="label">Команда ${i+1}</span><input type="text" id="ctn${i}" data-ctn="${i}" maxlength="40" placeholder="Например: «Михайлята»" value="${esc(chgk.names[i])}"></label>`).join("")}</div>`}
+    </section>
+    <section class="panel stack">
+      <div class="label">Тема вопросов</div>
+      <div class="ttabs" style="justify-content:center">${["all",...TOPIC_KEYS].map(k=>`<button id="ctp-${k}" data-ctp="${k}" aria-pressed="${chgk.topic===k}">${esc(topicName(k))} · ${tc(k)}</button>`).join("")}</div>
+      <div class="qty-row">
+        ${cl?`<label class="qty-field lv-medium"><span class="qty-name">Игра до</span><input type="number" id="ctarget" min="1" max="7" value="${chgk.target}"><span class="qty-max">очков</span></label>`
+           :`<label class="qty-field lv-medium"><span class="qty-name">Вопросов</span><input type="number" id="crounds" min="1" max="${SECTORS}" value="${chgk.rounds}"><span class="qty-max">из ${SECTORS}</span></label>`}
+        <label class="qty-field lv-easy"><span class="qty-name">Минута</span><input type="number" id="ctime" min="10" max="180" step="5" value="${chgk.time}"><span class="qty-max">сек</span></label>
+        <label class="qty-field lv-hard"><span class="qty-name">Блиц</span><input type="number" id="cbtime" min="5" max="60" step="5" value="${chgk.btime}"><span class="qty-max">сек</span></label>
+      </div>
+    </section>
+    <section class="panel stack rules"><div class="label">Правила</div><ol>
+      <li>Ведущий крутит волчок. Стрелка выбирает конверт с вопросом. Если конверт уже сыгран, берётся следующий по часовой стрелке.</li>
+      <li>После вопроса — <b>${chgk.time} секунд</b> на обсуждение. Отвечает капитан или тот, кого он назначит.</li>
+      <li><b>Чёрный ящик</b> — нужно угадать, что в нём лежит. <b>Блиц</b> — три коротких вопроса по ${chgk.btime} секунд${cl?"; очко знатокам, только если верны все три ответа":", за каждый верный ответ — очко"}.</li>
+      ${cl?`<li>Верный ответ — очко знатокам, неверный — телезрителям. Игра идёт до ${chgk.target} очков.</li>`:`<li>Команды записывают ответ на листочке и сдают ведущему до конца минуты. Ведущий отмечает, кто ответил верно.</li>`}
+    </ol></section>
+    <div class="row"><button class="btn" id="cback">Назад</button><button class="btn gold big" id="cstart">Начать игру</button></div></div>`}
+  // игра
+  const s=chgk.sectors[chgk.cur];
+  let main="";
+  if(chgk.stage==="spin"||chgk.stage==="spinning"||chgk.stage==="envelope"){
+    main=`<div class="ctable-wrap">${tableSVG()}</div>`;
+  } else main=chgkQuestionView();
+  let side=scoreBar();
+  if(chgk.stage==="spin") side+=`${chgk.note?`<p class="note" style="margin:0">${esc(chgk.note)}</p>`:""}<button class="btn gold big" id="cspin">Крутить волчок</button>`;
+  else if(chgk.stage==="spinning") side+=`<p class="hidden-msg" style="text-align:center;margin:0">Волчок крутится…</p>`;
+  else if(chgk.stage==="envelope") side+=`<div class="wcard ${s.kind==="box"?"w-skip":s.kind==="blitz"?"w-jump":""}"><div class="wcard-t">Сектор ${chgk.cur+1}</div><p>${s.kind==="box"?"<b>Чёрный ящик!</b>":s.kind==="blitz"?"<b>Блиц!</b> Три вопроса подряд.":"Конверт с вопросом."}</p>${chgk.note?`<p class="hidden-msg">${esc(chgk.note)}</p>`:""}</div><button class="btn gold big" id="copen">Открыть ${s.kind==="box"?"чёрный ящик":"конверт"}</button>`;
+  side+=`<div class="row" style="justify-content:center"><button class="btn danger" id="cstop">Завершить игру</button></div>
+    ${chgk.confirmStop?`<div class="confirm"><span>Подвести итоги сейчас?</span><button class="btn danger" id="cstopYes">Да</button><button class="btn" id="cstopNo">Нет</button></div>`:""}`;
+  return `<div class="walk chgk"><div style="min-width:0">${main}</div><aside class="wside panel stack">${side}</aside></div>`;
+}
+function curQs(){const s=chgk.sectors[chgk.cur];return s.kind==="blitz"?s.blitz:[s.q]}
+function chgkQuestionView(){
+  const s=chgk.sectors[chgk.cur], qs=curQs(), q=qs[chgk.bi], blitz=s.kind==="blitz";
+  const t=chgk.tm||{};
+  const timerHtml=`<div class="ctimer ${t.left<=10&&t.run?"low":""}" id="ctimer">${t.run||t.done?mmss(t.left??0):mmss(blitz?chgk.btime:chgk.time)}</div>`;
+  let ctrl="";
+  if(chgk.stage==="question") ctrl=t.run?`<button class="btn" id="cearly">Досрочный ответ</button>`:t.done?`<button class="btn gold big" id="cshow">Показать ответ</button>`:`<button class="btn gold big" id="ctgo">Время! ${blitz?chgk.btime:chgk.time} секунд</button><button class="btn" id="cshow2">Показать ответ без минуты</button>`;
+  let ans="";
+  if(chgk.stage==="answer"){
+    ans=`<div class="canswer"><div class="label">Ответ</div><b>${esc(q.answer)}</b>${q.accept?`<div class="hidden-msg">Засчитывается: ${esc(q.accept)}</div>`:""}${q.comment?`<p>${esc(q.comment)}</p>`:""}</div>`;
+    if(chgk.mode==="classic") ctrl=`<button class="btn big" style="background:var(--green);border-color:var(--green);color:#fff" id="cok">Знатоки ответили верно</button><button class="btn danger big" id="cbad">Неверно</button>`;
+    else ctrl=`<div class="cmarks">${chgk.teams.map((tm,i)=>`<button class="cmark" id="cmk${i}" data-cmk="${i}" aria-pressed="${!!chgk.marks[i]}" style="--c:${tm.color}">${chgk.marks[i]?"✓ ":""}${esc(tm.name)}</button>`).join("")}</div>
+      <p class="hidden-msg" style="text-align:center;margin:0">Отметьте команды, которые ответили верно.</p><button class="btn primary big" id="cmulti">${blitz&&chgk.bi<2?"Следующий вопрос блица →":"Засчитать и к волчку →"}</button>`;
+  }
+  return `<div class="stack cq ${s.kind}">
+    <div class="stage-head"><span class="chip">${blitz?`Блиц · вопрос ${chgk.bi+1} из 3`:s.kind==="box"?"Чёрный ящик":"Сектор "+(chgk.cur+1)}</span><span class="chip">${esc(topicName(q.topic))}</span>${timerHtml}</div>
+    ${s.kind==="box"?`<div class="blackbox" aria-hidden="true"><div class="bb-lid"></div><div class="bb-body">?</div></div>`:""}
+    <p class="question">${esc(q.question)}</p>
+    ${q.image?`<div class="qpic">${picHTML(q.image)}</div>`:""}
+    ${ans}
+    <div class="controls" style="justify-content:center">${ctrl}</div>
+  </div>`;
+}
+let ctick=null;
+function chgkTimerStart(){
+  const s=chgk.sectors[chgk.cur],sec=s.kind==="blitz"?chgk.btime:chgk.time;
+  clearInterval(ctick);chgk.tm={run:true,done:false,left:sec,end:Date.now()+sec*1000,last:sec};render();
+  ctick=setInterval(()=>{const t=chgk.tm;t.left=Math.max(0,(t.end-Date.now())/1000);const el=$("#ctimer");
+    if(el){el.textContent=mmss(t.left);el.classList.toggle("low",t.left<=10)}
+    const whole=Math.ceil(t.left);if(whole!==t.last){t.last=whole;if(whole<=10&&whole>0)tickSound()}
+    if(t.left<=0){clearInterval(ctick);t.run=false;t.done=true;beep();render()}},200);
+}
+function tickSound(){try{actx=actx||new (window.AudioContext||window.webkitAudioContext)();const o=actx.createOscillator(),g=actx.createGain();o.type="square";o.frequency.value=1000;g.gain.setValueAtTime(.05,actx.currentTime);g.gain.exponentialRampToValueAtTime(.0001,actx.currentTime+.05);o.connect(g).connect(actx.destination);o.start();o.stop(actx.currentTime+.06)}catch(e){}}
+function chgkSpin(){
+  const free=chgk.sectors.map((s,i)=>s.played?-1:i).filter(i=>i>=0);
+  if(!free.length){chgkEnd();return}
+  const step=360/SECTORS, raw=Math.floor(Math.random()*SECTORS);
+  let target=raw;while(chgk.sectors[target].played)target=(target+1)%SECTORS;
+  chgk.note=raw!==target?`Стрелка указала на сыгранный сектор ${raw+1}, поэтому играет следующий — сектор ${target+1}.`:"";
+  const base=Math.ceil(chgk.angle/360)*360+360*4;
+  const a1=base+raw*step, a2=a1+((target-raw+SECTORS)%SECTORS)*step;
+  chgk.stage="spinning";render();
+  const arrow=$("#carrow");
+  try{actx=actx||new (window.AudioContext||window.webkitAudioContext)();for(let k=0;k<18;k++){const st=actx.currentTime+k*k*.012,o=actx.createOscillator(),g=actx.createGain();o.frequency.value=700;g.gain.setValueAtTime(.04,st);g.gain.exponentialRampToValueAtTime(.0001,st+.03);o.connect(g).connect(actx.destination);o.start(st);o.stop(st+.04)}}catch(e){}
+  requestAnimationFrame(()=>{if(arrow){arrow.style.transition="transform 3.6s cubic-bezier(.15,.7,.2,1)";arrow.style.transform=`rotate(${a1}deg)`}});
+  const done=()=>{chgk.angle=a2;chgk.cur=target;chgk.stage="envelope";chime([660,880]);render()};
+  if(a2!==a1) setTimeout(()=>{const ar=$("#carrow");if(ar){ar.style.transition="transform .9s ease-in-out";ar.style.transform=`rotate(${a2}deg)`}setTimeout(done,950)},3800);
+  else setTimeout(done,3700);
+}
+function chgkAfterQuestion(){
+  const s=chgk.sectors[chgk.cur];s.played=true;chgk.played++;chgk.stage="spin";chgk.bi=0;chgk.tm=null;chgk.marks=[];chgk.blitzOk=true;
+  const left=chgk.sectors.some(x=>!x.played);
+  if(chgk.mode==="classic"){if(chgk.score.team>=chgk.target||chgk.score.tv>=chgk.target||!left){chgkEnd();return}}
+  else if(chgk.played>=chgk.rounds||!left){chgkEnd();return}
+  chgk.note="";render();
+}
+function chgkEnd(){clearInterval(ctick);chgk.phase="end";chgk.reveal=0;render();window.scrollTo(0,0)}
+function chgkEndPlaces(){
+  const teams=chgk.mode==="classic"?[{name:chgk.teamName||"Знатоки",color:"var(--t2)"},{name:"Телезрители",color:"var(--t1)"}]:chgk.teams;
+  const sc=chgk.mode==="classic"?[chgk.score.team,chgk.score.tv]:chgk.pts;
+  const N=teams.length;
+  const rows=teams.map((t,i)=>({t,i,s:sc[i],right:sc[i]})).sort((a,b)=>b.s-a.s);
+  let place=0,prev=null;rows.forEach(x=>{if(prev===null||x.s!==prev){place++;prev=x.s}x.place=Math.min(place,N)});
+  const byPlace={};for(let p=1;p<=N;p++)byPlace[p]=[];rows.forEach(x=>byPlace[x.place].push(x));
+  const filled=[];for(let p=N;p>=1;p--)filled.push(p);
+  return {byPlace,filled,N};
+}
+function bindChgk(on){
+  if(chgk.phase==="mode"){on("[data-cmode]","click",e=>{chgk.mode=e.currentTarget.dataset.cmode;chgk.phase="setup";render()});return}
+  if(chgk.phase==="setup"){
+    const rd=()=>{const n=$("#cname");if(n)chgk.teamName=n.value;document.querySelectorAll("[data-ctn]").forEach(el=>chgk.names[el.dataset.ctn]=el.value);
+      const g=(id,d,min,max)=>{const el=$(id);if(!el)return d;let v=Math.round(Number(el.value)||d);return Math.max(min,Math.min(max,v))};
+      chgk.target=g("#ctarget",chgk.target,1,7);chgk.rounds=g("#crounds",chgk.rounds,1,SECTORS);chgk.time=g("#ctime",chgk.time,10,180);chgk.btime=g("#cbtime",chgk.btime,5,60)};
+    on("[data-ctc]","click",e=>{rd();chgk.teamCount=+e.currentTarget.dataset.ctc;render()});
+    on("[data-ctp]","click",e=>{rd();chgk.topic=e.currentTarget.dataset.ctp;render()});
+    on("#ctime,#cbtime,#ctarget","change",()=>{rd();render()});
+    on("#cback","click",()=>{rd();chgk.phase="mode";render()});
+    on("#cstart","click",()=>{rd();chgkSetup();
+      Object.assign(chgk,{phase:"play",stage:"spin",cur:-1,bi:0,score:{team:0,tv:0},played:0,marks:[],note:"",tm:null,reveal:null,confirmStop:false,blitzOk:true,
+        teams:Array.from({length:chgk.teamCount},(_,i)=>({name:(chgk.names[i]||"").trim()||`Команда ${i+1}`,color:TCOLORS[i]})),pts:Array(chgk.teamCount).fill(0)});
+      if(chgk.mode==="classic")chgk.teamName=(chgk.teamName||"").trim()||"Знатоки";
+      render();window.scrollTo(0,0);try{navigator.wakeLock&&navigator.wakeLock.request("screen").catch(()=>{})}catch(e){}});
+    return;
+  }
+  if(chgk.phase==="play"){
+    on("#cspin","click",chgkSpin);
+    on("#copen","click",()=>{chgk.stage="question";chgk.bi=0;chgk.tm=null;chgk.marks=[];chgk.blitzOk=true;render()});
+    on("#ctgo","click",chgkTimerStart);
+    on("#cearly","click",()=>{clearInterval(ctick);chgk.tm.run=false;chgk.tm.done=true;render()});
+    on("#cshow,#cshow2","click",()=>{clearInterval(ctick);chgk.stage="answer";chgk.marks=[];render()});
+    const nextBlitz=()=>{chgk.bi++;chgk.stage="question";chgk.tm=null;chgk.marks=[];render()};
+    on("#cok","click",()=>{const s=chgk.sectors[chgk.cur];
+      if(s.kind==="blitz"&&chgk.bi<2){nextBlitz();return}
+      if(s.kind==="blitz"&&!chgk.blitzOk)chgk.score.tv++;else chgk.score.team++;
+      confetti(80);chime([523,659,784]);chgkAfterQuestion()});
+    on("#cbad","click",()=>{const s=chgk.sectors[chgk.cur];
+      if(s.kind==="blitz"){chgk.blitzOk=false;chgk.score.tv++;chgkAfterQuestion();return}
+      chgk.score.tv++;chgkAfterQuestion()});
+    on("[data-cmk]","click",e=>{const i=+e.currentTarget.dataset.cmk;chgk.marks[i]=!chgk.marks[i];render()});
+    on("#cmulti","click",()=>{chgk.marks.forEach((m,i)=>{if(m)chgk.pts[i]++});const s=chgk.sectors[chgk.cur];
+      if(s.kind==="blitz"&&chgk.bi<2){nextBlitz();return}chgkAfterQuestion()});
+    on("#cstop","click",()=>{chgk.confirmStop=true;render()});
+    on("#cstopNo","click",()=>{chgk.confirmStop=false;render()});
+    on("#cstopYes","click",()=>{chgk.confirmStop=false;chgkEnd()});
+    return;
+  }
+  if(chgk.phase==="end"){
+    const n=chgkEndPlaces().filled.length;
+    const after=()=>{if(chgk.reveal>=n){confetti(260);chime([523,659,784,1047])}else{confetti(60);chime([523,659])}};
+    on("#revealNext","click",()=>{chgk.reveal=Math.min(n,chgk.reveal+1);render();after()});
+    on("#revealAll","click",()=>{chgk.reveal=n;render();after()});
+    on("#cheer","click",()=>{confetti(260);chime([523,659,784,1047])});
+    on("#newGame","click",()=>{chgk.phase="mode";chgk.reveal=null;render()});
+  }
+}
+
+/* банк вопросов «Что? Где? Когда?» */
+let cEdit=null,cAdd=false,cDel=null,cKind="normal";
+function renderBankC(){
+  const list=cq.filter(x=>x.kind===cKind&&(bankTopic==="all"||x.topic===bankTopic));
+  const cnt=k=>cq.filter(x=>x.kind===k&&(bankTopic==="all"||x.topic===bankTopic)).length;
+  const tcount=k=>cq.filter(x=>k==="all"||x.topic===k).length;
+  const card=(q,i)=>{if(cEdit===q.id)return cForm(q);
+    return `<div class="qcard"><div class="qhead"><span class="n">${i+1}.</span><span class="t">${esc(q.question)}${bankTopic==="all"?`<span class="tchip">${esc(topicName(q.topic))}</span>`:""}</span>
+      <div class="row"><button class="btn" id="ced-${q.id}" data-ced="${q.id}">Изменить</button><button class="btn danger" id="cdl-${q.id}" data-cdl="${q.id}">Удалить</button></div></div>
+      ${q.image?`<div class="thumb-row"><div class="thumb">${picHTML(q.image)}</div></div>`:""}
+      <div class="qopts" style="grid-template-columns:1fr"><span class="ok">Ответ: ${esc(q.answer)}${q.accept?` · засчитывается: ${esc(q.accept)}`:""}</span>${q.comment?`<span>${esc(q.comment)}</span>`:""}</div>
+      ${cDel===q.id?`<div class="confirm"><span>Удалить этот вопрос?</span><button class="btn danger" data-cdly="${q.id}" id="cdly-${q.id}">Да, удалить</button><button class="btn" data-cdln="1" id="cdln-${q.id}">Отмена</button></div>`:""}</div>`};
+  return `<div class="panel stack">
+      <div class="label">Тема</div>
+      <div class="ttabs">${["all",...TOPIC_KEYS].map(k=>`<button id="bt-${k}" data-bt="${k}" aria-pressed="${k===bankTopic}">${k==="all"?"Все темы":esc(topicName(k))} · ${tcount(k)}</button>`).join("")}</div>
+      <div class="row" style="justify-content:space-between">
+        <div class="lvtabs">${Object.entries(CKIND).map(([k,t])=>`<button id="ck-${k}" class="lv-${k==="normal"?"easy":k==="box"?"medium":"hard"}" data-ck="${k}" aria-pressed="${k===cKind}">${t} · ${cnt(k)}</button>`).join("")}</div>
+        <button class="btn primary" id="cAddQ">+ Добавить вопрос</button></div></div>
+    ${cAdd?cForm(null):""}
+    <div class="qlist">${list.length?list.map(card).join(""):`<div class="panel hidden-msg">Здесь пока нет вопросов. Нажмите «Добавить вопрос».</div>`}</div>`;
+}
+function cForm(q){
+  const id=q?q.id:"cnew", d=q||{question:"",answer:"",accept:"",comment:"",kind:cKind,topic:bankTopic==="all"?TOPIC_KEYS[0]:bankTopic,image:""};
+  const sel=`padding:8px;border-radius:8px;border:1px solid var(--line);background:var(--bg)`;
+  return `<form class="qcard edit-grid" id="form-${id}" data-cform="${id}">
+    <div class="label">${q?"Изменение вопроса":"Новый вопрос для «Что? Где? Когда?»"}</div>
+    <label class="stack" style="gap:6px"><span class="label">Вопрос</span><textarea name="q" id="cq-${id}" required>${esc(d.question)}</textarea></label>
+    <label class="stack" style="gap:6px"><span class="label">Ответ</span><input type="text" name="a" id="ca-${id}" required value="${esc(d.answer)}"></label>
+    <label class="stack" style="gap:6px"><span class="label">Что ещё засчитать (необязательно)</span><input type="text" name="acc" id="cacc-${id}" value="${esc(d.accept)}"></label>
+    <label class="stack" style="gap:6px"><span class="label">Комментарий для ведущего (необязательно)</span><textarea name="com" id="ccom-${id}">${esc(d.comment)}</textarea></label>
+    <div class="stack" style="gap:8px"><span class="label">Картинка (необязательно)</span>
+      <div class="img-edit"><div class="thumb" id="fimgp-${id}" ${d.image?"":"hidden"}>${picHTML(d.image)}</div>
+        <div class="row"><label class="btn" for="fimg-${id}">Загрузить свою картинку</label><input type="file" id="fimg-${id}" data-img="${id}" accept="image/*" hidden>
+        <button type="button" class="btn danger" id="fimgx-${id}" data-imgx="${id}" ${d.image?"":"hidden"}>Убрать картинку</button></div></div>
+      <details class="gallery"><summary>Выбрать из готовых картинок</summary><div class="gal-grid">${Object.keys(PICS).map(k=>`<button type="button" class="gal-item" id="gal-${id}-${k}" data-pick="${id}" data-key="${k}" aria-pressed="${d.image==="svg:"+k}">${PICS[k]}</button>`).join("")}</div></details>
+      <input type="hidden" name="img" id="fimgv-${id}" value="${esc(d.image||"")}"></div>
+    <div class="row">
+      <label class="row"><span class="label">Тема</span><select name="topic" id="ct-${id}" style="${sel}">${TOPIC_KEYS.map(k=>`<option value="${k}" ${d.topic===k?"selected":""}>${esc(topicName(k))}</option>`).join("")}</select></label>
+      <label class="row"><span class="label">Вид</span><select name="kind" id="ckd-${id}" style="${sel}">${Object.entries(CKIND).map(([k,t])=>`<option value="${k}" ${d.kind===k?"selected":""}>${t}</option>`).join("")}</select></label>
+    </div>
+    <div class="row"><button type="submit" class="btn primary">Сохранить</button><button type="button" class="btn" data-ccancel="1">Отмена</button></div>
+  </form>`;
+}
+function bindBankC(on){
+  on("[data-ck]","click",e=>{cKind=e.currentTarget.dataset.ck;cEdit=null;cAdd=false;cDel=null;render()});
+  on("#cAddQ","click",()=>{cAdd=true;cEdit=null;render();const t=$("#cq-cnew");t&&t.focus()});
+  on("[data-ced]","click",e=>{cEdit=e.currentTarget.dataset.ced;cAdd=false;cDel=null;render()});
+  on("[data-cdl]","click",e=>{cDel=e.currentTarget.dataset.cdl;render()});
+  on("[data-cdln]","click",()=>{cDel=null;render()});
+  on("[data-cdly]","click",e=>{const id=e.currentTarget.dataset.cdly;cq=cq.filter(x=>x.id!==id);cDel=null;cqSave();toast("Вопрос удалён");render()});
+  on("[data-ccancel]","click",()=>{cEdit=null;cAdd=false;render()});
+  on("[data-cform]","submit",e=>{e.preventDefault();const f=e.currentTarget,id=f.dataset.cform;
+    const d={question:f.q.value.trim(),answer:f.a.value.trim(),accept:f.acc.value.trim(),comment:f.com.value.trim(),topic:f.topic.value,kind:f.kind.value};
+    if(f.img.value)d.image=f.img.value;
+    if(!d.question||!d.answer){toast("Заполните вопрос и ответ");return}
+    if(id==="cnew"){d.id="c"+Date.now().toString(36)+Math.random().toString(36).slice(2,6);cq.push(d)}else{const i=cq.findIndex(x=>x.id===id);d.id=id;cq[i]=d}
+    cqSave();cEdit=null;cAdd=false;cKind=d.kind;toast(id==="cnew"?"Вопрос добавлен":"Изменения сохранены");render()});
+}
+
+/* ---------- СВОЯ ИГРА ---------- */
+let sv={phase:"setup",teamCount:3,names:["","","",""],rounds:2,final:true,showOpts:true,cats:true,
+  teams:[],pts:[],round:1,board:null,chooser:0,stage:"board",cur:null,tried:[],answerer:null,ok:null,used:[],stakes:[],fmarks:[],reveal:null,catTo:null};
+const SV_LEVEL=["easy","easy","medium","hard","hard"];
+function svPrice(r){return (r+1)*100*sv.round}
+function svPick(topic,level){
+  let pool=questions.filter(q=>q.topic===topic&&q.level===level&&!sv.used.includes(q.id));
+  if(!pool.length) pool=questions.filter(q=>q.topic===topic&&!sv.used.includes(q.id));
+  if(!pool.length) return null;
+  const q=pool[Math.floor(Math.random()*pool.length)];sv.used.push(q.id);
+  return {id:q.id,level:q.level,topic:q.topic,question:q.question,answers:q.answers.slice(),correct:q.correct,image:q.image||""};
+}
+function svBuildBoard(){
+  const topics=TOPIC_KEYS.slice(0,5);
+  const cells=topics.map(t=>SV_LEVEL.map(l=>({q:svPick(t,l),played:false,cat:false})));
+  topics.forEach((t,c)=>cells[c].forEach(x=>{if(!x.q)x.played=true}));
+  if(sv.cats){const free=[];cells.forEach((col,c)=>col.forEach((x,r)=>{if(!x.played&&r>0)free.push([c,r])}));
+    shuffle(free).slice(0,sv.round===1?1:2).forEach(([c,r])=>cells[c][r].cat=true)}
+  sv.board={topics,cells};
+}
+function svLeft(){return sv.board.cells.some(col=>col.some(x=>!x.played))}
+function svScores(){
+  return `<div class="svscores">${sv.teams.map((t,i)=>`<div class="svteam ${i===sv.chooser&&sv.stage==="board"?"choose":""}" style="--c:${t.color}"><b>${esc(t.name)}</b><span class="${sv.pts[i]<0?"neg":""}">${sv.pts[i]}</span></div>`).join("")}</div>`;
+}
+function catSVG(){return `<svg viewBox="0 0 200 180" class="svcat" aria-hidden="true">
+  <path d="M40 80 C30 150 60 172 100 172 C140 172 170 150 160 80Z" fill="#c8995a" stroke="#8b6b3a" stroke-width="4"/>
+  <path d="M40 80 Q100 96 160 80" stroke="#8b6b3a" stroke-width="5" fill="none"/><path d="M70 86 Q100 70 130 86" stroke="#c8463a" stroke-width="8" fill="none" stroke-linecap="round"/>
+  <g class="svcat-head"><path d="M66 70 L60 22 L88 46Z M134 70 L140 22 L112 46Z" fill="#7d87a3"/><path d="M68 64 L64 32 L82 48Z M132 64 L136 32 L118 48Z" fill="#f2a3a3"/>
+  <ellipse cx="100" cy="66" rx="44" ry="34" fill="#9aa3bd"/><circle cx="84" cy="62" r="7" fill="#fff"/><circle cx="116" cy="62" r="7" fill="#fff"/><circle cx="85" cy="63" r="4" fill="#1d2c5e"/><circle cx="117" cy="63" r="4" fill="#1d2c5e"/>
+  <path d="M96 74 L104 74 L100 79Z" fill="#e57b8a"/><path d="M100 79 Q94 86 88 82 M100 79 Q106 86 112 82" stroke="#1d2c5e" stroke-width="2" fill="none"/>
+  <path d="M70 76 H50 M70 80 L52 86 M130 76 H150 M130 80 L148 86" stroke="#1d2c5e" stroke-width="1.6"/></g></svg>`}
+function renderSvoya(){
+  if(sv.phase==="end") return renderEnd();
+  if(sv.phase==="setup"){const n=sv.teamCount;
+    return `<div class="stack">
+    <div><h1>Своя игра</h1><p class="lead">Табло из пяти тем и пяти цен. Кто первым нажал кнопку — тот и отвечает. Верно — очки прибавляются, неверно — вычитаются.</p></div>
+    ${stateBanner()}
+    <section class="panel stack"><div class="label">Количество команд</div>
+      <div class="count-pick">${[2,3,4].map(k=>`<button id="stc${k}" data-stc="${k}" aria-pressed="${k===n}">${k}<span>команды</span></button>`).join("")}</div>
+      <div class="names">${Array.from({length:n},(_,i)=>`<label class="name-field" style="--c:${TCOLORS[i]}"><span class="label">Команда ${i+1}</span><input type="text" id="stn${i}" data-stn="${i}" maxlength="40" placeholder="Например: «Михайлята»" value="${esc(sv.names[i])}"></label>`).join("")}</div></section>
+    <section class="panel stack"><div class="label">Ход игры</div>
+      <div class="ttabs" style="justify-content:center">${[[1,"Один раунд"],[2,"Два раунда (второй — цены ×2)"]].map(([k,t])=>`<button id="sr${k}" data-sr="${k}" aria-pressed="${sv.rounds===k}">${t}</button>`).join("")}</div>
+      <label class="switch" style="justify-content:center"><input type="checkbox" id="sfin" ${sv.final?"checked":""}><span><b>Финал со ставками</b><br><span class="hidden-msg">Один общий вопрос: команды ставят часть своих очков.</span></span></label>
+      <label class="switch" style="justify-content:center"><input type="checkbox" id="scat" ${sv.cats?"checked":""}><span><b>«Кот в мешке»</b><br><span class="hidden-msg">Спрятанный вопрос, который нужно отдать другой команде.</span></span></label>
+      <label class="switch" style="justify-content:center"><input type="checkbox" id="sopt" ${sv.showOpts?"checked":""}><span><b>Показывать варианты ответа</b><br><span class="hidden-msg">Если выключить, команды отвечают сами, без подсказок — так сложнее.</span></span></label>
+    </section>
+    <section class="panel stack rules"><div class="label">Правила</div><ol>
+      <li>Табло: 5 тем по 5 вопросов. Цена 100–200 — лёгкие вопросы, 300 — средние, 400–500 — сложные${sv.rounds===2?"; во втором раунде цены вдвое выше":""}.</li>
+      <li>Команда выбирает тему и цену. Вопрос открывается на экране.</li>
+      <li>Кто <b>первым нажал кнопку</b>, тот отвечает. <b>Верно</b> — цена вопроса прибавляется, и эта команда выбирает следующий вопрос. <b>Неверно</b> — цена вычитается, и могут ответить другие команды.</li>
+      ${sv.cats?`<li><b>Кот в мешке</b>: команда, выбравшая этот вопрос, отдаёт его любой другой команде. Отвечает только она.</li>`:""}
+      ${sv.final?`<li><b>Финал</b>: команды с положительным счётом делают ставку — сколько очков готовы рискнуть — и пишут ответ на листочке. Верно — ставка прибавляется, неверно — вычитается.</li>`:""}
+    </ol></section>
+    <div class="row"><button class="btn gold big" id="svstart" ${dbState!=="ready"?"disabled":""}>Начать игру</button></div></div>`}
+  if(sv.phase==="interlude") return `<div class="stack"><div><h1>Второй раунд</h1><p class="lead">Новые вопросы, цены вдвое выше: от 200 до 1000.</p></div>${svScores()}<div class="row"><button class="btn gold big" id="svr2">Начать второй раунд</button></div></div>`;
+  if(sv.phase==="final") return renderSvFinal();
+  // игровое табло
+  if(sv.stage==="board"){
+    const head=sv.board.topics.map(t=>`<div class="svhead">${esc(topicName(t))}</div>`).join("");
+    const rows=[0,1,2,3,4].map(r=>sv.board.topics.map((t,c)=>{const x=sv.board.cells[c][r];
+      return x.played?`<div class="svcell played"></div>`:`<button class="svcell" id="sv-${c}-${r}" data-sv="${c}-${r}">${svPrice(r)}</button>`}).join("")).join("");
+    return `<div class="stack svwrap">
+      <div class="row" style="justify-content:space-between"><span class="chip">Раунд ${sv.round}${sv.rounds>1?" из "+sv.rounds:""}</span><span class="chip" style="--c:${sv.teams[sv.chooser].color}">Выбирает: ${esc(sv.teams[sv.chooser].name)}</span></div>
+      <div class="svboard">${head}${rows}</div>
+      ${svScores()}
+      <div class="row"><button class="btn" id="svchooser">Сменить выбирающую команду</button><button class="btn danger" id="svendround">${sv.round<sv.rounds?"Закончить раунд":sv.final?"Перейти к финалу":"Закончить игру"}</button></div>
+      ${sv.pickChooser?`<div class="panel row" style="justify-content:center">${sv.teams.map((t,i)=>`<button class="cmark" data-svch="${i}" id="svch${i}" style="--c:${t.color}" aria-pressed="${i===sv.chooser}">${esc(t.name)}</button>`).join("")}</div>`:""}
+      ${sv.confirmEnd?`<div class="confirm"><span>Закончить раунд, даже если остались вопросы?</span><button class="btn danger" id="svendYes">Да</button><button class="btn" id="svendNo">Нет</button></div>`:""}
+    </div>`;
+  }
+  const {c,r}=sv.cur, x=sv.board.cells[c][r], q=x.q, P=svPrice(r);
+  if(sv.stage==="cat") return `<div class="stack svwrap" style="align-items:center">
+    <div class="svcat-wrap">${catSVG()}</div><h1 style="text-align:center">Кот в мешке!</h1>
+    <p class="lead">Команда «${esc(sv.teams[sv.chooser].name)}» отдаёт вопрос другой команде. Тема: <b>${esc(topicName(q.topic))}</b>, цена: <b>${P}</b>.</p>
+    <div class="cmarks">${sv.teams.map((t,i)=>i===sv.chooser&&sv.teams.length>1?"":`<button class="cmark" data-svcat="${i}" id="svcat${i}" style="--c:${t.color}">Отдать: ${esc(t.name)}</button>`).join("")}</div></div>`;
+  const t=sv.tm||{};
+  const timer=settings.timerOn?`<div class="ctimer ${t.left<=10&&t.run?"low":""}" id="svclock">${mmss(t.run||t.done?t.left:Number(settings.time[q.level])||60)}</div>`:"";
+  const opts=(sv.showOpts||sv.stage==="answer")?`<div class="answers">${q.answers.map((a,k)=>`<div class="ans ${sv.stage==="answer"&&k===q.correct?"right":""}"><span class="letter">${LETTERS[k]}</span><span style="min-width:0">${esc(a)}${sv.stage==="answer"&&k===q.correct?`<span class="right-tag">✓ Верный ответ</span>`:""}</span></div>`).join("")}</div>`:"";
+  let ctrl="";
+  if(sv.stage==="question"){
+    if(sv.answerer==null){
+      const can=sv.teams.map((tm,i)=>i).filter(i=>!sv.tried.includes(i)&&(sv.catTo==null||i===sv.catTo));
+      ctrl=can.length?`<div class="label" style="text-align:center">${sv.catTo!=null?"Отвечает команда":"Кто первым нажал кнопку?"}</div><div class="cmarks">${can.map(i=>`<button class="cmark" data-svans="${i}" id="svans${i}" style="--c:${sv.teams[i].color}">${esc(sv.teams[i].name)}</button>`).join("")}</div>`:"";
+      ctrl+=`<div class="row" style="justify-content:center"><button class="btn" id="svnone">${sv.catTo!=null?"Показать ответ":"Никто не отвечает — показать ответ"}</button></div>`;
+    } else {
+      const tm=sv.teams[sv.answerer];
+      ctrl=`<div class="label" style="text-align:center">Отвечает: <span style="color:${tm.color}">${esc(tm.name)}</span></div>
+        <div class="row" style="justify-content:center"><button class="btn big" style="background:var(--green);border-color:var(--green);color:#fff" id="svok">Верно +${P}</button><button class="btn danger big" id="svbad">Неверно −${P}</button><button class="btn" id="svundo">Отмена</button></div>`;
+    }
+  } else {
+    ctrl=`<div class="verdict ${sv.ok==null?"none":sv.ok?"ok":"bad"}">${sv.ok==null?"Никто не ответил верно":`✓ ${esc(sv.teams[sv.answerer].name)}: +${P}`}</div><div class="row" style="justify-content:center"><button class="btn primary big" id="svback">К табло →</button></div>`;
+  }
+  return `<div class="stack svwrap lv-${q.level}">
+    <div class="stage-head"><span class="chip">${esc(topicName(q.topic))}</span><span class="chip lv">${P}</span>${x.cat?`<span class="chip">Кот в мешке</span>`:""}${timer}</div>
+    <p class="question">${esc(q.question)}</p>
+    ${q.image?`<div class="qpic">${picHTML(q.image)}</div>`:""}
+    ${opts}
+    ${sv.tried.length?`<p class="hidden-msg" style="text-align:center;margin:0">Ошиблись: ${sv.tried.map(i=>esc(sv.teams[i].name)).join(", ")}</p>`:""}
+    <div class="stack" style="gap:10px">${ctrl}</div>
+    ${svScores()}
+  </div>`;
+}
+function renderSvFinal(){
+  const f=sv.fq, who=sv.teams.map((t,i)=>i).filter(i=>sv.pts[i]>0);
+  if(sv.fstage==="stakes") return `<div class="stack svwrap"><div><h1>Финал</h1><p class="lead">Тема финала: <b>${esc(topicName(f.topic))}</b>. Команды с положительным счётом пишут на листочке ставку — сколько очков готовы рискнуть. Ведущий вносит ставки.</p></div>
+    ${who.length?`<div class="svstakes">${who.map(i=>`<label class="qty-field" style="--lv:${sv.teams[i].color}"><span class="qty-name">${esc(sv.teams[i].name)}</span><input type="number" id="svst${i}" data-svst="${i}" min="0" max="${sv.pts[i]}" value="${sv.stakes[i]||0}"><span class="qty-max">из ${sv.pts[i]}</span></label>`).join("")}</div>`
+      :`<div class="note">Ни у одной команды нет положительного счёта, поэтому финал не играется.</div>`}
+    ${svScores()}
+    <div class="row">${who.length?`<button class="btn gold big" id="svfq">Показать вопрос финала</button>`:""}<button class="btn" id="svfskip">${who.length?"Пропустить финал":"Подвести итоги"}</button></div></div>`;
+  const t=sv.tm||{};
+  return `<div class="stack svwrap lv-hard">
+    <div class="stage-head"><span class="chip">Финал · ${esc(topicName(f.topic))}</span>${settings.timerOn?`<div class="ctimer ${t.left<=10&&t.run?"low":""}" id="svclock">${mmss(t.run||t.done?t.left:60)}</div>`:""}</div>
+    <p class="question">${esc(f.question)}</p>${f.image?`<div class="qpic">${picHTML(f.image)}</div>`:""}
+    ${sv.showOpts||sv.fstage==="answer"?`<div class="answers">${f.answers.map((a,k)=>`<div class="ans ${sv.fstage==="answer"&&k===f.correct?"right":""}"><span class="letter">${LETTERS[k]}</span><span>${esc(a)}</span></div>`).join("")}</div>`:""}
+    ${sv.fstage==="question"?`<div class="row" style="justify-content:center"><button class="btn gold big" id="svfshow">Показать ответ</button></div>`
+      :`<div class="label" style="text-align:center">Отметьте команды, ответившие верно</div><div class="cmarks">${who.map(i=>`<button class="cmark" data-svfm="${i}" id="svfm${i}" style="--c:${sv.teams[i].color}" aria-pressed="${!!sv.fmarks[i]}">${sv.fmarks[i]?"✓ ":""}${esc(sv.teams[i].name)} · ставка ${sv.stakes[i]||0}</button>`).join("")}</div>
+       <div class="row" style="justify-content:center"><button class="btn primary big" id="svfdone">Подвести итоги</button></div>`}
+    ${svScores()}</div>`;
+}
+let svtick=null;
+function svTimer(sec){clearInterval(svtick);if(!settings.timerOn)return;sv.tm={run:true,done:false,left:sec,end:Date.now()+sec*1000,last:sec};
+  svtick=setInterval(()=>{const t=sv.tm;t.left=Math.max(0,(t.end-Date.now())/1000);const el=$("#svclock");if(el){el.textContent=mmss(t.left);el.classList.toggle("low",t.left<=10)}
+    const w=Math.ceil(t.left);if(w!==t.last){t.last=w;if(w<=5&&w>0)tickSound()}
+    if(t.left<=0){clearInterval(svtick);t.run=false;t.done=true;beep()}},200)}
+function svOpen(c,r){const x=sv.board.cells[c][r];sv.cur={c,r};sv.tried=[];sv.answerer=null;sv.ok=null;sv.catTo=null;
+  if(x.cat&&sv.teams.length>1){sv.stage="cat";render();chime([392,523,659]);return}
+  sv.stage="question";svTimer(Number(settings.time[x.q.level])||60);render()}
+function svFinish(){clearInterval(svtick);const x=sv.board.cells[sv.cur.c][sv.cur.r];x.played=true;sv.stage="answer";render()}
+function svAfterBoard(){
+  if(svLeft()){sv.stage="board";render();return}
+  svRoundOver();
+}
+function svRoundOver(){
+  if(sv.round<sv.rounds){sv.phase="interlude";render();return}
+  if(sv.final){svStartFinal();return}
+  sv.phase="end";sv.reveal=0;render();
+}
+function svStartFinal(){
+  let pool=questions.filter(q=>q.level==="hard"&&!sv.used.includes(q.id));if(!pool.length)pool=questions.slice();
+  const q=pool[Math.floor(Math.random()*pool.length)];sv.used.push(q.id);
+  sv.fq={id:q.id,level:"hard",topic:q.topic,question:q.question,answers:q.answers.slice(),correct:q.correct,image:q.image||""};
+  sv.phase="final";sv.fstage="stakes";sv.stakes=[];sv.fmarks=[];render();
+}
+function svEndPlaces(){
+  const N=sv.teams.length;
+  const rows=sv.teams.map((t,i)=>({t,i,s:sv.pts[i],right:0})).sort((a,b)=>b.s-a.s);
+  let place=0,prev=null;rows.forEach(x=>{if(prev===null||x.s!==prev){place++;prev=x.s}x.place=Math.min(place,N)});
+  const byPlace={};for(let p=1;p<=N;p++)byPlace[p]=[];rows.forEach(x=>byPlace[x.place].push(x));
+  const filled=[];for(let p=N;p>=1;p--)filled.push(p);
+  return {byPlace,filled,N};
+}
+function bindSvoya(on){
+  if(sv.phase==="setup"){
+    const rn=()=>document.querySelectorAll("[data-stn]").forEach(el=>sv.names[el.dataset.stn]=el.value);
+    on("[data-stc]","click",e=>{rn();sv.teamCount=+e.currentTarget.dataset.stc;render()});
+    on("[data-sr]","click",e=>{rn();sv.rounds=+e.currentTarget.dataset.sr;render()});
+    on("#sfin","change",e=>{sv.final=e.target.checked});
+    on("#scat","change",e=>{sv.cats=e.target.checked});
+    on("#sopt","change",e=>{sv.showOpts=e.target.checked});
+    on("#svstart","click",()=>{rn();const N=sv.teamCount;
+      Object.assign(sv,{phase:"play",teams:Array.from({length:N},(_,i)=>({name:(sv.names[i]||"").trim()||`Команда ${i+1}`,color:TCOLORS[i]})),pts:Array(N).fill(0),
+        round:1,chooser:0,stage:"board",used:[],reveal:null,pickChooser:false,confirmEnd:false});
+      svBuildBoard();render();window.scrollTo(0,0);try{navigator.wakeLock&&navigator.wakeLock.request("screen").catch(()=>{})}catch(e){}});
+    return;
+  }
+  if(sv.phase==="interlude"){on("#svr2","click",()=>{sv.round=2;sv.phase="play";sv.stage="board";svBuildBoard();render()});return}
+  if(sv.phase==="final"){
+    on("[data-svst]","input",e=>{const i=+e.target.dataset.svst;let v=Math.max(0,Math.round(Number(e.target.value)||0));if(v>sv.pts[i])v=sv.pts[i];sv.stakes[i]=v});
+    on("[data-svst]","change",e=>{const i=+e.target.dataset.svst;e.target.value=sv.stakes[i]||0});
+    on("#svfq","click",()=>{sv.fstage="question";svTimer(60);render()});
+    on("#svfskip","click",()=>{clearInterval(svtick);sv.phase="end";sv.reveal=0;render()});
+    on("#svfshow","click",()=>{clearInterval(svtick);sv.fstage="answer";render()});
+    on("[data-svfm]","click",e=>{const i=+e.currentTarget.dataset.svfm;sv.fmarks[i]=!sv.fmarks[i];render()});
+    on("#svfdone","click",()=>{sv.teams.forEach((_,i)=>{if(sv.pts[i]>0){const s=sv.stakes[i]||0;sv.pts[i]+=sv.fmarks[i]?s:-s}});sv.phase="end";sv.reveal=0;render();window.scrollTo(0,0)});
+    return;
+  }
+  if(sv.phase==="end"){
+    const n=svEndPlaces().filled.length;
+    const after=()=>{if(sv.reveal>=n){confetti(260);chime([523,659,784,1047])}else{confetti(60);chime([523,659])}};
+    on("#revealNext","click",()=>{sv.reveal=Math.min(n,sv.reveal+1);render();after()});
+    on("#revealAll","click",()=>{sv.reveal=n;render();after()});
+    on("#cheer","click",()=>{confetti(260);chime([523,659,784,1047])});
+    on("#newGame","click",()=>{sv.phase="setup";sv.reveal=null;render()});
+    return;
+  }
+  // игра
+  on("[data-sv]","click",e=>{const [c,r]=e.currentTarget.dataset.sv.split("-").map(Number);svOpen(c,r)});
+  on("#svchooser","click",()=>{sv.pickChooser=!sv.pickChooser;render()});
+  on("[data-svch]","click",e=>{sv.chooser=+e.currentTarget.dataset.svch;sv.pickChooser=false;render()});
+  on("#svendround","click",()=>{sv.confirmEnd=true;render()});
+  on("#svendNo","click",()=>{sv.confirmEnd=false;render()});
+  on("#svendYes","click",()=>{sv.confirmEnd=false;svRoundOver()});
+  on("[data-svcat]","click",e=>{const i=+e.currentTarget.dataset.svcat;sv.catTo=i;sv.stage="question";const q=sv.board.cells[sv.cur.c][sv.cur.r].q;svTimer(Number(settings.time[q.level])||60);render()});
+  on("[data-svans]","click",e=>{sv.answerer=+e.currentTarget.dataset.svans;render()});
+  on("#svundo","click",()=>{sv.answerer=null;render()});
+  on("#svok","click",()=>{const P=svPrice(sv.cur.r);sv.pts[sv.answerer]+=P;sv.ok=true;sv.chooser=sv.answerer;confetti(50);chime([523,659,784]);svFinish()});
+  on("#svbad","click",()=>{const P=svPrice(sv.cur.r);sv.pts[sv.answerer]-=P;sv.tried.push(sv.answerer);const a=sv.answerer;sv.answerer=null;
+    const left=sv.teams.map((_,i)=>i).filter(i=>!sv.tried.includes(i));
+    if(sv.catTo!=null||!left.length){sv.answerer=a;sv.ok=false;svFinishNoWinner();return}render()});
+  on("#svnone","click",()=>{svFinishNoWinner()});
+  on("#svback","click",()=>{sv.tm=null;svAfterBoard()});
+}
+function svFinishNoWinner(){sv.ok=null;sv.answerer=null;svFinish()}
 
 /* ---------- обработчики ---------- */
 function bind(){
@@ -1292,7 +1899,11 @@ function bind(){
     }
   }
   if(view==="walk") bindWalk(on);
+  if(view==="chgk") bindChgk(on);
+  if(view==="svoy") bindSvoya(on);
   if(view==="bank"){
+    on("[data-bm]","click",e=>{bankMode=e.currentTarget.dataset.bm;editing=null;adding=false;cEdit=null;cAdd=false;render()});
+    if(bankMode==="chgk") bindBankC(on);
     on("[data-bl]","click",e=>{bankLevel=e.currentTarget.dataset.bl;editing=null;adding=false;confirmDel=null;render()});
     on("[data-bt]","click",e=>{bankTopic=e.currentTarget.dataset.bt;editing=null;adding=false;confirmDel=null;render()});
     on("[data-img]","change",e=>{const id=e.target.dataset.img,f=e.target.files&&e.target.files[0];if(!f)return;
@@ -1337,12 +1948,14 @@ function readNames(){document.querySelectorAll("[data-tn]").forEach(el=>game.nam
 
 /* сохранение состояния игры при обновлении страницы */
 function boot(data){
+  if(data&&data.sv){sv=data.sv;if(sv.tm&&sv.tm.run){sv.tm.run=false;sv.tm.done=true}}
+  if(data&&data.chgk){chgk=data.chgk;if(chgk.stage==="spinning")chgk.stage="spin";if(chgk.tm&&chgk.tm.run){chgk.tm.run=false;chgk.tm.done=true}}
   if(data&&data.walk){walk=data.walk;if(walk.phase==="play"&&(walk.stage==="moving"||walk.stage==="rolling"))walk.stage="roll"}
   if(data&&data.game){game=data.game;view=data.view||"game";
     if(game.phase==="play"&&data.timer){timer=data.timer;if(timer.running&&!timer.done){timer.end=Date.now()+timer.left*1000;tick=setInterval(step,200)}}}
   render(); initDb();
 }
-try{window.claude?.hot?.snapshot?.(()=>({game,view,timer,walk}))}catch(e){}
+try{window.claude?.hot?.snapshot?.(()=>({game,view,timer,walk,chgk,sv}))}catch(e){}
 window.claude?.hot?.ready ? window.claude.hot.ready(boot) : boot(window.claude?.hot?.data ?? {});
 })();
 </script>

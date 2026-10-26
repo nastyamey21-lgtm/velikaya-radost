@@ -262,6 +262,11 @@ main .wrap>.stack>div:first-child{background:var(--surface);border:1px solid var
 .thumb-row{display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap;padding-left:3.2em}
 .thumb-row .thumb{margin-left:0}
 @media (max-width:720px){.thumb-row{padding-left:0}}
+.qty-row{display:flex;flex-wrap:wrap;gap:8px 20px;justify-content:center}
+.qty-field{display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-left:4px solid var(--lv);background:var(--bg);border-radius:10px;padding:6px 10px}
+.qty-field .qty-name{font-weight:800;font-size:.95rem}
+.qty-field input[type=number]{width:64px;padding:4px 6px;font-weight:800;text-align:center;background:var(--surface);border-radius:8px}
+.qty-field .qty-max{color:var(--muted);font-size:.85rem;white-space:nowrap}
 /* Банк */
 .lvtabs{display:flex;gap:8px;flex-wrap:wrap}
 .lvtabs button{border:2px solid var(--line);background:var(--surface);border-radius:999px;padding:8px 16px;font-weight:800}
@@ -573,17 +578,19 @@ function renderGame(){
 }
 function qWord(n){const a=n%10,b=n%100;if(a===1&&b!==11)return "вопрос";if(a>=2&&a<=4&&(b<10||b>=20))return "вопроса";return "вопросов"}
 function counts(t){const c={};LEVELS.forEach(([l])=>c[l]=byLevel(l,t).length);return c}
+function planText(){const qty=game.count||settings.count,c=counts(game.topic);
+  return "В игре будет: "+LEVELS.map(([l,,nm])=>`${Math.min(qty[l],c[l])} ${nm==="лёгкий"?"лёгких":nm==="средний"?"средних":"сложных"}`).join(", ")+". Вопросы идут от лёгких к сложным и выбираются случайно. Если поставить 0, этого раунда не будет."}
 function renderSetup(){
-  const n=game.teamCount, qty=settings.count;
+  const n=game.teamCount, qty=game.count||settings.count;
   const topicCard=k=>{const c=counts(k), tot=c.easy+c.medium+c.hard;
     return `<button class="topic ${k==="all"?"topic-all":""}" id="tp-${k}" data-topic="${k}" aria-pressed="${game.topic===k}" ${tot?"":"disabled"}>
       <span class="topic-ic">${TOPIC_ICONS[k]||""}</span>
       <b>${esc(topicName(k))}</b>
       <span class="topic-n">${k==="all"?"вопросы из всех тем · ":""}${tot} ${qWord(tot)}</span></button>`};
   const c=counts(game.topic);
-  const plan=LEVELS.map(([l,,nm])=>`${Math.min(qty[l],c[l])} ${nm==="лёгкий"?"лёгких":nm==="средний"?"средних":"сложных"}`).join(", ");
+  const plan=planText(true);
   return `<div class="stack">
-  <div><h1>Новая игра</h1><p class="lead">Выберите, сколько команд будет играть, впишите их названия и выберите тему викторины.</p></div>
+  <div><h1>Новая игра</h1><p class="lead">Выберите команды, тему викторины и сколько вопросов будет в каждом раунде.</p></div>
   ${stateBanner()}
   <section class="panel stack">
     <div class="label">Количество команд</div>
@@ -594,7 +601,11 @@ function renderSetup(){
   <section class="panel stack">
     <div class="label">Тема викторины</div>
     <div class="topics">${["all",...TOPIC_KEYS].map(topicCard).join("")}</div>
-    <p class="hidden-msg" style="margin:0;text-align:center">В игре будет: ${plan}. Вопросы идут от лёгких к сложным и выбираются случайно. Количество меняется в настройках.</p>
+  </section>
+  <section class="panel stack">
+    <div class="label">Количество вопросов в раундах</div>
+    <div class="qty-row">${LEVELS.map(([l,t])=>`<label class="lv-${l} qty-field"><span class="qty-name">${t}</span><input type="number" id="qc-${l}" data-qc="${l}" min="0" max="${c[l]}" value="${Math.min(qty[l],c[l])}"><span class="qty-max">из ${c[l]}</span></label>`).join("")}</div>
+    <p class="hidden-msg" style="margin:0;text-align:center;font-size:.85rem" id="planLine">${plan}</p>
     <div class="row"><button class="btn primary big" id="toRules" ${dbState!=="ready"?"disabled":""}>Далее: правила</button></div>
   </section></div>`;
 }
@@ -902,7 +913,7 @@ function renderSettings(){
         <label class="switch"><input type="checkbox" id="s-bonusOn" data-sw="bonusOn" ${s.bonusOn?"checked":""} ${s.orderOn?"":"disabled"}><span><b>Бонус и штраф первой команде</b><br><span class="hidden-msg">Верно — плюс, неверно — минус. Работает, только если учитывается очерёдность.</span></span></label>
         <label class="trip" style="grid-template-columns:1fr"><span>Размер бонуса и штрафа, баллы</span><input type="number" id="s-bonus" data-s="bonus" min="0" step="0.5" value="${s.bonus}"></label>
       </section>
-      <section class="panel stack"><h2>Сколько вопросов в игре</h2><p class="hidden-msg" style="margin:0">Для каждого уровня. Если в теме вопросов меньше, возьмутся все, что есть.</p>${trip("count")}</section>
+      <section class="panel stack"><h2>Сколько вопросов в игре</h2><p class="hidden-msg" style="margin:0">Значения по умолчанию для каждого раунда. Перед игрой их можно изменить на экране «Новая игра».</p>${trip("count")}</section>
       <section class="panel stack" style="grid-column:1/-1"><h2>Названия тем викторины</h2>
         <p class="hidden-msg" style="margin:0">Можно переименовать любую тему. Вопросы остаются в своих темах.</p>
         <div class="tnames">${TOPIC_KEYS.map((k,i)=>`<label><span class="label">Тема ${i+1}</span><input type="text" id="s-topic-${k}" data-s="topics.${k}" maxlength="40" value="${esc(topicName(k))}"></label>`).join("")}</div></section>
@@ -952,9 +963,11 @@ function bind(){
       on("[data-tc]","click",e=>{readNames();game.teamCount=Number(e.currentTarget.dataset.tc);render()});
       on("[data-tn]","input",e=>game.names[e.target.dataset.tn]=e.target.value);
       on("[data-topic]","click",e=>{readNames();game.topic=e.currentTarget.dataset.topic;render()});
+      on("[data-qc]","input",e=>{game.count=game.count||Object.assign({},settings.count);const max=+e.target.max;let v=Math.max(0,Math.round(Number(e.target.value)||0));if(v>max)v=max;game.count[e.target.dataset.qc]=v});
+      on("[data-qc]","change",e=>{const l=e.target.dataset.qc;e.target.value=game.count?game.count[l]:e.target.value;const pl=$("#planLine");if(pl)pl.textContent=planText()});
       on("#toRules","click",()=>{
         readNames();
-        const qty=settings.count; let list=[];
+        const qty=game.count||settings.count; let list=[];
         LEVELS.forEach(([l])=>{const pool=byLevel(l,game.topic);list=list.concat(shuffle(pool).slice(0,Math.min(qty[l]||0,pool.length)))});
         if(!list.length){toast("В этой теме пока нет вопросов. Выберите другую тему или добавьте вопросы в банк.");return}
         game.teams=Array.from({length:game.teamCount},(_,i)=>({name:(game.names[i]||"").trim()||`Команда ${i+1}`,color:TCOLORS[i]}));

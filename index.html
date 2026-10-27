@@ -400,7 +400,11 @@ main .wrap>.stack>div:first-child{background:var(--surface);border:1px solid var
 .svvideo video,.svvideo iframe{display:block;width:100%;height:100%;border:0;background:#000}
 .svvslot{border:1px solid var(--line);border-radius:10px;padding:12px;background:var(--bg)}
 .svvslot .row{gap:8px}
-.svmus{font-size:.9rem;padding:6px 14px}
+.switch.toggle input{appearance:none;-webkit-appearance:none;width:52px;height:30px;border-radius:999px;background:var(--line);position:relative;cursor:pointer;transition:background .2s;margin-top:0}
+.switch.toggle input::after{content:"";position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.3);transition:transform .2s}
+.switch.toggle input:checked{background:var(--green)}
+.switch.toggle input:checked::after{transform:translateX(22px)}
+.switch.toggle input:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
 .svaudio{display:flex;flex-direction:column;align-items:center;gap:14px;background:var(--surface);border:2px solid var(--gold);border-radius:var(--r);padding:24px;width:min(100%,620px);margin-inline:auto;box-shadow:0 12px 30px rgba(20,40,90,.2)}
 .svaudio b{font-family:var(--display);font-weight:400;font-size:2rem;color:var(--blue)}
 .svaudio audio{width:100%}
@@ -587,7 +591,7 @@ const TCOLORS=["var(--t1)","var(--t2)","var(--t3)","var(--t4)"];
 const TOPIC_KEYS=["christmas", "acts", "ot", "gospel", "church"];
 const TOPIC_DEF={"christmas": "Рождество и Пасха", "acts": "Деяния святых апостолов", "ot": "Ветхий и Новый Завет", "gospel": "Спаситель, Богородица и ангелы", "church": "Храм, праздники и святые"};
 const DEFAULTS={points:{easy:1,medium:3,hard:5},time:{easy:30,medium:60,hard:120},count:{easy:5,medium:5,hard:5},
-  timerOn:true,soundOn:true,orderOn:true,bonusOn:true,bonus:0.5,extra:"",topicsVer:2,topics:Object.assign({},TOPIC_DEF)};
+  timerOn:true,soundOn:true,svMusicOn:true,svVideoOn:true,orderOn:true,bonusOn:true,bonus:0.5,extra:"",topicsVer:2,topics:Object.assign({},TOPIC_DEF)};
 
 let db=null, canWrite=true, dbState="loading";
 let questions=[]; // {id,level,question,answers,correct,order}
@@ -1184,6 +1188,12 @@ function renderSettings(){
         <label class="trip" style="grid-template-columns:1fr"><span>Размер бонуса и штрафа, баллы</span><input type="number" id="s-bonus" data-s="bonus" min="0" step="0.5" value="${s.bonus}"></label>
       </section>
       <section class="panel stack"><h2>Сколько вопросов в игре</h2><p class="hidden-msg" style="margin:0">Значения по умолчанию для каждого раунда. Перед игрой их можно изменить на экране «Новая игра».</p>${trip("count")}</section>
+      <section class="panel stack" style="grid-column:1/-1"><h2>Своя игра: музыка и видео</h2>
+        <label class="switch toggle"><input type="checkbox" id="s-svMusicOn" data-sw="svMusicOn" ${s.svMusicOn!==false?"checked":""}><span><b>Тихая волшебная мелодия</b><br><span class="hidden-msg">Играет, пока команды выбирают вопрос; на время вопроса замолкает.</span></span></label>
+        <label class="switch toggle"><input type="checkbox" id="s-svVideoOn" data-sw="svVideoOn" ${s.svVideoOn!==false?"checked":""}><span><b>Показывать видео между раундами</b><br><span class="hidden-msg">Если выключить, между раундами видео не будет, даже если оно добавлено ниже.</span></span></label>
+        <p class="hidden-msg" style="margin:0">Переключатели сохраняются кнопкой «Сохранить» внизу. Файлы и ссылки ниже сохраняются сразу. Видеофайл хранится только на этом компьютере — добавляйте его на том, с которого идёт игра.</p>
+        <div id="svmedia" class="stack">${svMediaSlots()}</div>
+      </section>
       <section class="panel stack" style="grid-column:1/-1"><h2>Названия тем викторины</h2>
         <p class="hidden-msg" style="margin:0">Можно переименовать любую тему. Вопросы остаются в своих темах.</p>
         <div class="tnames">${TOPIC_KEYS.map((k,i)=>`<label><span class="label">Тема ${i+1}</span><input type="text" id="s-topic-${k}" data-s="topics.${k}" maxlength="40" value="${esc(topicName(k))}"></label>`).join("")}</div></section>
@@ -1766,7 +1776,7 @@ const KEY_SV_VIDEO="velikaya-radost-svvideo";
 const SV_DEFAULT_MEDIA={r2:{type:"url",url:"pereryv.mp4",builtin:true,name:"Перерыв с миньонами"}};
 function svVidRaw(){return loadLocal(KEY_SV_VIDEO)||{}}
 function svVid(){const s=svVidRaw(),o={};["r2","fin"].forEach(k=>{const x=s[k]||SV_DEFAULT_MEDIA[k];if(x&&x.type!=="none")o[k]=x});return o}
-function svHasVid(k){const x=svVid()[k];return !!(x&&(x.type==="file"||x.type==="url"))}
+function svHasVid(k){if(settings.svVideoOn===false)return false;const x=svVid()[k];return !!(x&&(x.type==="file"||x.type==="url"))}
 function svMediaKind(x){if(!x)return null;if(x.type==="file")return /^audio\//.test(x.mime||"")||/\.(mp3|m4a|wav|aac|flac)$/i.test(x.name||"")?"audio":"video";
   if(x.builtin||/^[\w.-]+\.(mp3|m4a|wav|aac|mp4|webm)$/i.test(x.url))return /\.(mp3|m4a|wav|aac)$/i.test(x.url)?"audio":"video";
   const e=videoEmbed(x.url);return e?(e.kind==="file"?"video":e.kind):null}
@@ -1789,15 +1799,15 @@ function svBuildBoard(){
 }
 function svLeft(){return sv.board.cells.some(col=>col.some(x=>!x.played))}
 function svScores(){
-  return `<div class="svscores">${sv.teams.map((t,i)=>`<div class="svteam ${i===sv.chooser&&sv.stage==="board"?"choose":""}" style="--c:${t.color}"><b>${esc(t.name)}</b><span class="${sv.pts[i]<0?"neg":""}">${sv.pts[i]}</span></div>`).join("")}</div>
-  <div class="row" style="justify-content:center"><button class="btn svmus" id="svmus" aria-pressed="${sv.music}">${sv.music?"♪ Музыка включена — выключить":"♪ Включить музыку"}</button></div>`;
+  return `<div class="svscores">${sv.teams.map((t,i)=>`<div class="svteam ${i===sv.chooser&&sv.stage==="board"?"choose":""}" style="--c:${t.color}"><b>${esc(t.name)}</b><span class="${sv.pts[i]<0?"neg":""}">${sv.pts[i]}</span></div>`).join("")}</div>`;
 }
 function svQuestionActive(){return (sv.phase==="play"&&(sv.stage==="question"||sv.stage==="cat"))||(sv.phase==="final"&&sv.fstage==="question")}
 function svMusicSync(){
   const vid=(sv.phase==="interlude"&&svHasVid("r2"))||(sv.phase==="prefinal"&&svHasVid("fin"));
-  const want=sv.music&&view==="svoy"&&["play","interlude","prefinal","final"].includes(sv.phase)&&!svQuestionActive()&&!vid;
+  const want=settings.svMusicOn!==false&&view==="svoy"&&["play","interlude","prefinal","final"].includes(sv.phase)&&!svQuestionActive()&&!vid;
   if(want&&!Music.playing())Music.start();else if(!want&&Music.playing())Music.stop();
 }
+function svMediaSlots(){return svVideoSlot("r2","Видео или музыка после первого раунда")+svVideoSlot("fin","Видео или музыка перед финалом")}
 function svVideoSlot(k,title){const x=svVid()[k],raw=svVidRaw()[k],def=SV_DEFAULT_MEDIA[k];
   const cur=x&&x.builtin?`<span>🎬 Стандартное: <b>${esc(x.name)}</b> (видео, 1,5 минуты)</span>`
     :x&&x.type==="file"?`<span>${svMediaKind(x)==="audio"?"🎵":"🎬"} Файл: <b>${esc(x.name)}</b> (${Math.max(1,Math.round(x.size/1048576))} МБ)</span>`
@@ -1806,7 +1816,7 @@ function svVideoSlot(k,title){const x=svVid()[k],raw=svVidRaw()[k],def=SV_DEFAUL
     <div class="row"><label class="btn" for="svvf-${k}">${x?"Заменить файлом…":"Выбрать файл…"}</label><input type="file" accept="video/*,audio/*" id="svvf-${k}" data-svvf="${k}" hidden>
     <span class="hidden-msg">или</span><input type="text" id="svvu-${k}" placeholder="Ссылка на YouTube, RuTube, VK Видео или .mp4" style="flex:1;min-width:220px" value="${x&&x.type==="url"&&!x.builtin?esc(x.url):""}"><button class="btn" data-svvu="${k}" id="svvub-${k}">Сохранить ссылку</button></div></div>`}
 function svVideoScreen(k,title,lead,btnId,btnText){
-  const x=svVid()[k],kind=svMediaKind(x);let player="";
+  const x=svHasVid(k)?svVid()[k]:null,kind=svMediaKind(x);let player="";
   const src=x&&x.type==="url"?(x.builtin?x.url:(videoEmbed(x.url)||{}).src):"";
   const dk=x&&x.type==="file"?` data-k="${k}"`:"", sa=src?` src="${esc(src)}"`:"";
   if(kind==="video") player=`<div class="svvideo"><video id="svvid"${dk}${sa} controls playsinline preload="metadata"></video></div><div class="row" style="justify-content:center"><button class="btn" id="svvfull">⛶ Видео во весь экран</button></div>`;
@@ -1835,12 +1845,6 @@ function renderSvoya(){
       <label class="switch" style="justify-content:center"><input type="checkbox" id="sfin" ${sv.final?"checked":""}><span><b>Финал со ставками</b><br><span class="hidden-msg">Один общий вопрос: команды ставят часть своих очков.</span></span></label>
       <label class="switch" style="justify-content:center"><input type="checkbox" id="scat" ${sv.cats?"checked":""}><span><b>«Кот в мешке»</b><br><span class="hidden-msg">Спрятанный вопрос, который нужно отдать другой команде.</span></span></label>
       <label class="switch" style="justify-content:center"><input type="checkbox" id="sopt" ${sv.showOpts?"checked":""}><span><b>Показывать варианты ответа</b><br><span class="hidden-msg">Если выключить, команды отвечают сами, без подсказок — так сложнее.</span></span></label>
-    </section>
-    <section class="panel stack"><div class="label">Музыка и видео</div>
-      <label class="switch" style="justify-content:center"><input type="checkbox" id="smus" ${sv.music?"checked":""}><span><b>Тихая волшебная мелодия</b><br><span class="hidden-msg">Играет, пока команды выбирают вопрос; на время вопроса замолкает. Во время игры её можно выключить кнопкой под счётом.</span></span></label>
-      ${sv.rounds===2?svVideoSlot("r2","Видео или музыка после первого раунда"):""}
-      ${sv.final?svVideoSlot("fin","Видео или музыка перед финалом"):""}
-      ${sv.rounds===2||sv.final?`<p class="hidden-msg" style="margin:0">Видеофайл сохраняется только на этом компьютере — добавляйте его на том компьютере, с которого идёт игра. Ссылка на YouTube, RuTube или VK работает при подключённом интернете.</p>`:`<p class="hidden-msg" style="margin:0">Видео показывается между раундами — включите второй раунд или финал.</p>`}
     </section>
     <section class="panel stack rules"><div class="label">Правила</div><ol>
       <li>Табло: 5 тем по 5 вопросов. Цена 100–200 — лёгкие вопросы, 300 — средние, 400–500 — сложные${sv.rounds===2?"; во втором раунде цены вдвое выше":""}.</li>
@@ -1959,8 +1963,20 @@ function svEndPlaces(){
   return {byPlace,filled,N};
 }
 let svVidUrl=null;
+function svBindMedia(){
+  const box=$("#svmedia");if(!box)return;
+  const refresh=()=>{box.innerHTML=svMediaSlots();svBindMedia()};
+  const on=(sel,ev,fn)=>box.querySelectorAll(sel).forEach(el=>el.addEventListener(ev,fn));
+  const setV=(k,val)=>{const all=svVidRaw();if(val)all[k]=val;else delete all[k];saveLocal(KEY_SV_VIDEO,all)};
+  on("[data-svvf]","change",e=>{const k=e.target.dataset.svvf,f=e.target.files&&e.target.files[0];if(!f)return;
+    toast("Сохраняю файл…");VDB.put(k,f).then(()=>{setV(k,{type:"file",name:f.name,size:f.size,mime:f.type||""});toast("Файл сохранён");refresh()}).catch(()=>toast("Не удалось сохранить файл: возможно, на компьютере мало места"))});
+  on("[data-svvu]","click",e=>{const k=e.currentTarget.dataset.svvu,u=(box.querySelector("#svvu-"+k)||{}).value||"";
+    if(!videoEmbed(u)){toast("Не получилось распознать ссылку. Подойдут YouTube, RuTube, VK Видео или прямая ссылка на .mp4");return}
+    VDB.del(k).finally(()=>{setV(k,{type:"url",url:u.trim()});toast("Ссылка сохранена");refresh()})});
+  on("[data-svvdel]","click",e=>{const k=e.currentTarget.dataset.svvdel;VDB.del(k).finally(()=>{setV(k,{type:"none"});refresh()})});
+  on("[data-svvdef]","click",e=>{const k=e.currentTarget.dataset.svvdef;VDB.del(k).finally(()=>{setV(k,null);refresh()})});
+}
 function bindSvoya(on){
-  on("#svmus","click",()=>{sv.music=!sv.music;render()});
   const vid=$("#svvid");
   if(vid){vid.addEventListener("play",()=>{if(Music.playing())Music.stop()});
     if(vid.dataset.k)VDB.get(vid.dataset.k).then(b=>{if(!b)return;if(svVidUrl)URL.revokeObjectURL(svVidUrl);svVidUrl=URL.createObjectURL(b);vid.src=svVidUrl}).catch(()=>toast("Не удалось открыть файл на этом компьютере"))}
@@ -1973,15 +1989,6 @@ function bindSvoya(on){
     on("#sfin","change",e=>{sv.final=e.target.checked});
     on("#scat","change",e=>{sv.cats=e.target.checked});
     on("#sopt","change",e=>{sv.showOpts=e.target.checked});
-    on("#smus","change",e=>{sv.music=e.target.checked});
-    const setV=(k,val)=>{const all=svVidRaw();if(val)all[k]=val;else delete all[k];saveLocal(KEY_SV_VIDEO,all)};
-    on("[data-svvf]","change",e=>{const k=e.target.dataset.svvf,f=e.target.files&&e.target.files[0];if(!f)return;rn();
-      toast("Сохраняю файл…");VDB.put(k,f).then(()=>{setV(k,{type:"file",name:f.name,size:f.size,mime:f.type||""});toast("Файл сохранён");render()}).catch(()=>toast("Не удалось сохранить видео: возможно, на компьютере мало места"))});
-    on("[data-svvu]","click",e=>{const k=e.currentTarget.dataset.svvu,u=($("#svvu-"+k)||{}).value||"";rn();
-      if(!videoEmbed(u)){toast("Не получилось распознать ссылку. Подойдут YouTube, RuTube, VK Видео или прямая ссылка на .mp4");return}
-      VDB.del(k).finally(()=>{setV(k,{type:"url",url:u.trim()});toast("Ссылка сохранена");render()})});
-    on("[data-svvdel]","click",e=>{const k=e.currentTarget.dataset.svvdel;rn();VDB.del(k).finally(()=>{setV(k,{type:"none"});render()})});
-    on("[data-svvdef]","click",e=>{const k=e.currentTarget.dataset.svvdef;rn();VDB.del(k).finally(()=>{setV(k,null);render()})});
     on("#svstart","click",()=>{rn();const N=sv.teamCount;
       Object.assign(sv,{phase:"play",teams:Array.from({length:N},(_,i)=>({name:(sv.names[i]||"").trim()||`Команда ${i+1}`,color:TCOLORS[i]})),pts:Array(N).fill(0),
         round:1,chooser:0,stage:"board",used:[],reveal:null,pickChooser:false,confirmEnd:false});
@@ -2135,6 +2142,7 @@ function bind(){
     });
   }
   if(view==="settings"){
+    svBindMedia();
     on("[data-s],[data-sw]","input",()=>{settingsDirty=true});
     on("[data-sw=orderOn]","change",e=>{const b=$("#s-bonusOn");if(b){b.disabled=!e.target.checked;if(!e.target.checked)b.checked=false}});
     on("#saveSettings","click",async()=>{

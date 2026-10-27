@@ -396,6 +396,18 @@ main .wrap>.stack>div:first-child{background:var(--surface);border:1px solid var
 .svcat{width:100%;height:auto}
 @keyframes catHop{0%,100%{transform:translateY(0) rotate(0)}30%{transform:translateY(-14px) rotate(-4deg)}60%{transform:translateY(0) rotate(3deg)}}
 .svstakes{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+.svvideo{background:#000;border-radius:var(--r);overflow:hidden;box-shadow:0 12px 30px rgba(20,40,90,.3);aspect-ratio:16/9;width:min(100%,calc((100vh - 440px)*16/9));margin-inline:auto}
+.svvideo video,.svvideo iframe{display:block;width:100%;height:100%;border:0;background:#000}
+.svvslot{border:1px solid var(--line);border-radius:10px;padding:12px;background:var(--bg)}
+.svvslot .row{gap:8px}
+.svmus{font-size:.9rem;padding:6px 14px}
+.svaudio{display:flex;flex-direction:column;align-items:center;gap:14px;background:var(--surface);border:2px solid var(--gold);border-radius:var(--r);padding:24px;width:min(100%,620px);margin-inline:auto;box-shadow:0 12px 30px rgba(20,40,90,.2)}
+.svaudio b{font-family:var(--display);font-weight:400;font-size:2rem;color:var(--blue)}
+.svaudio audio{width:100%}
+.svnotes{display:flex;gap:18px;font-size:3rem;color:var(--gold);line-height:1;height:4rem;align-items:flex-end}
+.svnotes span{animation:noteHop 1.4s ease-in-out infinite}
+.svnotes span:nth-child(2){animation-delay:.2s;color:var(--t2)}.svnotes span:nth-child(3){animation-delay:.4s;color:var(--t1)}.svnotes span:nth-child(4){animation-delay:.6s;color:var(--t3)}.svnotes span:nth-child(5){animation-delay:.8s}
+@keyframes noteHop{0%,100%{transform:translateY(0) rotate(-8deg)}50%{transform:translateY(-18px) rotate(8deg)}}
 @media (max-width:720px){.svboard{gap:4px;padding:6px}.svhead{min-height:56px;font-size:.7rem;padding:6px 2px}}
 .qnote{background:var(--gold-soft);border-left:5px solid var(--gold);border-radius:10px;padding:10px 14px;font-size:clamp(1rem,1.4vw,1.2rem)}
 .qnote b{color:var(--gold)}
@@ -575,7 +587,7 @@ const TCOLORS=["var(--t1)","var(--t2)","var(--t3)","var(--t4)"];
 const TOPIC_KEYS=["christmas", "acts", "ot", "gospel", "church"];
 const TOPIC_DEF={"christmas": "Рождество и Пасха", "acts": "Деяния святых апостолов", "ot": "Ветхий и Новый Завет", "gospel": "Спаситель, Богородица и ангелы", "church": "Храм, праздники и святые"};
 const DEFAULTS={points:{easy:1,medium:3,hard:5},time:{easy:30,medium:60,hard:120},count:{easy:5,medium:5,hard:5},
-  timerOn:true,orderOn:true,bonusOn:true,bonus:0.5,extra:"",topicsVer:2,topics:Object.assign({},TOPIC_DEF)};
+  timerOn:true,soundOn:true,orderOn:true,bonusOn:true,bonus:0.5,extra:"",topicsVer:2,topics:Object.assign({},TOPIC_DEF)};
 
 let db=null, canWrite=true, dbState="loading";
 let questions=[]; // {id,level,question,answers,correct,order}
@@ -691,6 +703,7 @@ function render(){
   else if(view==="svoy") app.innerHTML=renderSvoya();
   else app.innerHTML=renderGame();
   bind();
+  try{svMusicSync()}catch(e){}
 }
 
 /* ---------- вход ведущего ---------- */
@@ -975,6 +988,7 @@ function step(){
   if(!timer.running||timer.paused)return;
   timer.left=(timer.end-Date.now())/1000;
   if(timer.left<=0){finishTimer();return}
+  const tw=Math.ceil(timer.left);if(tw!==timer.lastTick){timer.lastTick=tw;if(view==="game")clockTick(timer.left)}
   const c=$("#clock"),b=$("#barI"),box=$("#timerBox");
   if(c)c.textContent=mmss(timer.left);
   if(b)b.style.width=(timer.left/timer.total*100)+"%";
@@ -984,6 +998,97 @@ function stopSilently(){if(timer.running&&!timer.done){clearInterval(tick);timer
 function finishTimer(){clearInterval(tick);timer.running=false;timer.done=true;timer.left=0;beep();if(view==="game"&&game.phase==="play")render()}
 let actx=null;
 function beep(){try{actx=actx||new (window.AudioContext||window.webkitAudioContext)();const o=actx.createOscillator(),g=actx.createGain();o.type="sine";o.frequency.value=660;g.gain.setValueAtTime(.0001,actx.currentTime);g.gain.exponentialRampToValueAtTime(.3,actx.currentTime+.03);g.gain.exponentialRampToValueAtTime(.0001,actx.currentTime+1.1);o.connect(g).connect(actx.destination);o.start();o.stop(actx.currentTime+1.2)}catch(e){}}
+/* ---------- ЗВУКИ ---------- */
+function ac(){try{actx=actx||new (window.AudioContext||window.webkitAudioContext)();if(actx.state==="suspended")actx.resume();return actx}catch(e){return null}}
+let _noise=null;
+function noiseBuf(a){if(!_noise){const n=Math.floor(a.sampleRate*1.5);_noise=a.createBuffer(1,n,a.sampleRate);const d=_noise.getChannelData(0);for(let i=0;i<n;i++)d[i]=Math.random()*2-1}return _noise}
+/* тиканье часов: «тик-так» каждую секунду, последние 10 секунд — громче и выше */
+function clockTick(left){
+  if(settings.soundOn===false)return;const a=ac();if(!a)return;
+  const t=a.currentTime+.01, last=left<=10.05, tock=Math.ceil(left)%2===0, k=last?1.7:1;
+  const o=a.createOscillator(),g=a.createGain();o.type="sine";
+  const f=(tock?900:1200)*(last?1.35:1);o.frequency.setValueAtTime(f,t);o.frequency.exponentialRampToValueAtTime(f*.6,t+.04);
+  g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.09*k,t+.003);g.gain.exponentialRampToValueAtTime(.0001,t+.06);
+  o.connect(g).connect(a.destination);o.start(t);o.stop(t+.08);
+  const s=a.createBufferSource(),bp=a.createBiquadFilter(),ng=a.createGain();s.buffer=noiseBuf(a);
+  bp.type="bandpass";bp.frequency.value=tock?2600:3400;bp.Q.value=4;
+  ng.gain.setValueAtTime(.0001,t);ng.gain.exponentialRampToValueAtTime(.12*k,t+.002);ng.gain.exponentialRampToValueAtTime(.0001,t+.025);
+  s.connect(bp).connect(ng).connect(a.destination);s.start(t,Math.random());s.stop(t+.04);
+}
+function tickSound(){clockTick(5)}
+/* трещотка барабана ЧГК: щелчок на каждой границе сектора, синхронно с замедлением стрелки */
+function bezierY(x1,y1,x2,y2,x){
+  const B=(p1,p2,t)=>3*p1*t*(1-t)*(1-t)+3*p2*t*t*(1-t)+t*t*t;
+  let lo=0,hi=1,t=x;for(let i=0;i<30;i++){t=(lo+hi)/2;if(B(x1,x2,t)<x)lo=t;else hi=t}
+  return B(y1,y2,t);
+}
+function ratchet(from,to,dur,bz,step,delay){
+  if(settings.soundOn===false)return;
+  const a=ac();if(!a)return;const t0=a.currentTime+(delay||0)+.02;
+  let prev=Math.floor(from/step),lastT=-1;
+  for(let ms=0;ms<=dur*1000;ms+=4){
+    const x=ms/(dur*1000),ang=from+(to-from)*bezierY(bz[0],bz[1],bz[2],bz[3],x),sec=Math.floor(ang/step);
+    if(sec!==prev){prev=sec;const tt=t0+ms/1000;if(tt-lastT<.022)continue;lastT=tt;
+      const speed=1-x, s=a.createBufferSource(),bp=a.createBiquadFilter(),g=a.createGain();
+      s.buffer=noiseBuf(a);bp.type="bandpass";bp.frequency.value=1800+800*speed;bp.Q.value=3;
+      g.gain.setValueAtTime(.0001,tt);g.gain.exponentialRampToValueAtTime(.22,tt+.002);g.gain.exponentialRampToValueAtTime(.0001,tt+.035);
+      s.connect(bp).connect(g).connect(a.destination);s.start(tt,Math.random());s.stop(tt+.05);
+      const o=a.createOscillator(),og=a.createGain();o.type="triangle";o.frequency.value=700+300*speed;
+      og.gain.setValueAtTime(.0001,tt);og.gain.exponentialRampToValueAtTime(.06,tt+.002);og.gain.exponentialRampToValueAtTime(.0001,tt+.03);
+      o.connect(og).connect(a.destination);o.start(tt);o.stop(tt+.04)}
+  }
+}
+function whoosh(dur){
+  const a=ac();if(!a)return;const t=a.currentTime+.02,s=a.createBufferSource(),f=a.createBiquadFilter(),g=a.createGain();
+  s.buffer=noiseBuf(a);s.loop=true;f.type="bandpass";f.Q.value=1.2;f.frequency.setValueAtTime(1400,t);f.frequency.exponentialRampToValueAtTime(250,t+dur);
+  g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.06,t+.15);g.gain.exponentialRampToValueAtTime(.0001,t+dur);
+  s.connect(f).connect(g).connect(a.destination);s.start(t);s.stop(t+dur+.05);
+}
+/* волшебная мелодия-шкатулка для «Своей игры» */
+const Music={timer:null,master:null,next:0,step:0,vol:.32,
+  CH:[[261.63,329.63,392,493.88],[220,261.63,329.63,392],[174.61,220,261.63,329.63],[196,246.94,293.66,440],
+      [261.63,329.63,392,493.88],[220,261.63,329.63,392],[174.61,220,261.63,349.23],[196,246.94,293.66,392]],
+  PAT:[[0,2,4,5,6,5,4,2],[0,3,5,7,6,4,5,3]],
+  playing(){return !!this.timer},
+  start(){const a=ac();if(!a||this.timer)return;
+    const m=a.createGain(),d=a.createDelay(1),fb=a.createGain(),wet=a.createGain();
+    m.gain.setValueAtTime(.0001,a.currentTime);m.gain.exponentialRampToValueAtTime(this.vol,a.currentTime+2);
+    d.delayTime.value=.45;fb.gain.value=.32;wet.gain.value=.35;
+    m.connect(a.destination);m.connect(d);d.connect(fb).connect(d);d.connect(wet).connect(a.destination);
+    this.master=m;this.nodes=[m,d,fb,wet];this.next=a.currentTime+.15;
+    this.timer=setInterval(()=>this.sched(),90);this.sched()},
+  stop(){if(!this.timer)return;clearInterval(this.timer);this.timer=null;const a=actx,m=this.master,ns=this.nodes;
+    try{m.gain.cancelScheduledValues(a.currentTime);m.gain.setValueAtTime(Math.max(.0001,m.gain.value),a.currentTime);m.gain.exponentialRampToValueAtTime(.0001,a.currentTime+.9)}catch(e){}
+    setTimeout(()=>ns.forEach(n=>{try{n.disconnect()}catch(e){}}),2500)},
+  bell(f,t,peak,len){const a=actx;[[1,1,"sine"],[2.01,.25,"sine"],[3.98,.08,"sine"]].forEach(([mul,lv,type])=>{
+      const o=a.createOscillator(),g=a.createGain();o.type=type;o.frequency.value=f*mul;
+      g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(peak*lv,t+.006);g.gain.exponentialRampToValueAtTime(.0001,t+len/mul);
+      o.connect(g).connect(this.master);o.start(t);o.stop(t+len/mul+.05)})},
+  sched(){const a=actx,BEAT=.32;
+    while(this.next<a.currentTime+.4){const bar=Math.floor(this.step/8)%this.CH.length,i=this.step%8,ch=this.CH[bar];
+      const pat=this.PAT[Math.floor(this.step/64)%2],k=pat[i],f=ch[k%4]*Math.pow(2,Math.floor(k/4)+1);
+      this.bell(f,this.next,.11,1.4);
+      if(i===0)this.bell(ch[0]/2,this.next,.09,2.6);
+      if(i%2===1&&Math.random()<.18)this.bell(ch[Math.floor(Math.random()*4)]*8,this.next+BEAT/2,.035,.9);
+      this.next+=BEAT;this.step++}}
+};
+/* видео между раундами «Своей игры»: файл хранится в IndexedDB этого компьютера */
+const VDB={db:null,
+  open(){return new Promise((res,rej)=>{if(this.db)return res(this.db);try{const r=indexedDB.open("velikaya-radost-video",1);
+    r.onupgradeneeded=()=>r.result.createObjectStore("v");r.onsuccess=()=>{this.db=r.result;res(this.db)};r.onerror=()=>rej(r.error)}catch(e){rej(e)}})},
+  async put(k,v){const db=await this.open();return new Promise((res,rej)=>{const tx=db.transaction("v","readwrite");tx.objectStore("v").put(v,k);tx.oncomplete=()=>res();tx.onerror=()=>rej(tx.error)})},
+  async get(k){const db=await this.open();return new Promise((res,rej)=>{const r=db.transaction("v").objectStore("v").get(k);r.onsuccess=()=>res(r.result||null);r.onerror=()=>rej(r.error)})},
+  async del(k){const db=await this.open();return new Promise(res=>{const tx=db.transaction("v","readwrite");tx.objectStore("v").delete(k);tx.oncomplete=()=>res();tx.onerror=()=>res()})}
+};
+function videoEmbed(url){
+  url=String(url||"").trim();if(!/^https?:\/\//i.test(url))return null;let m;
+  if(m=url.match(/(?:youtube\.com\/(?:watch\?(?:.*&)?v=|shorts\/|embed\/|live\/)|youtu\.be\/)([\w-]{6,})/i))return {kind:"frame",src:`https://www.youtube.com/embed/${m[1]}?rel=0`};
+  if(m=url.match(/rutube\.ru\/(?:video|play\/embed|shorts)\/([\w]{10,})/i))return {kind:"frame",src:`https://rutube.ru/play/embed/${m[1]}`};
+  if(m=url.match(/(?:vk\.com|vkvideo\.ru|vk\.ru)\/(?:.*[?&]z=)?video(-?\d+)_(\d+)/i))return {kind:"frame",src:`https://vk.com/video_ext.php?oid=${m[1]}&id=${m[2]}&hd=2`};
+  if(/\.(mp4|webm|ogg|mov)(\?|#|$)/i.test(url))return {kind:"file",src:url};
+  return null;
+}
+
 function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
 
 /* ---------- БАНК ---------- */
@@ -1071,7 +1176,8 @@ function renderSettings(){
     <div class="set-grid">
       <section class="panel stack"><h2>Баллы за вопрос</h2>${trip("points")}</section>
       <section class="panel stack"><h2>Время на вопрос, секунды</h2>${trip("time")}
-        <label class="switch"><input type="checkbox" id="s-timerOn" data-sw="timerOn" ${s.timerOn?"checked":""}><span><b>Таймер включён</b><br><span class="hidden-msg">Если выключить, ведущий сам решает, когда показать ответ.</span></span></label></section>
+        <label class="switch"><input type="checkbox" id="s-timerOn" data-sw="timerOn" ${s.timerOn?"checked":""}><span><b>Таймер включён</b><br><span class="hidden-msg">Если выключить, ведущий сам решает, когда показать ответ.</span></span></label>
+        <label class="switch"><input type="checkbox" id="s-soundOn" data-sw="soundOn" ${s.soundOn!==false?"checked":""}><span><b>Звуки: тиканье таймера и барабан</b><br><span class="hidden-msg">Таймер тикает каждую секунду во всех играх, последние 10 секунд — громче.</span></span></label></section>
       <section class="panel stack"><h2>Очерёдность и бонус</h2>
         <label class="switch"><input type="checkbox" id="s-orderOn" data-sw="orderOn" ${s.orderOn?"checked":""}><span><b>Учитывать, какая команда нажала кнопку первой</b><br><span class="hidden-msg">Ведущий отмечает порядок нажатия, команды отвечают по очереди.</span></span></label>
         <label class="switch"><input type="checkbox" id="s-bonusOn" data-sw="bonusOn" ${s.bonusOn?"checked":""} ${s.orderOn?"":"disabled"}><span><b>Бонус и штраф первой команде</b><br><span class="hidden-msg">Верно — плюс, неверно — минус. Работает, только если учитывается очерёдность.</span></span></label>
@@ -1307,7 +1413,7 @@ function walkNextTurn(){
 let wtick=null;
 function walkTimerStart(level){clearInterval(wtick);if(!settings.timerOn)return;
   const sec=Math.max(5,Number(settings.time[level])||60);walk.tEnd=Date.now()+sec*1000;walk.tLeft=sec;
-  wtick=setInterval(()=>{walk.tLeft=Math.max(0,(walk.tEnd-Date.now())/1000);const c=$("#wclock");if(c){c.textContent=mmss(walk.tLeft);c.classList.toggle("low",walk.tLeft<=10)}
+  wtick=setInterval(()=>{walk.tLeft=Math.max(0,(walk.tEnd-Date.now())/1000);{const tw=Math.ceil(walk.tLeft);if(tw!==walk.lastTick){walk.lastTick=tw;if(tw>0&&view==="walk")clockTick(walk.tLeft)}}const c=$("#wclock");if(c){c.textContent=mmss(walk.tLeft);c.classList.toggle("low",walk.tLeft<=10)}
     if(walk.tLeft<=0){clearInterval(wtick);beep()}},250)}
 function walkRoll(){
   walk.settled=false;walk.fromRoll=true;walk.stage="rolling";render();
@@ -1506,10 +1612,9 @@ function chgkTimerStart(){
   clearInterval(ctick);chgk.tm={run:true,done:false,left:sec,end:Date.now()+sec*1000,last:sec};render();
   ctick=setInterval(()=>{const t=chgk.tm;t.left=Math.max(0,(t.end-Date.now())/1000);const el=$("#ctimer");
     if(el){el.textContent=mmss(t.left);el.classList.toggle("low",t.left<=10)}
-    const whole=Math.ceil(t.left);if(whole!==t.last){t.last=whole;if(whole<=10&&whole>0)tickSound()}
+    const whole=Math.ceil(t.left);if(whole!==t.last){t.last=whole;if(whole>0&&view==="chgk")clockTick(t.left)}
     if(t.left<=0){clearInterval(ctick);t.run=false;t.done=true;beep();render()}},200);
 }
-function tickSound(){try{actx=actx||new (window.AudioContext||window.webkitAudioContext)();const o=actx.createOscillator(),g=actx.createGain();o.type="square";o.frequency.value=1000;g.gain.setValueAtTime(.05,actx.currentTime);g.gain.exponentialRampToValueAtTime(.0001,actx.currentTime+.05);o.connect(g).connect(actx.destination);o.start();o.stop(actx.currentTime+.06)}catch(e){}}
 function chgkSpin(){
   const free=chgk.sectors.map((s,i)=>s.played?-1:i).filter(i=>i>=0);
   if(!free.length){chgkEnd();return}
@@ -1520,7 +1625,9 @@ function chgkSpin(){
   const a1=base+raw*step, a2=a1+((target-raw+SECTORS)%SECTORS)*step;
   chgk.stage="spinning";render();
   const arrow=$("#carrow");
-  try{actx=actx||new (window.AudioContext||window.webkitAudioContext)();for(let k=0;k<18;k++){const st=actx.currentTime+k*k*.012,o=actx.createOscillator(),g=actx.createGain();o.frequency.value=700;g.gain.setValueAtTime(.04,st);g.gain.exponentialRampToValueAtTime(.0001,st+.03);o.connect(g).connect(actx.destination);o.start(st);o.stop(st+.04)}}catch(e){}
+  const from=chgk.angle;
+  whoosh(3.4);ratchet(from+step/2,a1+step/2,3.6,[.15,.7,.2,1],step,0);
+  if(a2!==a1)ratchet(a1+step/2,a2+step/2,.9,[.42,0,.58,1],step,3.8);
   requestAnimationFrame(()=>{if(arrow){arrow.style.transition="transform 3.6s cubic-bezier(.15,.7,.2,1)";arrow.style.transform=`rotate(${a1}deg)`}});
   const done=()=>{chgk.angle=a2;chgk.cur=target;chgk.stage="envelope";chime([660,880]);render()};
   if(a2!==a1) setTimeout(()=>{const ar=$("#carrow");if(ar){ar.style.transition="transform .9s ease-in-out";ar.style.transform=`rotate(${a2}deg)`}setTimeout(done,950)},3800);
@@ -1654,7 +1761,15 @@ function bindBankC(on){
 
 /* ---------- СВОЯ ИГРА ---------- */
 let sv={phase:"setup",teamCount:3,names:["","","",""],rounds:2,final:true,showOpts:true,cats:true,
-  teams:[],pts:[],round:1,board:null,chooser:0,stage:"board",cur:null,tried:[],answerer:null,ok:null,used:[],stakes:[],fmarks:[],reveal:null,catTo:null};
+  teams:[],pts:[],round:1,board:null,chooser:0,stage:"board",cur:null,tried:[],answerer:null,ok:null,used:[],stakes:[],fmarks:[],reveal:null,catTo:null,music:true,vplaying:false};
+const KEY_SV_VIDEO="velikaya-radost-svvideo";
+const SV_DEFAULT_MEDIA={r2:{type:"url",url:"pereryv.mp4",builtin:true,name:"Перерыв с миньонами"}};
+function svVidRaw(){return loadLocal(KEY_SV_VIDEO)||{}}
+function svVid(){const s=svVidRaw(),o={};["r2","fin"].forEach(k=>{const x=s[k]||SV_DEFAULT_MEDIA[k];if(x&&x.type!=="none")o[k]=x});return o}
+function svHasVid(k){const x=svVid()[k];return !!(x&&(x.type==="file"||x.type==="url"))}
+function svMediaKind(x){if(!x)return null;if(x.type==="file")return /^audio\//.test(x.mime||"")||/\.(mp3|m4a|wav|aac|flac)$/i.test(x.name||"")?"audio":"video";
+  if(x.builtin||/^[\w.-]+\.(mp3|m4a|wav|aac|mp4|webm)$/i.test(x.url))return /\.(mp3|m4a|wav|aac)$/i.test(x.url)?"audio":"video";
+  const e=videoEmbed(x.url);return e?(e.kind==="file"?"video":e.kind):null}
 const SV_LEVEL=["easy","easy","medium","hard","hard"];
 function svPrice(r){return (r+1)*100*sv.round}
 function svPick(topic,level){
@@ -1674,8 +1789,31 @@ function svBuildBoard(){
 }
 function svLeft(){return sv.board.cells.some(col=>col.some(x=>!x.played))}
 function svScores(){
-  return `<div class="svscores">${sv.teams.map((t,i)=>`<div class="svteam ${i===sv.chooser&&sv.stage==="board"?"choose":""}" style="--c:${t.color}"><b>${esc(t.name)}</b><span class="${sv.pts[i]<0?"neg":""}">${sv.pts[i]}</span></div>`).join("")}</div>`;
+  return `<div class="svscores">${sv.teams.map((t,i)=>`<div class="svteam ${i===sv.chooser&&sv.stage==="board"?"choose":""}" style="--c:${t.color}"><b>${esc(t.name)}</b><span class="${sv.pts[i]<0?"neg":""}">${sv.pts[i]}</span></div>`).join("")}</div>
+  <div class="row" style="justify-content:center"><button class="btn svmus" id="svmus" aria-pressed="${sv.music}">${sv.music?"♪ Музыка включена — выключить":"♪ Включить музыку"}</button></div>`;
 }
+function svQuestionActive(){return (sv.phase==="play"&&(sv.stage==="question"||sv.stage==="cat"))||(sv.phase==="final"&&sv.fstage==="question")}
+function svMusicSync(){
+  const vid=(sv.phase==="interlude"&&svHasVid("r2"))||(sv.phase==="prefinal"&&svHasVid("fin"));
+  const want=sv.music&&view==="svoy"&&["play","interlude","prefinal","final"].includes(sv.phase)&&!svQuestionActive()&&!vid;
+  if(want&&!Music.playing())Music.start();else if(!want&&Music.playing())Music.stop();
+}
+function svVideoSlot(k,title){const x=svVid()[k],raw=svVidRaw()[k],def=SV_DEFAULT_MEDIA[k];
+  const cur=x&&x.builtin?`<span>🎬 Стандартное: <b>${esc(x.name)}</b> (видео, 1,5 минуты)</span>`
+    :x&&x.type==="file"?`<span>${svMediaKind(x)==="audio"?"🎵":"🎬"} Файл: <b>${esc(x.name)}</b> (${Math.max(1,Math.round(x.size/1048576))} МБ)</span>`
+    :x&&x.type==="url"?`<span>🔗 Ссылка: <b>${esc(x.url)}</b></span>`:`<span class="hidden-msg">Ничего не добавлено — экран между раундами будет без ролика.</span>`;
+  return `<div class="svvslot stack"><b>${title}</b><div class="row">${cur}${x?`<button class="btn danger" data-svvdel="${k}" id="svvdel-${k}">Убрать</button>`:""}${def&&raw?`<button class="btn" data-svvdef="${k}" id="svvdef-${k}">Вернуть стандартное</button>`:""}</div>
+    <div class="row"><label class="btn" for="svvf-${k}">${x?"Заменить файлом…":"Выбрать файл…"}</label><input type="file" accept="video/*,audio/*" id="svvf-${k}" data-svvf="${k}" hidden>
+    <span class="hidden-msg">или</span><input type="text" id="svvu-${k}" placeholder="Ссылка на YouTube, RuTube, VK Видео или .mp4" style="flex:1;min-width:220px" value="${x&&x.type==="url"&&!x.builtin?esc(x.url):""}"><button class="btn" data-svvu="${k}" id="svvub-${k}">Сохранить ссылку</button></div></div>`}
+function svVideoScreen(k,title,lead,btnId,btnText){
+  const x=svVid()[k],kind=svMediaKind(x);let player="";
+  const src=x&&x.type==="url"?(x.builtin?x.url:(videoEmbed(x.url)||{}).src):"";
+  const dk=x&&x.type==="file"?` data-k="${k}"`:"", sa=src?` src="${esc(src)}"`:"";
+  if(kind==="video") player=`<div class="svvideo"><video id="svvid"${dk}${sa} controls playsinline preload="metadata"></video></div><div class="row" style="justify-content:center"><button class="btn" id="svvfull">⛶ Видео во весь экран</button></div>`;
+  else if(kind==="audio") player=`<div class="svaudio"><div class="svnotes" aria-hidden="true"><span>♪</span><span>♫</span><span>♪</span><span>♬</span><span>♫</span></div><b>${x.builtin?"Музыкальная пауза":esc(x.name||"Музыкальная пауза")}</b><audio id="svvid"${dk}${sa} controls preload="metadata"></audio></div>`;
+  else if(kind==="frame") player=`<div class="svvideo"><iframe src="${esc(src)}" allow="autoplay; fullscreen; encrypted-media; picture-in-picture" allowfullscreen title="Видео"></iframe></div>`;
+  return `<div class="stack svwrap"><div><h1>${title}</h1><p class="lead">${lead}</p></div>${svScores()}${player}
+    <div class="row" style="justify-content:center"><button class="btn gold big" id="${btnId}">${btnText}</button></div></div>`}
 function catSVG(){return `<svg viewBox="0 0 200 180" class="svcat" aria-hidden="true">
   <path d="M40 80 C30 150 60 172 100 172 C140 172 170 150 160 80Z" fill="#c8995a" stroke="#8b6b3a" stroke-width="4"/>
   <path d="M40 80 Q100 96 160 80" stroke="#8b6b3a" stroke-width="5" fill="none"/><path d="M70 86 Q100 70 130 86" stroke="#c8463a" stroke-width="8" fill="none" stroke-linecap="round"/>
@@ -1698,6 +1836,12 @@ function renderSvoya(){
       <label class="switch" style="justify-content:center"><input type="checkbox" id="scat" ${sv.cats?"checked":""}><span><b>«Кот в мешке»</b><br><span class="hidden-msg">Спрятанный вопрос, который нужно отдать другой команде.</span></span></label>
       <label class="switch" style="justify-content:center"><input type="checkbox" id="sopt" ${sv.showOpts?"checked":""}><span><b>Показывать варианты ответа</b><br><span class="hidden-msg">Если выключить, команды отвечают сами, без подсказок — так сложнее.</span></span></label>
     </section>
+    <section class="panel stack"><div class="label">Музыка и видео</div>
+      <label class="switch" style="justify-content:center"><input type="checkbox" id="smus" ${sv.music?"checked":""}><span><b>Тихая волшебная мелодия</b><br><span class="hidden-msg">Играет, пока команды выбирают вопрос; на время вопроса замолкает. Во время игры её можно выключить кнопкой под счётом.</span></span></label>
+      ${sv.rounds===2?svVideoSlot("r2","Видео или музыка после первого раунда"):""}
+      ${sv.final?svVideoSlot("fin","Видео или музыка перед финалом"):""}
+      ${sv.rounds===2||sv.final?`<p class="hidden-msg" style="margin:0">Видеофайл сохраняется только на этом компьютере — добавляйте его на том компьютере, с которого идёт игра. Ссылка на YouTube, RuTube или VK работает при подключённом интернете.</p>`:`<p class="hidden-msg" style="margin:0">Видео показывается между раундами — включите второй раунд или финал.</p>`}
+    </section>
     <section class="panel stack rules"><div class="label">Правила</div><ol>
       <li>Табло: 5 тем по 5 вопросов. Цена 100–200 — лёгкие вопросы, 300 — средние, 400–500 — сложные${sv.rounds===2?"; во втором раунде цены вдвое выше":""}.</li>
       <li>Команда выбирает тему и цену. Вопрос открывается на экране.</li>
@@ -1706,7 +1850,8 @@ function renderSvoya(){
       ${sv.final?`<li><b>Финал</b>: команды с положительным счётом делают ставку — сколько очков готовы рискнуть — и пишут ответ на листочке. Верно — ставка прибавляется, неверно — вычитается.</li>`:""}
     </ol></section>
     <div class="row"><button class="btn gold big" id="svstart" ${dbState!=="ready"?"disabled":""}>Начать игру</button></div></div>`}
-  if(sv.phase==="interlude") return `<div class="stack"><div><h1>Второй раунд</h1><p class="lead">Новые вопросы, цены вдвое выше: от 200 до 1000.</p></div>${svScores()}<div class="row"><button class="btn gold big" id="svr2">Начать второй раунд</button></div></div>`;
+  if(sv.phase==="interlude") return svVideoScreen("r2","Второй раунд","Новые вопросы, цены вдвое выше: от 200 до 1000.","svr2","Начать второй раунд");
+  if(sv.phase==="prefinal") return svVideoScreen("fin","Скоро финал","Перед финалом — небольшой перерыв.","svtofin","Перейти к финалу");
   if(sv.phase==="final") return renderSvFinal();
   // игровое табло
   if(sv.stage==="board"){
@@ -1784,7 +1929,7 @@ function renderSvFinal(){
 let svtick=null;
 function svTimer(sec){clearInterval(svtick);if(!settings.timerOn)return;sv.tm={run:true,done:false,left:sec,end:Date.now()+sec*1000,last:sec};
   svtick=setInterval(()=>{const t=sv.tm;t.left=Math.max(0,(t.end-Date.now())/1000);const el=$("#svclock");if(el){el.textContent=mmss(t.left);el.classList.toggle("low",t.left<=10)}
-    const w=Math.ceil(t.left);if(w!==t.last){t.last=w;if(w<=5&&w>0)tickSound()}
+    const w=Math.ceil(t.left);if(w!==t.last){t.last=w;if(w>0&&view==="svoy")clockTick(t.left)}
     if(t.left<=0){clearInterval(svtick);t.run=false;t.done=true;beep()}},200)}
 function svOpen(c,r){const x=sv.board.cells[c][r];sv.cur={c,r};sv.tried=[];sv.answerer=null;sv.ok=null;sv.catTo=null;sv.pick=null;sv.wrong=[];sv.peek=false;
   if(x.cat&&sv.teams.length>1){sv.stage="cat";render();chime([392,523,659]);return}
@@ -1796,7 +1941,7 @@ function svAfterBoard(){
 }
 function svRoundOver(){
   if(sv.round<sv.rounds){sv.phase="interlude";render();return}
-  if(sv.final){svStartFinal();return}
+  if(sv.final){if(svHasVid("fin")){sv.phase="prefinal";render();return}svStartFinal();return}
   sv.phase="end";sv.reveal=0;render();
 }
 function svStartFinal(){
@@ -1813,7 +1958,14 @@ function svEndPlaces(){
   const filled=[];for(let p=N;p>=1;p--)filled.push(p);
   return {byPlace,filled,N};
 }
+let svVidUrl=null;
 function bindSvoya(on){
+  on("#svmus","click",()=>{sv.music=!sv.music;render()});
+  const vid=$("#svvid");
+  if(vid){vid.addEventListener("play",()=>{if(Music.playing())Music.stop()});
+    if(vid.dataset.k)VDB.get(vid.dataset.k).then(b=>{if(!b)return;if(svVidUrl)URL.revokeObjectURL(svVidUrl);svVidUrl=URL.createObjectURL(b);vid.src=svVidUrl}).catch(()=>toast("Не удалось открыть файл на этом компьютере"))}
+  on("#svvfull","click",()=>{const el=$("#svvid");if(el&&el.requestFullscreen)el.requestFullscreen().catch(()=>{})});
+  on("#svtofin","click",()=>{const el=$("#svvid");if(el)el.pause();svStartFinal()});
   if(sv.phase==="setup"){
     const rn=()=>document.querySelectorAll("[data-stn]").forEach(el=>sv.names[el.dataset.stn]=el.value);
     on("[data-stc]","click",e=>{rn();sv.teamCount=+e.currentTarget.dataset.stc;render()});
@@ -1821,13 +1973,22 @@ function bindSvoya(on){
     on("#sfin","change",e=>{sv.final=e.target.checked});
     on("#scat","change",e=>{sv.cats=e.target.checked});
     on("#sopt","change",e=>{sv.showOpts=e.target.checked});
+    on("#smus","change",e=>{sv.music=e.target.checked});
+    const setV=(k,val)=>{const all=svVidRaw();if(val)all[k]=val;else delete all[k];saveLocal(KEY_SV_VIDEO,all)};
+    on("[data-svvf]","change",e=>{const k=e.target.dataset.svvf,f=e.target.files&&e.target.files[0];if(!f)return;rn();
+      toast("Сохраняю файл…");VDB.put(k,f).then(()=>{setV(k,{type:"file",name:f.name,size:f.size,mime:f.type||""});toast("Файл сохранён");render()}).catch(()=>toast("Не удалось сохранить видео: возможно, на компьютере мало места"))});
+    on("[data-svvu]","click",e=>{const k=e.currentTarget.dataset.svvu,u=($("#svvu-"+k)||{}).value||"";rn();
+      if(!videoEmbed(u)){toast("Не получилось распознать ссылку. Подойдут YouTube, RuTube, VK Видео или прямая ссылка на .mp4");return}
+      VDB.del(k).finally(()=>{setV(k,{type:"url",url:u.trim()});toast("Ссылка сохранена");render()})});
+    on("[data-svvdel]","click",e=>{const k=e.currentTarget.dataset.svvdel;rn();VDB.del(k).finally(()=>{setV(k,{type:"none"});render()})});
+    on("[data-svvdef]","click",e=>{const k=e.currentTarget.dataset.svvdef;rn();VDB.del(k).finally(()=>{setV(k,null);render()})});
     on("#svstart","click",()=>{rn();const N=sv.teamCount;
       Object.assign(sv,{phase:"play",teams:Array.from({length:N},(_,i)=>({name:(sv.names[i]||"").trim()||`Команда ${i+1}`,color:TCOLORS[i]})),pts:Array(N).fill(0),
         round:1,chooser:0,stage:"board",used:[],reveal:null,pickChooser:false,confirmEnd:false});
       svBuildBoard();render();window.scrollTo(0,0);try{navigator.wakeLock&&navigator.wakeLock.request("screen").catch(()=>{})}catch(e){}});
     return;
   }
-  if(sv.phase==="interlude"){on("#svr2","click",()=>{sv.round=2;sv.phase="play";sv.stage="board";svBuildBoard();render()});return}
+  if(sv.phase==="interlude"){on("#svr2","click",()=>{const el=$("#svvid");if(el)el.pause();sv.round=2;sv.phase="play";sv.stage="board";svBuildBoard();render()});return}
   if(sv.phase==="final"){
     on("[data-svst]","input",e=>{const i=+e.target.dataset.svst;let v=Math.max(0,Math.round(Number(e.target.value)||0));if(v>sv.pts[i])v=sv.pts[i];sv.stakes[i]=v});
     on("[data-svst]","change",e=>{const i=+e.target.dataset.svst;e.target.value=sv.stakes[i]||0});
